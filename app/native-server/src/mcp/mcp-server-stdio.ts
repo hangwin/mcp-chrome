@@ -105,7 +105,7 @@ const handleToolCall = async (name: string, args: any): Promise<CallToolResult> 
 async function main() {
   const transport = new StdioServerTransport();
   await getStdioMcpServer().connect(transport);
-  console.log('🚀 Chrome MCP Server running on type stdio');
+  console.error('🚀 Chrome MCP Server running on type stdio');
 }
 
 main().catch((error) => {
