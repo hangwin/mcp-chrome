@@ -1,6 +1,21 @@
 /**
  * Rate Limiter
  * Token bucket implementation for rate limiting tool execution
+ *
+ * Security Features:
+ * - Prevents tool abuse (opening thousands of tabs, cookie theft, network spam)
+ * - Risk-based rate limiting (HIGH/MEDIUM/LOW risk tools)
+ * - Per-tool token buckets for isolation
+ * - Automatic token refill over time
+ *
+ * @example
+ * ```typescript
+ * const rateLimiter = initRateLimiter();
+ * const result = rateLimiter.tryConsume('browser_navigate');
+ * if (!result.allowed) {
+ *   console.log(`Rate limited. Retry after ${result.retryAfterMs}ms`);
+ * }
+ * ```
  */
 
 export interface RateLimitConfig {
@@ -15,6 +30,15 @@ export interface RateLimitResult {
   bucketSize: number;
   retryAfterMs?: number;
   errorMessage?: string;
+}
+
+export interface RateLimitStatus {
+  toolName: string;
+  currentTokens: number;
+  maxTokens: number;
+  refillRate: number;
+  refillInterval: number;
+  riskLevel: 'HIGH' | 'MEDIUM' | 'LOW';
 }
 
 interface TokenBucket {
@@ -129,7 +153,114 @@ export class RateLimiter {
   }
 
   /**
-   * Clean up timers (for testing)
+   * Get current rate limit status for a tool
+   * Useful for monitoring and debugging
+   *
+   * @param toolName Name of the tool to check
+   * @returns Current rate limit status or null if tool not initialized
+   */
+  getRateLimitStatus(toolName: string): RateLimitStatus | null {
+    const bucket = this.buckets.get(toolName);
+    if (!bucket) {
+      return null;
+    }
+
+    // Refill before reporting status
+    this.refillBucket(bucket);
+
+    const riskLevel = this.getToolRiskLevel(toolName);
+
+    return {
+      toolName,
+      currentTokens: Math.floor(bucket.tokens),
+      maxTokens: bucket.config.bucketSize,
+      refillRate: bucket.config.refillRate,
+      refillInterval: bucket.config.refillInterval,
+      riskLevel,
+    };
+  }
+
+  /**
+   * Get rate limit status for all active tools
+   *
+   * @returns Array of rate limit statuses
+   */
+  getAllRateLimitStatuses(): RateLimitStatus[] {
+    const statuses: RateLimitStatus[] = [];
+    this.buckets.forEach((bucket, toolName) => {
+      const status = this.getRateLimitStatus(toolName);
+      if (status) {
+        statuses.push(status);
+      }
+    });
+    return statuses;
+  }
+
+  /**
+   * Reset rate limit for a specific tool
+   * Sets tokens back to full capacity
+   *
+   * @param toolName Name of the tool to reset
+   */
+  resetRateLimit(toolName: string): void {
+    const bucket = this.buckets.get(toolName);
+    if (bucket) {
+      bucket.tokens = bucket.config.bucketSize;
+      bucket.lastRefill = Date.now();
+      console.log(`Rate limit reset for tool: ${toolName}`);
+    }
+  }
+
+  /**
+   * Reset rate limits for all tools
+   * Useful for testing and recovery scenarios
+   */
+  resetAllRateLimits(): void {
+    this.buckets.forEach((bucket, toolName) => {
+      bucket.tokens = bucket.config.bucketSize;
+      bucket.lastRefill = Date.now();
+    });
+    console.log('All rate limits reset');
+  }
+
+  /**
+   * Get risk level for a tool
+   *
+   * @param toolName Name of the tool
+   * @returns Risk level classification
+   */
+  private getToolRiskLevel(toolName: string): 'HIGH' | 'MEDIUM' | 'LOW' {
+    const HIGH_RISK_TOOLS = [
+      'browser_navigate',
+      'browser_close_tabs',
+      'browser_window',
+      'browser_network_request',
+      'browser_network_debugger_start',
+      'browser_network_capture_start',
+      'browser_inject_script',
+      'browser_web_fetcher',
+    ];
+
+    const MEDIUM_RISK_TOOLS = [
+      'browser_click',
+      'browser_fill',
+      'browser_screenshot',
+      'browser_keyboard',
+      'browser_get_interactive_elements',
+    ];
+
+    if (HIGH_RISK_TOOLS.includes(toolName)) {
+      return 'HIGH';
+    }
+    if (MEDIUM_RISK_TOOLS.includes(toolName)) {
+      return 'MEDIUM';
+    }
+    return 'LOW';
+  }
+
+  /**
+   * Clean up timers and resources
+   * Should be called when extension is unloaded
    */
   destroy(): void {
     this.buckets.forEach((bucket) => {
@@ -138,6 +269,7 @@ export class RateLimiter {
       }
     });
     this.buckets.clear();
+    console.log('Rate limiter destroyed');
   }
 }
 
@@ -252,4 +384,58 @@ export function getRateLimiter(): RateLimiter {
     return initRateLimiter();
   }
   return globalRateLimiter;
+}
+
+/**
+ * Clean up global rate limiter
+ * Should be called when extension is being unloaded
+ */
+export function cleanupRateLimiter(): void {
+  if (globalRateLimiter) {
+    globalRateLimiter.destroy();
+    globalRateLimiter = null;
+  }
+}
+
+/**
+ * Get rate limit status for a specific tool
+ * Convenience function for monitoring
+ *
+ * @param toolName Name of the tool to check
+ * @returns Current rate limit status or null
+ */
+export function getRateLimitStatus(toolName: string): RateLimitStatus | null {
+  const rateLimiter = getRateLimiter();
+  return rateLimiter.getRateLimitStatus(toolName);
+}
+
+/**
+ * Get rate limit status for all tools
+ * Useful for dashboard/monitoring UI
+ *
+ * @returns Array of all rate limit statuses
+ */
+export function getAllRateLimitStatuses(): RateLimitStatus[] {
+  const rateLimiter = getRateLimiter();
+  return rateLimiter.getAllRateLimitStatuses();
+}
+
+/**
+ * Reset rate limit for a specific tool
+ * Admin/testing function
+ *
+ * @param toolName Name of the tool to reset
+ */
+export function resetRateLimit(toolName: string): void {
+  const rateLimiter = getRateLimiter();
+  rateLimiter.resetRateLimit(toolName);
+}
+
+/**
+ * Reset all rate limits
+ * Admin/testing function
+ */
+export function resetAllRateLimits(): void {
+  const rateLimiter = getRateLimiter();
+  rateLimiter.resetAllRateLimits();
 }

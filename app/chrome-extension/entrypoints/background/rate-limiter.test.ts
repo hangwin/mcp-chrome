@@ -175,4 +175,85 @@ describe('RateLimiter', () => {
     expect(result.errorMessage).toBeDefined();
     expect(result.errorMessage).toContain('Rate limit exceeded');
   });
+
+  test('getRateLimitStatus returns correct status', () => {
+    const config: RateLimitConfig = {
+      bucketSize: 10,
+      refillRate: 2,
+      refillInterval: 1000,
+    };
+    rateLimiter = new RateLimiter({ default: config });
+
+    // Consume some tokens
+    rateLimiter.tryConsume('test-tool');
+    rateLimiter.tryConsume('test-tool');
+
+    const status = rateLimiter.getRateLimitStatus('test-tool');
+
+    expect(status).not.toBeNull();
+    expect(status?.toolName).toBe('test-tool');
+    expect(status?.currentTokens).toBe(8);
+    expect(status?.maxTokens).toBe(10);
+    expect(status?.riskLevel).toBeDefined();
+  });
+
+  test('getAllRateLimitStatuses returns all active tools', () => {
+    rateLimiter.tryConsume('tool1');
+    rateLimiter.tryConsume('tool2');
+    rateLimiter.tryConsume('tool3');
+
+    const statuses = rateLimiter.getAllRateLimitStatuses();
+
+    expect(statuses.length).toBe(3);
+    expect(statuses.map((s) => s.toolName)).toContain('tool1');
+    expect(statuses.map((s) => s.toolName)).toContain('tool2');
+    expect(statuses.map((s) => s.toolName)).toContain('tool3');
+  });
+
+  test('resetRateLimit restores tokens', () => {
+    const config: RateLimitConfig = {
+      bucketSize: 5,
+      refillRate: 1,
+      refillInterval: 1000,
+    };
+    rateLimiter = new RateLimiter({ default: config });
+
+    // Exhaust tokens
+    for (let i = 0; i < 5; i++) {
+      rateLimiter.tryConsume('test-tool');
+    }
+
+    // Verify depleted
+    let result = rateLimiter.tryConsume('test-tool');
+    expect(result.allowed).toBe(false);
+
+    // Reset
+    rateLimiter.resetRateLimit('test-tool');
+
+    // Should work again
+    result = rateLimiter.tryConsume('test-tool');
+    expect(result.allowed).toBe(true);
+  });
+
+  test('resetAllRateLimits restores all tools', () => {
+    const config: RateLimitConfig = {
+      bucketSize: 2,
+      refillRate: 1,
+      refillInterval: 1000,
+    };
+    rateLimiter = new RateLimiter({ default: config });
+
+    // Exhaust multiple tools
+    rateLimiter.tryConsume('tool1');
+    rateLimiter.tryConsume('tool1');
+    rateLimiter.tryConsume('tool2');
+    rateLimiter.tryConsume('tool2');
+
+    // Reset all
+    rateLimiter.resetAllRateLimits();
+
+    // All should work
+    expect(rateLimiter.tryConsume('tool1').allowed).toBe(true);
+    expect(rateLimiter.tryConsume('tool2').allowed).toBe(true);
+  });
 });
