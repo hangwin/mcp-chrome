@@ -5,6 +5,8 @@ import { TIMEOUTS, ERROR_MESSAGES } from '@/common/constants';
 
 const DEBUGGER_PROTOCOL_VERSION = '1.3';
 const DEFAULT_DIALOG_TIMEOUT = 5000;
+const MIN_TIMEOUT = 100;
+const MAX_TIMEOUT = 30000;
 
 interface DismissDialogParams {
   accept?: boolean;
@@ -24,6 +26,8 @@ interface DialogResult {
   dialogInfo?: DialogInfo;
   action: string;
   waitTime?: number;
+  tabId: number;
+  tabUrl: string;
 }
 
 /**
@@ -36,18 +40,49 @@ interface DialogResult {
  * - prompt(): Can accept with custom text or cancel
  * - beforeunload: Can accept (leave page) or cancel (stay)
  *
- * Usage:
- * - Call this tool when MCP operations timeout due to dialog blocking
- * - The tool will wait up to `timeout` ms for a dialog to appear
- * - If a dialog is already present, it will be dismissed immediately
+ * Common Use Cases:
+ * 1. Page shows alert after form submission:
+ *    { "accept": true }
+ *
+ * 2. Page shows confirm dialog before deletion:
+ *    { "accept": false } // Cancel the deletion
+ *
+ * 3. Page requires input via prompt:
+ *    { "accept": true, "promptText": "John Doe" }
+ *
+ * 4. Page shows beforeunload when navigating away:
+ *    { "accept": true } // Leave the page
+ *
+ * Troubleshooting:
+ * - "Timeout waiting for dialog": No dialog appeared within timeout period.
+ *   The page may have already dismissed the dialog, or no dialog exists.
+ *
+ * - "Debugger already attached": Chrome DevTools is open or another tool is
+ *   using the debugger. Close DevTools and try again.
+ *
+ * - "Tab not found": The tab was closed before the operation completed.
+ *
+ * @see https://chromedevtools.github.io/devtools-protocol/tot/Page/#event-javascriptDialogOpening
  */
 class DismissDialogTool extends BaseBrowserToolExecutor {
   name = TOOL_NAMES.BROWSER.DISMISS_DIALOG;
 
   async execute(args: DismissDialogParams): Promise<ToolResult> {
-    const { accept = true, promptText = '', timeout = DEFAULT_DIALOG_TIMEOUT } = args;
+    // Validate and normalize parameters
+    const accept = args.accept !== undefined ? Boolean(args.accept) : true;
+    const promptText = args.promptText !== undefined ? String(args.promptText) : '';
+    let timeout = args.timeout !== undefined ? Number(args.timeout) : DEFAULT_DIALOG_TIMEOUT;
 
-    console.log(`[DismissDialogTool] Starting with options:`, {
+    // Validate timeout range
+    if (isNaN(timeout) || timeout < MIN_TIMEOUT) {
+      timeout = MIN_TIMEOUT;
+      console.warn(`[DismissDialogTool] Timeout too low, using minimum: ${MIN_TIMEOUT}ms`);
+    } else if (timeout > MAX_TIMEOUT) {
+      timeout = MAX_TIMEOUT;
+      console.warn(`[DismissDialogTool] Timeout too high, using maximum: ${MAX_TIMEOUT}ms`);
+    }
+
+    console.log(`[DismissDialogTool] Starting with validated options:`, {
       accept,
       promptText: promptText ? `"${promptText}"` : '(empty)',
       timeout,
@@ -73,7 +108,7 @@ class DismissDialogTool extends BaseBrowserToolExecutor {
       }
 
       // Handle dialog dismissal
-      const result = await this.dismissDialog(tabId, { accept, promptText, timeout });
+      const result = await this.dismissDialog(tabId, tabUrl, { accept, promptText, timeout });
 
       return {
         content: [
@@ -122,6 +157,7 @@ class DismissDialogTool extends BaseBrowserToolExecutor {
    */
   private async dismissDialog(
     tabId: number,
+    tabUrl: string,
     options: {
       accept: boolean;
       promptText: string;
@@ -221,6 +257,8 @@ class DismissDialogTool extends BaseBrowserToolExecutor {
               dialogInfo: dialogInfo,
               action: accept ? 'accepted' : 'cancelled',
               waitTime: waitTime,
+              tabId: tabId,
+              tabUrl: tabUrl,
             });
           } catch (error) {
             console.error(`[DismissDialogTool] Error dismissing dialog:`, error);
@@ -229,7 +267,7 @@ class DismissDialogTool extends BaseBrowserToolExecutor {
           }
         } else if (method === 'Page.javascriptDialogClosed' && params) {
           // Dialog was closed (possibly by user or another script)
-          console.log(`[DismissDialogTool] Dialog was closed externally`);
+          console.log(`[DismissDialogTool] Dialog was closed externally:`, params);
         }
       };
 
@@ -261,6 +299,12 @@ class DismissDialogTool extends BaseBrowserToolExecutor {
           );
         } else if (error.message?.includes('No tab with given id')) {
           reject(new Error(`Tab ${tabId} not found. It may have been closed.`));
+        } else if (error.message?.includes('Cannot access')) {
+          reject(
+            new Error(
+              `Cannot access tab ${tabId}. The page may be a Chrome internal page (chrome://, chrome-extension://) or the debugger permission is missing.`,
+            ),
+          );
         } else {
           reject(error);
         }
