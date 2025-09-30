@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialog Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Dialog Test Page</h1>
+    <p>Click the buttons below to test different types of JavaScript dialogs:</p>
+
+    <button onclick="testAlert()">Test Alert</button>
+    <button onclick="testConfirm()">Test Confirm</button>
+    <button onclick="testPrompt()">Test Prompt</button>
+    <button onclick="testAutoAlert()">Auto Alert (2s delay)</button>
+
+    <div class="result" id="result">Result will appear here...</div>
+
+    <script>
+        function testAlert() {
+            alert('This is an alert dialog!');
+            document.getElementById('result').innerHTML = 'Alert was dismissed.';
+        }
+
+        function testConfirm() {
+            const result = confirm('Do you confirm this action?');
+            document.getElementById('result').innerHTML =
+                'Confirm result: ' + (result ? 'OK pressed' : 'Cancel pressed');
+        }
+
+        function testPrompt() {
+            const result = prompt('Please enter your name:', 'Default Name');
+            document.getElementById('result').innerHTML =
+                'Prompt result: ' + (result !== null ? result : 'Cancelled');
+        }
+
+        function testAutoAlert() {
+            document.getElementById('result').innerHTML = 'Alert will appear in 2 seconds...';
+            setTimeout(() => {
+                alert('Automatic alert appeared!');
+                document.getElementById('result').innerHTML = 'Alert was dismissed.';
+            }, 2000);
+        }
+
+        // Automatically trigger an alert on page load after 3 seconds
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('About to show automatic alert...');
+                alert('Page loaded! This is an automatic alert.');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
