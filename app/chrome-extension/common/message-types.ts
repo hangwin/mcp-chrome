@@ -21,6 +21,10 @@ export const BACKGROUND_MESSAGE_TYPES = {
   REFRESH_SERVER_STATUS: 'refresh_server_status',
   SERVER_STATUS_CHANGED: 'server_status_changed',
   INITIALIZE_SEMANTIC_ENGINE: 'initialize_semantic_engine',
+  // Rate limiter monitoring and control
+  GET_RATE_LIMIT_STATUS: 'get_rate_limit_status',
+  RESET_RATE_LIMIT: 'reset_rate_limit',
+  RESET_ALL_RATE_LIMITS: 'reset_all_rate_limits',
 } as const;
 
 // Offscreen message types
