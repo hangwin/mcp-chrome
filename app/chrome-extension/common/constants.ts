@@ -32,6 +32,27 @@ export const LIMITS = {
   MAX_HISTORY_RESULTS: 100,
   SIMILARITY_THRESHOLD: 0.1,
   VECTOR_DIMENSIONS: 384,
+  // Rate Limiting Configuration
+  RATE_LIMIT: {
+    // High-risk tools (can open tabs, make network requests, steal data)
+    HIGH_RISK: {
+      BUCKET_SIZE: 10,
+      REFILL_RATE: 2, // tokens per second
+      REFILL_INTERVAL: 1000, // ms
+    },
+    // Medium-risk tools (can interact with page but limited damage)
+    MEDIUM_RISK: {
+      BUCKET_SIZE: 20,
+      REFILL_RATE: 5,
+      REFILL_INTERVAL: 1000,
+    },
+    // Low-risk tools (read-only operations)
+    LOW_RISK: {
+      BUCKET_SIZE: 50,
+      REFILL_RATE: 10,
+      REFILL_INTERVAL: 1000,
+    },
+  },
 } as const;
 
 // Error Messages
@@ -46,6 +67,7 @@ export const ERROR_MESSAGES = {
   TAB_NOT_FOUND: 'Tab not found',
   ELEMENT_NOT_FOUND: 'Element not found',
   NETWORK_ERROR: 'Network error occurred',
+  RATE_LIMIT_EXCEEDED: 'Rate limit exceeded',
 } as const;
 
 // Success Messages

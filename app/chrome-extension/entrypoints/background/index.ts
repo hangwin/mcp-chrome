@@ -4,6 +4,7 @@ import {
   initializeSemanticEngineIfCached,
 } from './semantic-similarity';
 import { initStorageManagerListener } from './storage-manager';
+import { initRateLimiter } from './rate-limiter';
 import { cleanupModelCache } from '@/utils/semantic-similarity-engine';
 
 /**
@@ -15,6 +16,8 @@ export default defineBackground(() => {
   initNativeHostListener();
   initSemanticSimilarityListener();
   initStorageManagerListener();
+  initRateLimiter();
+  console.log('Background: Rate limiter initialized');
 
   // Conditionally initialize semantic similarity engine if model cache exists
   initializeSemanticEngineIfCached()
