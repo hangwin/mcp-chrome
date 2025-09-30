@@ -25,6 +25,7 @@ export const TOOL_NAMES = {
     INJECT_SCRIPT: 'chrome_inject_script',
     SEND_COMMAND_TO_INJECT_SCRIPT: 'chrome_send_command_to_inject_script',
     CONSOLE: 'chrome_console',
+    DISMISS_DIALOG: 'chrome_dismiss_dialog',
   },
 };
 
@@ -35,7 +36,7 @@ export const TOOL_SCHEMAS: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {},
-      required: [],
+      required: [
     },
   },
   {
@@ -57,7 +58,7 @@ export const TOOL_SCHEMAS: Tool[] = [
             'Refresh the current active tab instead of navigating to a URL. When true, the url parameter is ignored. Defaults to false',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -86,7 +87,7 @@ export const TOOL_SCHEMAS: Tool[] = [
             'Save screenshot as PNG file (default: true)，if you want to see the page, recommend set this to be false, and set storeBase64 to be true',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -105,7 +106,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'Close tabs matching this URL. Can be used instead of tabIds.',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -119,7 +120,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'Go forward in history if true, go back if false (default: false)',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -149,7 +150,7 @@ export const TOOL_SCHEMAS: Tool[] = [
             'CSS selector to get content from a specific element. If provided, only content from this element will be returned',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -177,7 +178,7 @@ export const TOOL_SCHEMAS: Tool[] = [
               description: 'Y coordinate relative to the viewport',
             },
           },
-          required: ['x', 'y'],
+          required: ['x', 'y'
         },
         waitForNavigation: {
           type: 'boolean',
@@ -189,7 +190,7 @@ export const TOOL_SCHEMAS: Tool[] = [
             'Timeout in milliseconds for waiting for the element or navigation (default: 5000)',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -207,7 +208,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'Value to fill or select into the element',
         },
       },
-      required: ['selector', 'value'],
+      required: ['selector', 'value'
     },
   },
   {
@@ -230,7 +231,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'Include element coordinates in the response (default: true)',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -260,7 +261,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'Timeout in milliseconds (default: 30000)',
         },
       },
-      required: ['url'],
+      required: ['url'
     },
   },
   {
@@ -276,7 +277,7 @@ export const TOOL_SCHEMAS: Tool[] = [
             'URL to capture network requests from. If not provided, uses the current active tab',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -286,7 +287,7 @@ export const TOOL_SCHEMAS: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {},
-      required: [],
+      required: [
     },
   },
   {
@@ -302,7 +303,7 @@ export const TOOL_SCHEMAS: Tool[] = [
             'URL to capture network requests from. If not provided, uses the current active tab',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -312,7 +313,7 @@ export const TOOL_SCHEMAS: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {},
-      required: [],
+      required: [
     },
   },
   {
@@ -335,7 +336,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'Delay between key sequences in milliseconds (optional, default: 0)',
         },
       },
-      required: ['keys'],
+      required: ['keys'
     },
   },
   {
@@ -370,7 +371,7 @@ export const TOOL_SCHEMAS: Tool[] = [
             "When set to true, filters out URLs that are currently open in any browser tab. Useful for finding pages you've visited but don't have open anymore. (default: false)",
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -394,7 +395,7 @@ export const TOOL_SCHEMAS: Tool[] = [
             'Optional folder path or ID to limit search to a specific bookmark folder. Can be a path string (e.g., "Work/Projects") or a folder ID.',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -421,7 +422,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'Whether to create the parent folder if it does not exist (default: false)',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -443,7 +444,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'Title of the bookmark to help with matching when deleting by URL.',
         },
       },
-      required: [],
+      required: [
     },
   },
   {
@@ -458,7 +459,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'the query to search for related content.',
         },
       },
-      required: ['query'],
+      required: ['query'
     },
   },
   {
@@ -483,7 +484,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'the content script to inject',
         },
       },
-      required: ['type', 'jsScript'],
+      required: ['type', 'jsScript'
     },
   },
   {
@@ -507,7 +508,7 @@ export const TOOL_SCHEMAS: Tool[] = [
           description: 'the payload passed to event, must be a json string',
         },
       },
-      required: ['eventName'],
+      required: ['eventName'
     },
   },
   {
@@ -529,6 +530,33 @@ export const TOOL_SCHEMAS: Tool[] = [
         maxMessages: {
           type: 'number',
           description: 'Maximum number of console messages to capture (default: 100)',
+        },
+      },
+      required: [
+    },
+  },
+];
+  {
+    name: TOOL_NAMES.BROWSER.DISMISS_DIALOG,
+    description:
+      'Dismiss JavaScript dialogs (alert, confirm, prompt) that may be blocking page interaction. Use this when automation is stuck due to browser dialogs.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        accept: {
+          type: 'boolean',
+          description:
+            'Whether to accept (true) or cancel (false) the dialog. For alert dialogs, this is always true. For confirm dialogs, true means OK, false means Cancel. (default: true)',
+        },
+        promptText: {
+          type: 'string',
+          description:
+            'Text to enter in a prompt dialog before accepting. Only used for prompt dialogs. If not provided and the dialog is a prompt, an empty string will be used.',
+        },
+        timeout: {
+          type: 'number',
+          description:
+            'Maximum time in milliseconds to wait for a dialog to appear (default: 5000)',
         },
       },
       required: [],
