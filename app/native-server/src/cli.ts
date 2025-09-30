@@ -9,6 +9,7 @@ import {
   registerWithElevatedPermissions,
   ensureExecutionPermissions,
 } from './scripts/utils';
+import { BrowserType, parseBrowserType, detectInstalledBrowsers } from './scripts/browser-config';
 
 // Import writeNodePath from postinstall
 async function writeNodePath(): Promise<void> {
@@ -34,10 +35,46 @@ program
   .description('Register Native Messaging host')
   .option('-f, --force', 'Force re-registration')
   .option('-s, --system', 'Use system-level installation (requires administrator/sudo privileges)')
+  .option('-b, --browser <browser>', 'Register for specific browser (chrome, chromium, or all)')
+  .option('-d, --detect', 'Auto-detect installed browsers')
   .action(async (options) => {
     try {
       // Write Node.js path for run_host scripts
       await writeNodePath();
+
+      // Determine which browsers to register
+      let targetBrowsers: BrowserType[] | undefined;
+
+      if (options.browser) {
+        if (options.browser.toLowerCase() === 'all') {
+          targetBrowsers = [BrowserType.CHROME, BrowserType.CHROMIUM];
+          console.log(colorText('Registering for all supported browsers...', 'blue'));
+        } else {
+          const browserType = parseBrowserType(options.browser);
+          if (!browserType) {
+            console.error(
+              colorText(
+                `Invalid browser: ${options.browser}. Use 'chrome', 'chromium', or 'all'`,
+                'red',
+              ),
+            );
+            process.exit(1);
+          }
+          targetBrowsers = [browserType];
+        }
+      } else if (options.detect) {
+        targetBrowsers = detectInstalledBrowsers();
+        if (targetBrowsers.length === 0) {
+          console.log(
+            colorText(
+              'No supported browsers detected, will register for Chrome and Chromium',
+              'yellow',
+            ),
+          );
+          targetBrowsers = undefined; // Will use default behavior
+        }
+      }
+      // If neither option specified, tryRegisterUserLevelHost will detect browsers
 
       // Detect if running with root/administrator privileges
       const isRoot = process.getuid && process.getuid() === 0; // Unix/Linux/Mac
@@ -71,7 +108,7 @@ program
       } else {
         // Regular user-level installation
         console.log(colorText('Registering user-level Native Messaging host...', 'blue'));
-        const success = await tryRegisterUserLevelHost();
+        const success = await tryRegisterUserLevelHost(targetBrowsers);
 
         if (success) {
           console.log(colorText('Native Messaging host registered successfully!', 'green'));

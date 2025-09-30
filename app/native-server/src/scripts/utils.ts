@@ -4,6 +4,7 @@ import os from 'os';
 import { execSync } from 'child_process';
 import { promisify } from 'util';
 import { COMMAND_NAME, DESCRIPTION, EXTENSION_ID, HOST_NAME } from './constant';
+import { BrowserType, getBrowserConfig, detectInstalledBrowsers } from './browser-config';
 
 export const access = promisify(fs.access);
 export const mkdir = promisify(fs.mkdir);
@@ -224,55 +225,83 @@ function verifyWindowsRegistryEntry(registryKey: string, expectedPath: string): 
 /**
  * 尝试注册用户级别的Native Messaging主机
  */
-export async function tryRegisterUserLevelHost(): Promise<boolean> {
+export async function tryRegisterUserLevelHost(targetBrowsers?: BrowserType[]): Promise<boolean> {
   try {
     console.log(colorText('Attempting to register user-level Native Messaging host...', 'blue'));
 
     // 1. 确保执行权限
     await ensureExecutionPermissions();
 
-    // 2. 确定清单文件路径
-    const manifestPath = getUserManifestPath();
+    // 2. 确定要注册的浏览器
+    const browsersToRegister = targetBrowsers || detectInstalledBrowsers();
+    if (browsersToRegister.length === 0) {
+      // 如果没有检测到浏览器，默认注册Chrome和Chromium
+      browsersToRegister.push(BrowserType.CHROME, BrowserType.CHROMIUM);
+      console.log(
+        colorText('No browsers detected, registering for Chrome and Chromium by default', 'yellow'),
+      );
+    } else {
+      console.log(colorText(`Detected browsers: ${browsersToRegister.join(', ')}`, 'blue'));
+    }
 
-    // 3. 确保目录存在
-    await mkdir(path.dirname(manifestPath), { recursive: true });
-
-    // 4. 创建清单内容
+    // 3. 创建清单内容
     const manifest = await createManifestContent();
 
-    console.log('manifest path==>', manifest, manifestPath);
+    let successCount = 0;
+    const results: { browser: string; success: boolean; error?: string }[] = [];
 
-    // 5. 写入清单文件
-    await writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+    // 4. 为每个浏览器注册
+    for (const browserType of browsersToRegister) {
+      const config = getBrowserConfig(browserType);
+      console.log(colorText(`\nRegistering for ${config.displayName}...`, 'blue'));
 
-    if (os.platform() === 'win32') {
-      const registryKey = `HKCU\\Software\\Google\\Chrome\\NativeMessagingHosts\\${HOST_NAME}`;
       try {
-        // 确保路径使用正确的转义格式
-        const escapedPath = manifestPath.replace(/\\/g, '\\\\');
-        const regCommand = `reg add "${registryKey}" /ve /t REG_SZ /d "${escapedPath}" /f`;
+        // 确保目录存在
+        await mkdir(path.dirname(config.userManifestPath), { recursive: true });
 
-        console.log(colorText(`Executing registry command: ${regCommand}`, 'blue'));
-        execSync(regCommand, { stdio: 'pipe' });
+        // 写入清单文件
+        await writeFile(config.userManifestPath, JSON.stringify(manifest, null, 2));
+        console.log(colorText(`✓ Manifest written to ${config.userManifestPath}`, 'green'));
 
-        // 验证注册表项是否创建成功
-        if (verifyWindowsRegistryEntry(registryKey, manifestPath)) {
-          console.log(colorText('✓ Successfully created Windows registry entry', 'green'));
-        } else {
-          console.log(colorText('⚠️ Registry entry created but verification failed', 'yellow'));
+        // Windows需要额外注册表项
+        if (os.platform() === 'win32' && config.registryKey) {
+          try {
+            const escapedPath = config.userManifestPath.replace(/\\/g, '\\\\');
+            const regCommand = `reg add "${config.registryKey}" /ve /t REG_SZ /d "${escapedPath}" /f`;
+            execSync(regCommand, { stdio: 'pipe' });
+
+            if (verifyWindowsRegistryEntry(config.registryKey, config.userManifestPath)) {
+              console.log(colorText(`✓ Registry entry created for ${config.displayName}`, 'green'));
+            } else {
+              throw new Error('Registry verification failed');
+            }
+          } catch (error: any) {
+            throw new Error(`Registry error: ${error.message}`);
+          }
         }
+
+        successCount++;
+        results.push({ browser: config.displayName, success: true });
+        console.log(colorText(`✓ Successfully registered ${config.displayName}`, 'green'));
       } catch (error: any) {
+        results.push({ browser: config.displayName, success: false, error: error.message });
         console.log(
-          colorText(`⚠️ Unable to create Windows registry entry: ${error.message}`, 'yellow'),
+          colorText(`✗ Failed to register ${config.displayName}: ${error.message}`, 'red'),
         );
-        console.log(colorText(`Registry key: ${registryKey}`, 'yellow'));
-        console.log(colorText(`Manifest path: ${manifestPath}`, 'yellow'));
-        return false; // Windows上如果注册表项创建失败，整个注册过程应该视为失败
       }
     }
 
-    console.log(colorText('Successfully registered user-level Native Messaging host!', 'green'));
-    return true;
+    // 5. 报告结果
+    console.log(colorText('\n===== Registration Summary =====', 'blue'));
+    for (const result of results) {
+      if (result.success) {
+        console.log(colorText(`✓ ${result.browser}: Success`, 'green'));
+      } else {
+        console.log(colorText(`✗ ${result.browser}: Failed - ${result.error}`, 'red'));
+      }
+    }
+
+    return successCount > 0;
   } catch (error) {
     console.log(
       colorText(
