@@ -12,3 +12,9 @@ export { historyTool } from './history';
 export { bookmarkSearchTool, bookmarkAddTool, bookmarkDeleteTool } from './bookmark';
 export { injectScriptTool, sendCommandToInjectScriptTool } from './inject-script';
 export { consoleTool } from './console';
+export {
+  tabGroupCreateTool,
+  tabGroupUpdateTool,
+  tabGroupDeleteTool,
+  tabGroupListTool,
+} from './tab-groups';

@@ -25,6 +25,10 @@ export const TOOL_NAMES = {
     INJECT_SCRIPT: 'chrome_inject_script',
     SEND_COMMAND_TO_INJECT_SCRIPT: 'chrome_send_command_to_inject_script',
     CONSOLE: 'chrome_console',
+    TAB_GROUP_CREATE: 'chrome_tab_group_create',
+    TAB_GROUP_UPDATE: 'chrome_tab_group_update',
+    TAB_GROUP_DELETE: 'chrome_tab_group_delete',
+    TAB_GROUP_LIST: 'chrome_tab_group_list',
   },
 };
 
@@ -529,6 +533,91 @@ export const TOOL_SCHEMAS: Tool[] = [
         maxMessages: {
           type: 'number',
           description: 'Maximum number of console messages to capture (default: 100)',
+        },
+      },
+      required: [],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_CREATE,
+    description: 'Create a new tab group and optionally add tabs to it',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tabIds: {
+          type: 'array',
+          items: { type: 'number' },
+          description:
+            'Array of tab IDs to add to the group. If not provided, creates an empty group.',
+        },
+        title: {
+          type: 'string',
+          description: 'Title for the tab group (optional)',
+        },
+        color: {
+          type: 'string',
+          enum: ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'],
+          description: 'Color for the tab group (default: grey)',
+        },
+        collapsed: {
+          type: 'boolean',
+          description: 'Whether the group should be collapsed (default: false)',
+        },
+      },
+      required: [],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_UPDATE,
+    description: 'Update an existing tab group (rename, change color, collapse/expand)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        groupId: {
+          type: 'number',
+          description: 'ID of the tab group to update',
+        },
+        title: {
+          type: 'string',
+          description: 'New title for the tab group',
+        },
+        color: {
+          type: 'string',
+          enum: ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'],
+          description: 'New color for the tab group',
+        },
+        collapsed: {
+          type: 'boolean',
+          description: 'Whether the group should be collapsed',
+        },
+      },
+      required: ['groupId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_DELETE,
+    description: 'Delete a tab group and ungroup its tabs',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        groupId: {
+          type: 'number',
+          description: 'ID of the tab group to delete',
+        },
+      },
+      required: ['groupId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_LIST,
+    description: 'List all tab groups with their tabs and properties',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        windowId: {
+          type: 'number',
+          description:
+            'Filter tab groups by window ID. If not provided, returns groups from all windows.',
         },
       },
       required: [],
