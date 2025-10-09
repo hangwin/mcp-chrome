@@ -13,3 +13,4 @@ export { bookmarkSearchTool, bookmarkAddTool, bookmarkDeleteTool } from './bookm
 export { injectScriptTool, sendCommandToInjectScriptTool } from './inject-script';
 export { consoleTool } from './console';
 export { fileUploadTool } from './file-upload';
+export { dragTool } from './drag';
