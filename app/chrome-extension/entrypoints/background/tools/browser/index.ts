@@ -12,4 +12,5 @@ export { historyTool } from './history';
 export { bookmarkSearchTool, bookmarkAddTool, bookmarkDeleteTool } from './bookmark';
 export { injectScriptTool, sendCommandToInjectScriptTool } from './inject-script';
 export { consoleTool } from './console';
+export { userSelectorTool } from './user-selector';
 export { fileUploadTool } from './file-upload';
