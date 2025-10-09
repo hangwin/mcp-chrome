@@ -27,6 +27,7 @@ export const TOOL_NAMES = {
     SEND_COMMAND_TO_INJECT_SCRIPT: 'chrome_send_command_to_inject_script',
     CONSOLE: 'chrome_console',
     FILE_UPLOAD: 'chrome_upload_file',
+    DRAG: 'chrome_drag',
   },
 };
 
@@ -556,7 +557,8 @@ export const TOOL_SCHEMAS: Tool[] = [
   },
   {
     name: TOOL_NAMES.BROWSER.FILE_UPLOAD,
-    description: 'Upload files to web forms with file input elements using Chrome DevTools Protocol',
+    description:
+      'Upload files to web forms with file input elements using Chrome DevTools Protocol',
     inputSchema: {
       type: 'object',
       properties: {
@@ -586,6 +588,45 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: ['selector'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.DRAG,
+    description: 'Simulate drag-and-drop within the current page (by selector or coordinates)',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        from: {
+          type: 'object',
+          description: 'Start coordinates {x, y}',
+          properties: { x: { type: 'number' }, y: { type: 'number' } },
+          required: ['x', 'y'],
+          additionalProperties: false,
+        },
+        to: {
+          type: 'object',
+          description: 'End coordinates {x, y}',
+          properties: { x: { type: 'number' }, y: { type: 'number' } },
+          required: ['x', 'y'],
+          additionalProperties: false,
+        },
+        fromElement: {
+          type: 'string',
+          description:
+            'CSS selector of the drag start element (alternative to from when using element selector)',
+        },
+        toElement: {
+          type: 'string',
+          description:
+            'CSS selector of the drop target element (alternative to to when using element selector)',
+        },
+        scrollIntoView: {
+          type: 'boolean',
+          description: 'Scroll start/end into view (default: true)',
+        },
+      },
+      required: [],
+      additionalProperties: false,
     },
   },
 ];
