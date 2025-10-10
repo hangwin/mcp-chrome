@@ -34,13 +34,19 @@ export default defineConfig([
   js.configs.recommended,
   {
     files: ['**/*.{js,mjs,cjs,ts,vue}'],
-    languageOptions: { globals: globals.browser },
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        chrome: 'readonly',
+      },
+    },
   },
   ...tseslint.configs.recommended,
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
+      'no-empty': 'off',
     },
   },
   pluginVue.configs['flat/essential'],
