@@ -16,6 +16,10 @@ import { runFlow } from './flow-runner';
 // design note: background listener for record & replay; manages start/stop and storage
 
 let currentRecording: { tabId: number; flow?: Flow } | null = null;
+// navigation enrichment state
+let lastClickIdx: number | null = null;
+let lastClickTime = 0;
+let lastNavTaggedAt = 0;
 
 async function ensureRecorderInjected(tabId: number): Promise<void> {
   // Inject helper and recorder scripts
@@ -81,7 +85,17 @@ export function initRecordReplayListeners() {
           if (message.payload?.kind === 'start') {
             currentRecording.flow = message.payload.flow;
           } else if (message.payload?.kind === 'step') {
-            // background can enrich or validate steps if needed in future
+            // track last click for navigation enrichment
+            const step = message.payload.step as any;
+            if (step && (step.type === 'click' || step.type === 'dblclick')) {
+              try {
+                const idx = currentRecording.flow?.steps?.length ?? 0;
+                lastClickIdx = idx; // the step being pushed by content script will be at this index
+                lastClickTime = Date.now();
+              } catch {
+                // ignore
+              }
+            }
           } else if (message.payload?.kind === 'stop') {
             currentRecording.flow = message.payload.flow || currentRecording.flow;
           }
@@ -181,5 +195,32 @@ export function initRecordReplayListeners() {
       sendResponse({ success: false, error: (err as any)?.message || String(err) });
     }
     return false;
+  });
+
+  // Listen for tab updates to detect navigation and enrich the prior click
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    try {
+      if (!currentRecording || tabId !== currentRecording.tabId) return;
+      if (!currentRecording.flow) return;
+      const urlChanged = typeof changeInfo.url === 'string';
+      const isLoading = changeInfo.status === 'loading';
+      if (!urlChanged && !isLoading) return;
+      if (lastClickIdx == null) return;
+      // debounce tagging
+      const now = Date.now();
+      if (now - lastClickTime > 5000) return; // only within 5s of last click
+      if (now - lastNavTaggedAt < 500) return;
+      const steps = currentRecording.flow.steps;
+      if (!Array.isArray(steps) || !steps[lastClickIdx]) return;
+      const st: any = steps[lastClickIdx];
+      if (!st.after) st.after = {};
+      if (!st.after.waitForNavigation) {
+        st.after.waitForNavigation = true;
+        lastNavTaggedAt = now;
+        // persist live-updated flow in memory; actual save happens on stop
+      }
+    } catch {
+      // ignore
+    }
   });
 }
