@@ -60,6 +60,21 @@
         </div>
 
         <h3>步骤（选中步骤以编辑属性）</h3>
+        <div class="add-step">
+          <select v-model="newStepType">
+            <option value="click">click</option>
+            <option value="dblclick">dblclick</option>
+            <option value="fill">fill</option>
+            <option value="key">key</option>
+            <option value="scroll">scroll</option>
+            <option value="drag">drag</option>
+            <option value="wait">wait</option>
+            <option value="assert">assert</option>
+            <option value="script">script</option>
+            <option value="navigate">navigate</option>
+          </select>
+          <button @click="addStep">添加步骤</button>
+        </div>
         <div class="steps">
           <div
             class="step"
@@ -109,6 +124,90 @@
             </div>
           </div>
 
+          <div v-if="activeStep.type === 'fill'" class="grid">
+            <label>值<input v-model="activeStep.value" placeholder="可包含 {变量}" /></label>
+          </div>
+
+          <div v-if="activeStep.type === 'key'" class="grid">
+            <label
+              >按键序列<input v-model="activeStep.keys" placeholder="例如 cmd+a Enter"
+            /></label>
+          </div>
+
+          <div v-if="activeStep.type === 'wait'" class="grid">
+            <label>
+              条件类型
+              <select v-model="waitKind">
+                <option value="text">文本出现/消失</option>
+                <option value="selector">选择器可见</option>
+                <option value="navigation">导航完成</option>
+              </select>
+            </label>
+            <template v-if="waitKind === 'text'">
+              <label>文本<input v-model="activeStep.condition.text" /></label>
+              <label class="chk"
+                ><input type="checkbox" v-model="activeStep.condition.appear" />出现</label
+              >
+            </template>
+            <template v-else-if="waitKind === 'selector'">
+              <label>选择器<input v-model="activeStep.condition.selector" /></label>
+              <label class="chk"
+                ><input type="checkbox" v-model="activeStep.condition.visible" />可见</label
+              >
+            </template>
+            <template v-else>
+              <div>将等待页面导航</div>
+            </template>
+          </div>
+
+          <div v-if="activeStep.type === 'assert'" class="grid">
+            <label>
+              断言类型
+              <select v-model="assertKind">
+                <option value="exists">存在</option>
+                <option value="visible">可见</option>
+                <option value="textPresent">包含文本</option>
+              </select>
+            </label>
+            <template v-if="assertKind === 'textPresent'">
+              <label>文本<input v-model="activeStep.assert.textPresent" /></label>
+            </template>
+            <template v-else>
+              <label>选择器<input v-model="assertSelector" /></label>
+            </template>
+          </div>
+
+          <div v-if="activeStep.type === 'script'" class="grid">
+            <label>
+              执行环境
+              <select v-model="activeStep.world">
+                <option value="MAIN">MAIN</option>
+                <option value="ISOLATED">ISOLATED</option>
+              </select>
+            </label>
+            <label style="grid-column: 1 / span 2">
+              代码
+              <textarea v-model="activeStep.code" rows="6" style="width: 100%"></textarea>
+            </label>
+          </div>
+
+          <div v-if="activeStep.type === 'navigate'" class="grid">
+            <label>URL<input v-model="activeStep.url" placeholder="https://..." /></label>
+          </div>
+
+          <div v-if="activeStep.type === 'scroll'" class="grid">
+            <label>
+              模式
+              <select v-model="activeStep.mode">
+                <option value="offset">offset</option>
+                <option value="element">element</option>
+                <option value="container">container</option>
+              </select>
+            </label>
+            <label>top<input type="number" v-model.number="activeStep.offset.y" /></label>
+            <label>left<input type="number" v-model.number="activeStep.offset.x" /></label>
+          </div>
+
           <div class="row buttons">
             <button @click="save">保存</button>
             <button @click="exportOne">导出</button>
@@ -121,6 +220,8 @@
 </template>
 
 <script setup lang="ts">
+// declare global chrome for eslint/typescript
+declare const chrome: any;
 import { ref, computed, onMounted } from 'vue';
 import { BACKGROUND_MESSAGE_TYPES } from '@/common/message-types';
 
@@ -137,6 +238,24 @@ const flows = ref<FlowRef[]>([]);
 const selectedFlow = ref<FlowRef | null>(null);
 const query = ref('');
 const activeStepIndex = ref<number>(-1);
+const newStepType = ref('click');
+const waitKind = ref<'text' | 'selector' | 'navigation'>('text');
+const assertKind = ref<'exists' | 'visible' | 'textPresent'>('exists');
+const assertSelector = computed<string>({
+  get() {
+    const s = activeStep.value as any;
+    if (!s || s.type !== 'assert') return '';
+    if (s.assert && 'exists' in s.assert) return s.assert.exists || '';
+    if (s.assert && 'visible' in s.assert) return s.assert.visible || '';
+    return '';
+  },
+  set(v: string) {
+    const s = activeStep.value as any;
+    if (!s || s.type !== 'assert') return;
+    if (assertKind.value === 'exists') s.assert = { exists: v };
+    else if (assertKind.value === 'visible') s.assert = { visible: v };
+  },
+});
 
 const filteredFlows = computed(() => {
   const q = query.value.trim().toLowerCase();
@@ -157,6 +276,10 @@ function summarizeStep(s: any) {
     return `点击 ${s.target?.candidates?.[0]?.value || s.target?.ref || ''}`;
   if (s.type === 'key') return `按键 ${s.keys}`;
   if (s.type === 'wait') return `等待 ...`;
+  if (s.type === 'scroll') return `滚动 ${s.mode}`;
+  if (s.type === 'drag') return `拖拽`;
+  if (s.type === 'script') return `脚本`;
+  if (s.type === 'navigate') return `打开 ${s.url || ''}`;
   return s.type;
 }
 
@@ -196,6 +319,44 @@ function removeStep(i: number) {
   selectedFlow.value.steps.splice(i, 1);
   if (activeStepIndex.value >= selectedFlow.value.steps.length)
     activeStepIndex.value = selectedFlow.value.steps.length - 1;
+}
+
+function addStep() {
+  if (!selectedFlow.value) return;
+  const id = `step_${Date.now().toString(36)}`;
+  let step: any;
+  switch (newStepType.value) {
+    case 'click':
+    case 'dblclick':
+      step = { id, type: newStepType.value, target: { candidates: [] } };
+      break;
+    case 'fill':
+      step = { id, type: 'fill', target: { candidates: [] }, value: '' };
+      break;
+    case 'key':
+      step = { id, type: 'key', keys: '' };
+      break;
+    case 'wait':
+      step = { id, type: 'wait', condition: { text: '', appear: true } };
+      break;
+    case 'assert':
+      step = { id, type: 'assert', assert: { exists: '' } };
+      break;
+    case 'script':
+      step = { id, type: 'script', world: 'ISOLATED', code: '' };
+      break;
+    case 'navigate':
+      step = { id, type: 'navigate', url: '' };
+      break;
+    case 'scroll':
+      step = { id, type: 'scroll', mode: 'offset', offset: { x: 0, y: 0 } };
+      break;
+    case 'drag':
+      step = { id, type: 'drag', start: { candidates: [] }, end: { candidates: [] }, path: [] };
+      break;
+  }
+  selectedFlow.value.steps.push(step);
+  activeStepIndex.value = selectedFlow.value.steps.length - 1;
 }
 
 function addCandidate() {
@@ -385,6 +546,12 @@ onMounted(loadFlows);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
+}
+.add-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 .step {
   border: 1px solid #eee;
