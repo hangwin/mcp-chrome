@@ -9,6 +9,8 @@ import {
   StepAssert,
   StepFill,
   StepKey,
+  StepScroll,
+  StepDrag,
   StepWait,
 } from './types';
 import { appendRun } from './flow-store';
@@ -93,6 +95,94 @@ export async function runFlow(flow: Flow, options: RunOptions = {}): Promise<Run
         (val || '').replace(/\{([^}]+)\}/g, (_m, k) => (vars[k] ?? '').toString());
 
       switch (step.type) {
+        case 'scroll': {
+          const s = step as StepScroll;
+          // Prefer precise control via script injection
+          // Modes:
+          // - offset (window): window.scrollTo({top,left})
+          // - element: el.scrollIntoView({block:'center'})
+          // - container: container.scrollTo({top,left})
+          const top = s.offset?.y ?? undefined;
+          const left = s.offset?.x ?? undefined;
+
+          const selectorFromTarget = (s.target?.candidates || []).find(
+            (c) => c.type === 'css' || c.type === 'attr',
+          )?.value;
+
+          let code = '';
+          if (s.mode === 'offset' && !s.target) {
+            // Window scroll to absolute offset
+            const t = top != null ? Number(top) : 'undefined';
+            const l = left != null ? Number(left) : 'undefined';
+            code = `try { window.scrollTo({ top: ${t}, left: ${l}, behavior: 'instant' }); } catch (e) {}`;
+          } else if (s.mode === 'element' && selectorFromTarget) {
+            code = `(() => { try { const el = document.querySelector(${JSON.stringify(
+              selectorFromTarget,
+            )}); if (el) el.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'nearest' }); } catch (e) {} })();`;
+          } else if (s.mode === 'container' && selectorFromTarget) {
+            const t = top != null ? Number(top) : 'undefined';
+            const l = left != null ? Number(left) : 'undefined';
+            code = `(() => { try { const el = document.querySelector(${JSON.stringify(
+              selectorFromTarget,
+            )}); if (el && typeof el.scrollTo === 'function') el.scrollTo({ top: ${t}, left: ${l}, behavior: 'instant' }); } catch (e) {} })();`;
+          } else {
+            // Fallback: small wheel via computer tool at center using direction heuristic
+            const direction = top != null && Number(top) < 0 ? 'up' : 'down';
+            const amount = 3;
+            const res = await handleCallTool({
+              name: TOOL_NAMES.BROWSER.COMPUTER,
+              args: { action: 'scroll', scrollDirection: direction, scrollAmount: amount },
+            });
+            if ((res as any).isError) throw new Error('scroll failed');
+          }
+
+          if (code) {
+            const res = await handleCallTool({
+              name: TOOL_NAMES.BROWSER.INJECT_SCRIPT,
+              args: { type: 'MAIN', jsScript: code },
+            });
+            if ((res as any).isError) throw new Error('scroll failed');
+          }
+          break;
+        }
+        case 'drag': {
+          const s = step as StepDrag;
+          const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+          const tabId = tabs?.[0]?.id;
+          let startRef: string | undefined;
+          let endRef: string | undefined;
+          try {
+            if (typeof tabId === 'number') {
+              const locatedStart = await locateElement(tabId, s.start);
+              const locatedEnd = await locateElement(tabId, s.end);
+              startRef = locatedStart?.ref || s.start.ref;
+              endRef = locatedEnd?.ref || s.end.ref;
+            }
+          } catch {
+            // ignore
+          }
+
+          let startCoordinates: { x: number; y: number } | undefined;
+          let endCoordinates: { x: number; y: number } | undefined;
+          if ((!startRef || !endRef) && Array.isArray(s.path) && s.path.length >= 2) {
+            startCoordinates = { x: Number(s.path[0].x), y: Number(s.path[0].y) };
+            const last = s.path[s.path.length - 1];
+            endCoordinates = { x: Number(last.x), y: Number(last.y) };
+          }
+
+          const res = await handleCallTool({
+            name: TOOL_NAMES.BROWSER.COMPUTER,
+            args: {
+              action: 'left_click_drag',
+              startRef,
+              ref: endRef,
+              startCoordinates,
+              coordinates: endCoordinates,
+            },
+          });
+          if ((res as any).isError) throw new Error('drag failed');
+          break;
+        }
         case 'click':
         case 'dblclick': {
           const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
