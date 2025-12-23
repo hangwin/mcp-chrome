@@ -39,6 +39,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       properties: {},
       required: [],
     },
+    annotations: {
+      title: 'Get Windows and Tabs',
+      readOnlyHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.NAVIGATE,
@@ -60,6 +64,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: [],
+    },
+    annotations: {
+      title: 'Navigate',
+      destructiveHint: true,
     },
   },
   {
@@ -90,6 +98,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Take Screenshot',
+      readOnlyHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.CLOSE_TABS,
@@ -109,6 +121,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Close Tabs',
+      destructiveHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.SWITCH_TAB,
@@ -127,6 +143,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: ['tabId'],
     },
+    annotations: {
+      title: 'Switch Tab',
+      destructiveHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.GO_BACK_OR_FORWARD,
@@ -140,6 +160,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: [],
+    },
+    annotations: {
+      title: 'Go Back or Forward',
+      destructiveHint: true,
     },
   },
   {
@@ -170,6 +194,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: [],
+    },
+    annotations: {
+      title: 'Get Web Content',
+      readOnlyHint: true,
     },
   },
   {
@@ -211,6 +239,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Click Element',
+      destructiveHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.FILL,
@@ -228,6 +260,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: ['selector', 'value'],
+    },
+    annotations: {
+      title: 'Fill or Select',
+      destructiveHint: true,
     },
   },
   {
@@ -251,6 +287,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: [],
+    },
+    annotations: {
+      title: 'Get Interactive Elements',
+      readOnlyHint: true,
     },
   },
   {
@@ -282,6 +322,11 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: ['url'],
     },
+    annotations: {
+      title: 'Send Network Request',
+      destructiveHint: true,
+      openWorldHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.NETWORK_DEBUGGER_START,
@@ -298,6 +343,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Start Network Debugger',
+      destructiveHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.NETWORK_DEBUGGER_STOP,
@@ -307,6 +356,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       type: 'object',
       properties: {},
       required: [],
+    },
+    annotations: {
+      title: 'Stop Network Debugger',
+      readOnlyHint: true,
     },
   },
   {
@@ -324,6 +377,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Start Network Capture',
+      destructiveHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.NETWORK_CAPTURE_STOP,
@@ -333,6 +390,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       type: 'object',
       properties: {},
       required: [],
+    },
+    annotations: {
+      title: 'Stop Network Capture',
+      readOnlyHint: true,
     },
   },
   {
@@ -356,6 +417,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: ['keys'],
+    },
+    annotations: {
+      title: 'Simulate Keyboard',
+      destructiveHint: true,
     },
   },
   {
@@ -392,6 +457,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Get History',
+      readOnlyHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.BOOKMARK_SEARCH,
@@ -415,6 +484,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: [],
+    },
+    annotations: {
+      title: 'Search Bookmarks',
+      readOnlyHint: true,
     },
   },
   {
@@ -443,6 +516,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Add Bookmark',
+      destructiveHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.BOOKMARK_DELETE,
@@ -465,6 +542,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Delete Bookmark',
+      destructiveHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.SEARCH_TABS_CONTENT,
@@ -479,6 +560,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: ['query'],
+    },
+    annotations: {
+      title: 'Search Tabs Content',
+      readOnlyHint: true,
     },
   },
   {
@@ -505,6 +590,10 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: ['type', 'jsScript'],
     },
+    annotations: {
+      title: 'Inject Script',
+      destructiveHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.SEND_COMMAND_TO_INJECT_SCRIPT,
@@ -528,6 +617,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: ['eventName'],
+    },
+    annotations: {
+      title: 'Send Command to Injected Script',
+      destructiveHint: true,
     },
   },
   {
@@ -553,10 +646,15 @@ export const TOOL_SCHEMAS: Tool[] = [
       },
       required: [],
     },
+    annotations: {
+      title: 'Get Console Output',
+      readOnlyHint: true,
+    },
   },
   {
     name: TOOL_NAMES.BROWSER.FILE_UPLOAD,
-    description: 'Upload files to web forms with file input elements using Chrome DevTools Protocol',
+    description:
+      'Upload files to web forms with file input elements using Chrome DevTools Protocol',
     inputSchema: {
       type: 'object',
       properties: {
@@ -586,6 +684,10 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: ['selector'],
+    },
+    annotations: {
+      title: 'Upload File',
+      destructiveHint: true,
     },
   },
 ];
