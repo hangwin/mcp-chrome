@@ -76,7 +76,7 @@ export const TOOL_SCHEMAS: Tool[] = [
         storeBase64: {
           type: 'boolean',
           description:
-            'return screenshot in base64 format (default: false) if you want to see the page, recommend set this to be true',
+            'Return screenshot as base64 in response (default: false). WARNING: Can exceed token limits (25k+) on large pages. Prefer savePng=true and use Read tool to view the saved file.',
         },
         fullPage: {
           type: 'boolean',
@@ -85,7 +85,7 @@ export const TOOL_SCHEMAS: Tool[] = [
         savePng: {
           type: 'boolean',
           description:
-            'Save screenshot as PNG file (default: true)，if you want to see the page, recommend set this to be false, and set storeBase64 to be true',
+            'Save screenshot as PNG file (default: true). RECOMMENDED: Keep this true and storeBase64=false, then use the Read tool to view the saved screenshot. This avoids token limit issues.',
         },
       },
       required: [],
