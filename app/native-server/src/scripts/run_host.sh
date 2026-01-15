@@ -252,6 +252,27 @@ NODE_BIN_DIR="$(dirname "${NODE_EXEC}")"
 export PATH="${NODE_BIN_DIR}${PATH:+:${PATH}}"
 echo "Added ${NODE_BIN_DIR} to PATH" >> "${WRAPPER_LOG}"
 
+
+# Load Claude env variables from settings.json
+CLAUDE_SETTINGS="$HOME/.claude/settings.json"
+[ -f "$CLAUDE_SETTINGS" ] || return 0
+
+eval "$(
+  ${NODE_EXEC} -e '
+    const fs = require("fs");
+    const path = process.env.HOME + "/.claude/settings.json";
+    const json = JSON.parse(fs.readFileSync(path, "utf8"));
+    const env = json.env || {};
+
+    for (const [k, v] of Object.entries(env)) {
+      const val = String(v)
+        .replace(/\\/g, "\\\\")
+        .replace(/"/g, "\\\"");
+      console.log(`export ${k}="${val}"`);
+    }
+  '
+)"
+
 # Log Claude Code Router (CCR) related env vars for debugging
 # These are set by `eval "$(ccr activate)"` or in shell profile
 if [ -n "${ANTHROPIC_BASE_URL:-}" ]; then

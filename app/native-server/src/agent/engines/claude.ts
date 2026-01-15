@@ -108,7 +108,7 @@ export class ClaudeEngine implements AgentEngine {
 
     // Resolve model
     const resolvedModel =
-      model?.trim() || process.env.CLAUDE_DEFAULT_MODEL || 'claude-sonnet-4-20250514';
+      model?.trim() || process.env.CLAUDE_DEFAULT_MODEL || 'sonnet';
 
     // State management
     const stderrBuffer: string[] = [];
