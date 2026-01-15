@@ -45,3 +45,25 @@ Simply click an element and say, _"Make this bigger"_ or _"Change the background
     <img src="https://img.youtube.com/vi/76_DsUU7aHs/maxresdefault.jpg" alt="Interactive Sizing & Layout Adjustment" style="width:100%; max-width:600px;">
   </a>
 </div>
+
+### Claude Code Debug
+If your Claude Code is not using Anthropic’s official models (for example Deepseek/Kimi/GLM/Minimax), you may encounter 400 errors. There are two solutions:
+
+1. Add environment variables such as ANTHROPIC_AUTH_TOKEN and ANTHROPIC_BASE_URL.
+
+2. Configure the `env` field in `~/.claude/settings.json`. Example:
+
+```settings.json
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "sk-***",
+    "ANTHROPIC_BASE_URL": "https://***/anthropic",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "***",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "***",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "***",
+    "ANTHROPIC_MODEL": "***"
+  }
+}
+```
+
+Either option is fine. After configuring, run `pkill -TERM -f "mcp-chrome-bridge/dist/index.js"` to kill the bridge process; it will automatically restart and load the new environment variables.

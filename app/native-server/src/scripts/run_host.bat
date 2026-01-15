@@ -176,6 +176,18 @@ for %%I in ("%NODE_EXEC%") do set "NODE_BIN_DIR=%%~dpI"
 if defined PATH (set "PATH=%NODE_BIN_DIR%;%PATH%") else (set "PATH=%NODE_BIN_DIR%")
 echo Added %NODE_BIN_DIR% to PATH >> "%WRAPPER_LOG%"
 
+REM Load env from Claude Code
+set "CLAUDE_SETTINGS=%USERPROFILE%\.claude\settings.json"
+if not exist "%CLAUDE_SETTINGS%" goto after_claude_env
+
+setlocal DisableDelayedExpansion
+for /f "usebackq delims=" %%L in (`"%NODE_EXEC%" -e "const fs=require('fs'); const path=process.env.USERPROFILE + '\\\\.claude\\\\settings.json'; if(!fs.existsSync(path)) process.exit(0); const json=JSON.parse(fs.readFileSync(path,'utf8')); const env=json.env||{}; const caret=String.fromCharCode(94); const esc=(s)=>String(s).replace(/%%/g,'%%%%').replace(/&/g,caret+'&').replace(/\|/g,caret+'|').replace(/</g,caret+'<').replace(/>/g,caret+'>').replace(/\"/g,caret+'\"').replace(new RegExp(caret,'g'),caret+caret); for (const [k,v] of Object.entries(env)) { console.log('set "'+k+'='+esc(v)+'"'); }"
+`) do (
+    endlocal & call %%L & setlocal DisableDelayedExpansion
+)
+endlocal
+:after_claude_env
+
 REM Log Claude Code Router (CCR) related env vars for debugging
 REM These are set via System Properties or PowerShell profile
 if defined ANTHROPIC_BASE_URL (

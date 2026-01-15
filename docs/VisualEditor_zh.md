@@ -42,3 +42,25 @@
     <img src="https://img.youtube.com/vi/76_DsUU7aHs/maxresdefault.jpg" alt="Interactive Sizing & Layout Adjustment" style="width:100%; max-width:600px;">
   </a>
 </div>
+
+### Claude Code Debug
+如果你的 Claude Code 不是在使用 Anthropic 的官方模型（比如用的 Deepseek/Kimi/GLM/Minimax），使用 Claude Code 时很可能会遇到 400 报错。有 2 个解决方案：
+
+1. 在环境变量中添加 ANTHROPIC_AUTH_TOKEN 和 ANTHROPIC_BASE_URL 等环境变量的值。
+
+2. 在 `~/.claude/settings.json` 文件中配置 `env` 字段。文件示例：
+
+```settings.json
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "sk-***",
+    "ANTHROPIC_BASE_URL": "https://***/anthropic",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "***",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "***",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "***",
+    "ANTHROPIC_MODEL": "***"
+  }
+}
+```
+
+以上 2 个方案选其一即可。配置完成后，执行 `pkill -TERM -f "mcp-chrome-bridge/dist/index.js"` 杀掉 bridge 进程，该进程会自动重启并读取你新增的环境变量。
