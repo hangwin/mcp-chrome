@@ -701,5 +701,17 @@
   "recordingFeatureName": { "message": "录制回放", "description": "录制回放功能名称" },
   "workflowFeatureName": { "message": "工作流管理", "description": "工作流管理功能名称" },
   "backToHomeTitle": { "message": "返回首页", "description": "返回首页按钮标题" },
-  "backButton": { "message": "返回", "description": "返回按钮文本" }
+  "backButton": { "message": "返回", "description": "返回按钮文本" },
+
+  "markedElementsLabel": { "message": "已标注元素", "description": "已标注元素数量标签" },
+  "addMarkerLabel": { "message": "新增标注", "description": "新增标注表单标题" },
+  "cssSelectorPlaceholder": { "message": "CSS 选择器", "description": "CSS选择器输入占位符" },
+  "clearButton": { "message": "清空", "description": "清空表单按钮" },
+  "verifyButton": { "message": "验证", "description": "验证按钮" },
+  "editButton": { "message": "编辑", "description": "编辑按钮" },
+  "navigatorTriggerTooltip": {
+    "message": "切换页面（可拖拽移动，双击重置位置）",
+    "description": "导航触发按钮提示"
+  },
+  "switchPageTitle": { "message": "切换页面", "description": "切换页面菜单标题" }
 }

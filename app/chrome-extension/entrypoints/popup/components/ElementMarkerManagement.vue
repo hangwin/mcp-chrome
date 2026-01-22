@@ -1,62 +1,70 @@
 <template>
   <div class="section">
-    <h2 class="section-title">元素标注管理</h2>
+    <h2 class="section-title">{{ m('elementMarkerManagementTitle') }}</h2>
     <div class="config-card">
       <div class="status-section" style="gap: 8px">
         <div class="status-header">
-          <p class="status-label">当前页面</p>
+          <p class="status-label">{{ m('currentPageLabel') }}</p>
           <span class="status-text" style="opacity: 0.85">{{ currentUrl }}</span>
         </div>
         <div class="status-header">
-          <p class="status-label">已标注元素</p>
+          <p class="status-label">{{ m('markedElementsLabel') }}</p>
           <span class="status-text">{{ markers.length }}</span>
         </div>
       </div>
 
       <form class="mcp-config-section" @submit.prevent="onAdd">
         <div class="mcp-config-header">
-          <p class="mcp-config-label">新增标注</p>
+          <p class="mcp-config-label">{{ m('addMarkerLabel') }}</p>
         </div>
         <div style="display: flex; gap: 8px; margin-bottom: 8px">
-          <input v-model="form.name" placeholder="名称，如 登录按钮" class="port-input" />
+          <input v-model="form.name" :placeholder="m('emNamePlaceholder')" class="port-input" />
           <select v-model="form.selectorType" class="port-input" style="max-width: 120px">
             <option value="css">CSS</option>
             <option value="xpath">XPath</option>
           </select>
           <select v-model="form.matchType" class="port-input" style="max-width: 120px">
-            <option value="prefix">路径前缀</option>
-            <option value="exact">精确匹配</option>
-            <option value="host">域名</option>
+            <option value="prefix">{{ m('emMatchTypePrefix') }}</option>
+            <option value="exact">{{ m('emMatchTypeExact') }}</option>
+            <option value="host">{{ m('emMatchTypeHost') }}</option>
           </select>
         </div>
-        <input v-model="form.selector" placeholder="CSS 选择器" class="port-input" />
+        <input
+          v-model="form.selector"
+          :placeholder="m('cssSelectorPlaceholder')"
+          class="port-input"
+        />
         <div style="display: flex; gap: 8px; margin-top: 8px">
           <button class="semantic-engine-button" :disabled="!form.selector" type="submit">
-            保存
+            {{ m('saveButton') }}
           </button>
-          <button class="danger-button" type="button" @click="resetForm">清空</button>
+          <button class="danger-button" type="button" @click="resetForm">{{
+            m('clearButton')
+          }}</button>
         </div>
       </form>
 
       <div v-if="markers.length" class="model-list" style="margin-top: 8px">
         <div
-          v-for="m in markers"
-          :key="m.id"
+          v-for="marker in markers"
+          :key="marker.id"
           class="model-card"
           style="display: flex; align-items: center; justify-content: space-between; gap: 8px"
         >
           <div style="display: flex; flex-direction: column; gap: 4px">
-            <strong class="model-name">{{ m.name }}</strong>
-            <code style="font-size: 12px; opacity: 0.85">{{ m.selector }}</code>
+            <strong class="model-name">{{ marker.name }}</strong>
+            <code style="font-size: 12px; opacity: 0.85">{{ marker.selector }}</code>
             <div style="display: flex; gap: 6px; margin-top: 2px">
-              <span class="model-tag dimension">{{ m.selectorType || 'css' }}</span>
-              <span class="model-tag dimension">{{ m.matchType }}</span>
+              <span class="model-tag dimension">{{ marker.selectorType || 'css' }}</span>
+              <span class="model-tag dimension">{{ marker.matchType }}</span>
             </div>
           </div>
           <div style="display: flex; gap: 6px">
-            <button class="semantic-engine-button" @click="validate(m)">验证</button>
-            <button class="secondary-button" @click="prefill(m)">编辑</button>
-            <button class="danger-button" @click="remove(m)">删除</button>
+            <button class="semantic-engine-button" @click="validate(marker)">{{
+              m('verifyButton')
+            }}</button>
+            <button class="secondary-button" @click="prefill(marker)">{{ m('editButton') }}</button>
+            <button class="danger-button" @click="remove(marker)">{{ m('deleteButton') }}</button>
           </div>
         </div>
       </div>
@@ -68,6 +76,9 @@
 import { ref, onMounted } from 'vue';
 import type { ElementMarker, UpsertMarkerRequest } from '@/common/element-marker-types';
 import { BACKGROUND_MESSAGE_TYPES } from '@/common/message-types';
+import { getMessage } from '@/utils/i18n';
+
+const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 const currentUrl = ref('');
 const markers = ref<ElementMarker[]>([]);

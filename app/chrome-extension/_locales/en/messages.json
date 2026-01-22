@@ -785,5 +785,23 @@
   "recordingFeatureName": { "message": "Recording", "description": "Recording feature name" },
   "workflowFeatureName": { "message": "Workflow", "description": "Workflow feature name" },
   "backToHomeTitle": { "message": "Back to home", "description": "Back to home button title" },
-  "backButton": { "message": "Back", "description": "Back button text" }
+  "backButton": { "message": "Back", "description": "Back button text" },
+
+  "markedElementsLabel": {
+    "message": "Marked Elements",
+    "description": "Marked elements count label"
+  },
+  "addMarkerLabel": { "message": "Add Marker", "description": "Add marker form header" },
+  "cssSelectorPlaceholder": {
+    "message": "CSS selector",
+    "description": "CSS selector input placeholder"
+  },
+  "clearButton": { "message": "Clear", "description": "Clear form button" },
+  "verifyButton": { "message": "Verify", "description": "Verify button" },
+  "editButton": { "message": "Edit", "description": "Edit button" },
+  "navigatorTriggerTooltip": {
+    "message": "Switch page (drag to move, double-click to reset)",
+    "description": "Navigator trigger button tooltip"
+  },
+  "switchPageTitle": { "message": "Switch Page", "description": "Switch page menu title" }
 }
