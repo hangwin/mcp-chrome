@@ -92,8 +92,8 @@ async function openWindowsPicker(title: string): Promise<DirectoryPickerResult> 
     }
   `;
 
-  // Escape for command line
-  const escapedScript = psScript.replace(/"/g, '\\"').replace(/\n/g, ' ');
+  // Escape for command line - use semicolon to separate PowerShell statements
+  const escapedScript = psScript.replace(/"/g, '\\"').replace(/\n\s*/g, '; ');
 
   try {
     const { stdout } = await execAsync(
