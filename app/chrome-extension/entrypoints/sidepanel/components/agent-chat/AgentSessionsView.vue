@@ -22,7 +22,7 @@
           <input
             v-model="searchQuery"
             type="text"
-            :placeholder="m('searchSessionsPlaceholder')"
+            :placeholder="getMessage('searchSessionsPlaceholder')"
             class="w-full pl-9 pr-3 py-2 text-sm"
             :style="inputStyle"
           />
@@ -35,7 +35,7 @@
           :disabled="isCreating"
           @click="handleNewSession"
         >
-          <span v-if="isCreating">{{ m('creatingLabel') }}</span>
+          <span v-if="isCreating">{{ getMessage('creatingLabel') }}</span>
           <span v-else class="flex items-center gap-1">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
@@ -45,7 +45,7 @@
                 d="M12 4v16m8-8H4"
               />
             </svg>
-            {{ m('newLabel') }}
+            {{ getMessage('newLabel') }}
           </span>
         </button>
       </div>
@@ -59,7 +59,7 @@
         class="flex items-center justify-center py-12"
         :style="{ color: 'var(--ac-text-muted)' }"
       >
-        <span class="text-sm">{{ m('loadingSessionsStatus') }}</span>
+        <span class="text-sm">{{ getMessage('loadingSessionsStatus') }}</span>
       </div>
 
       <!-- Empty State -->
@@ -87,10 +87,10 @@
           </svg>
         </div>
         <div class="text-sm font-medium mb-1" :style="{ color: 'var(--ac-text)' }">
-          {{ searchQuery ? m('noMatchingSessions') : m('noSessionsYet') }}
+          {{ searchQuery ? getMessage('noMatchingSessions') : getMessage('noSessionsYet') }}
         </div>
         <div class="text-xs text-center mb-4" :style="{ color: 'var(--ac-text-muted)' }">
-          {{ searchQuery ? m('tryDifferentSearch') : m('startConversationHint') }}
+          {{ searchQuery ? getMessage('tryDifferentSearch') : getMessage('startConversationHint') }}
         </div>
         <button
           v-if="!searchQuery"
@@ -98,7 +98,7 @@
           :style="newButtonStyle"
           @click="handleNewSession"
         >
-          {{ m('startNewSessionButton') }}
+          {{ getMessage('startNewSessionButton') }}
         </button>
       </div>
 
@@ -135,9 +135,6 @@ import { ref, computed } from 'vue';
 import type { AgentSession, AgentProject } from 'chrome-mcp-shared';
 import { getMessage } from '@/utils/i18n';
 import AgentSessionListItem from './AgentSessionListItem.vue';
-
-// i18n helper
-const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 // =============================================================================
 // Props & Emits

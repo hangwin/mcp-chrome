@@ -11,7 +11,7 @@
       }"
     >
       <span class="text-sm font-medium" :style="{ color: 'var(--ac-accent)' }">
-        {{ m('dropImagesHere') }}
+        {{ getMessage('dropImagesHere') }}
       </span>
     </div>
 
@@ -54,7 +54,7 @@
             backgroundColor: 'var(--ac-error)',
             color: 'white',
           }"
-          :title="m('removeImageTitle')"
+          :title="getMessage('removeImageTitle')"
           @click="$emit('attachment:remove', index)"
         >
           <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -135,7 +135,7 @@
             type="button"
             class="absolute top-2 right-2 p-1.5 transition-all hover:scale-105 cursor-pointer"
             :style="expandButtonStyle"
-            :title="m('expandEditorTitle')"
+            :title="getMessage('expandEditorTitle')"
             @click="openDrawer"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -158,7 +158,7 @@
             v-if="supportsImages"
             class="p-1.5 ac-btn"
             :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-            :data-tooltip="m('attachImageTooltip')"
+            :data-tooltip="getMessage('attachImageTooltip')"
             @click="$emit('attachment:add')"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,7 +175,7 @@
           <div
             v-if="availableModels.length > 0"
             class="relative"
-            :data-tooltip="m('switchModelTooltip')"
+            :data-tooltip="getMessage('switchModelTooltip')"
           >
             <!-- Hidden span to measure text width -->
             <span
@@ -229,7 +229,7 @@
               fontFamily: 'var(--ac-font-mono)',
               borderRadius: 'var(--ac-radius-button)',
             }"
-            :data-tooltip="m('reasoningEffortTooltip')"
+            :data-tooltip="getMessage('reasoningEffortTooltip')"
             @change="handleReasoningEffortChange"
           >
             <option v-for="effort in availableReasoningEfforts" :key="effort" :value="effort">
@@ -241,7 +241,7 @@
           <button
             class="p-1 ac-btn"
             :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-            :data-tooltip="m('resetConversationTitle')"
+            :data-tooltip="getMessage('resetConversationTitle')"
             @click="handleReset"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -258,7 +258,7 @@
           <button
             class="p-1 ac-btn"
             :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-            :data-tooltip="m('sessionSettingsTitle')"
+            :data-tooltip="getMessage('sessionSettingsTitle')"
             @click="handleOpenSettings"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -290,8 +290,12 @@
             class="p-1 transition-colors cursor-pointer"
             :style="primaryActionButtonStyle"
             :disabled="primaryActionDisabled"
-            :title="isRequestActive ? m('stopRequestLabel') : m('sendMessageLabel')"
-            :aria-label="isRequestActive ? m('stopRequestLabel') : m('sendMessageLabel')"
+            :title="
+              isRequestActive ? getMessage('stopRequestLabel') : getMessage('sendMessageLabel')
+            "
+            :aria-label="
+              isRequestActive ? getMessage('stopRequestLabel') : getMessage('sendMessageLabel')
+            "
             @click="handlePrimaryAction"
           >
             <!-- Stop icon (square) when request is active -->
@@ -339,7 +343,7 @@
             v-if="supportsImages"
             class="p-1.5 ac-btn"
             :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-            :data-tooltip="m('attachImageTooltip')"
+            :data-tooltip="getMessage('attachImageTooltip')"
             @click="$emit('attachment:add')"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -356,7 +360,7 @@
           <div
             v-if="availableModels.length > 0"
             class="relative"
-            :data-tooltip="m('switchModelTooltip')"
+            :data-tooltip="getMessage('switchModelTooltip')"
           >
             <select
               :value="selectedModel"
@@ -414,9 +418,6 @@ import type { ElementReferenceData } from '../../composables/useElementReference
 import { getMessage } from '@/utils/i18n';
 import ComposerDrawer from './ComposerDrawer.vue';
 import FakeCaretOverlay from './FakeCaretOverlay.vue';
-
-// i18n helper
-const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 const props = defineProps<{
   modelValue: string;
@@ -487,18 +488,18 @@ watch(
 );
 
 const statusText = computed(() => {
-  if (props.sending) return m('statusSending');
-  if (props.cancelling) return m('statusStopping');
+  if (props.sending) return getMessage('statusSending');
+  if (props.cancelling) return getMessage('statusStopping');
   // Use requestState for more accurate status display
   switch (props.requestState) {
     case 'starting':
-      return m('statusStarting');
+      return getMessage('statusStarting');
     case 'ready':
-      return m('statusPreparing');
+      return getMessage('statusPreparing');
     case 'running':
-      return m('statusWorking');
+      return getMessage('statusWorking');
     default:
-      return m('statusReady');
+      return getMessage('statusReady');
   }
 });
 
@@ -665,7 +666,7 @@ function handleReasoningEffortChange(event: Event): void {
 }
 
 function handleReset(): void {
-  if (confirm(m('resetConversationConfirm'))) {
+  if (confirm(getMessage('resetConversationConfirm'))) {
     emit('session:reset');
   }
 }

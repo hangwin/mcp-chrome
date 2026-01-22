@@ -51,7 +51,7 @@
               class="flex-shrink-0 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wide animate-pulse"
               :style="runningBadgeStyle"
             >
-              {{ m('runningBadge') }}
+              {{ getMessage('runningBadge') }}
             </span>
           </template>
         </div>
@@ -127,7 +127,7 @@
             v-if="!isEditing"
             class="p-1.5 rounded-md transition-colors cursor-pointer"
             :style="actionButtonStyle"
-            :title="m('openProjectTitle')"
+            :title="getMessage('openProjectTitle')"
             @click.stop="handleOpenProject"
           >
             <svg
@@ -151,7 +151,7 @@
             v-if="!isEditing"
             class="p-1.5 rounded-md transition-colors cursor-pointer"
             :style="actionButtonStyle"
-            :title="m('renameTitle')"
+            :title="getMessage('renameTitle')"
             @click.stop="startRename"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -168,7 +168,7 @@
             v-if="!isEditing"
             class="p-1.5 rounded-md transition-colors cursor-pointer"
             :style="deleteButtonStyle"
-            :title="m('deleteTitle')"
+            :title="getMessage('deleteTitle')"
             @click.stop="handleDelete"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -190,9 +190,6 @@
 import { ref, computed, nextTick, watch } from 'vue';
 import type { AgentSession } from 'chrome-mcp-shared';
 import { getMessage } from '@/utils/i18n';
-
-// i18n helper
-const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 // =============================================================================
 // Props & Emits
@@ -227,7 +224,7 @@ const renameInputRef = ref<HTMLInputElement | null>(null);
 
 const displayName = computed(() => {
   if (props.session.name) return props.session.name;
-  return m('unnamedSession');
+  return getMessage('unnamedSession');
 });
 
 const engineAbbrev = computed(() => {
@@ -261,10 +258,10 @@ const formattedDate = computed(() => {
   const diffHours = Math.floor(diffMins / 60);
   const diffDays = Math.floor(diffHours / 24);
 
-  if (diffMins < 1) return m('justNow');
-  if (diffMins < 60) return m('minutesAgo', [String(diffMins)]);
-  if (diffHours < 24) return m('hoursAgo', [String(diffHours)]);
-  if (diffDays < 7) return m('daysAgo', [String(diffDays)]);
+  if (diffMins < 1) return getMessage('justNow');
+  if (diffMins < 60) return getMessage('minutesAgo', [String(diffMins)]);
+  if (diffHours < 24) return getMessage('hoursAgo', [String(diffHours)]);
+  if (diffDays < 7) return getMessage('daysAgo', [String(diffDays)]);
   return date.toLocaleDateString();
 });
 
@@ -416,8 +413,8 @@ function cancelRename(): void {
 
 function handleDelete(): void {
   // Simple confirmation to prevent accidental deletion
-  const sessionName = props.session.name || props.session.preview || m('thisSession');
-  if (confirm(m('deleteSessionConfirm', [sessionName]))) {
+  const sessionName = props.session.name || props.session.preview || getMessage('thisSession');
+  if (confirm(getMessage('deleteSessionConfirm', [sessionName]))) {
     emit('delete', props.session.id);
   }
 }

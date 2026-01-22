@@ -14,7 +14,7 @@
       class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
       :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
     >
-      {{ m('themeLabel') }}
+      {{ getMessage('themeLabel') }}
     </div>
 
     <button
@@ -51,7 +51,7 @@
       class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
       :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
     >
-      {{ m('inputSectionLabel') }}
+      {{ getMessage('inputSectionLabel') }}
     </div>
 
     <button
@@ -59,7 +59,7 @@
       :style="{ color: 'var(--ac-text, #1a1a1a)' }"
       @click="$emit('fakeCaret:toggle', !fakeCaretEnabled)"
     >
-      <span>{{ m('cometCaretLabel') }}</span>
+      <span>{{ getMessage('cometCaretLabel') }}</span>
       <svg
         v-if="fakeCaretEnabled"
         class="w-4 h-4"
@@ -84,7 +84,7 @@
       class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
       :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
     >
-      {{ m('storageSectionLabel') }}
+      {{ getMessage('storageSectionLabel') }}
     </div>
 
     <button
@@ -92,7 +92,7 @@
       :style="{ color: 'var(--ac-text, #1a1a1a)' }"
       @click="$emit('attachments:open')"
     >
-      {{ m('clearAttachmentCacheLabel') }}
+      {{ getMessage('clearAttachmentCacheLabel') }}
     </button>
 
     <!-- Divider -->
@@ -109,7 +109,7 @@
       :style="{ color: 'var(--ac-text, #1a1a1a)' }"
       @click="$emit('reconnect')"
     >
-      {{ m('reconnectServerLabel') }}
+      {{ getMessage('reconnectServerLabel') }}
     </button>
   </div>
 </template>
@@ -117,9 +117,6 @@
 <script lang="ts" setup>
 import { type AgentThemeId, THEME_LABELS } from '../../composables';
 import { getMessage } from '@/utils/i18n';
-
-// i18n helper
-const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 defineProps<{
   open: boolean;

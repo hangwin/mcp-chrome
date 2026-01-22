@@ -14,7 +14,7 @@
       class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
       :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
     >
-      {{ m('projectsSectionLabel') }}
+      {{ getMessage('projectsSectionLabel') }}
     </div>
 
     <!-- Project List -->
@@ -65,7 +65,7 @@
       :disabled="isPicking"
       @click="$emit('project:new')"
     >
-      {{ isPicking ? m('selectingProjectStatus') : m('newProjectButton') }}
+      {{ isPicking ? getMessage('selectingProjectStatus') : getMessage('newProjectButton') }}
     </button>
 
     <!-- Divider -->
@@ -79,13 +79,13 @@
       class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
       :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
     >
-      {{ m('settingsSectionLabel') }}
+      {{ getMessage('settingsSectionLabel') }}
     </div>
 
     <!-- CLI Selection -->
     <div class="px-3 py-2 flex items-center gap-2">
       <span class="text-xs w-12" :style="{ color: 'var(--ac-text-muted, #6e6e6e)' }">
-        {{ m('cliLabel') }}
+        {{ getMessage('cliLabel') }}
       </span>
       <select
         :value="selectedCli"
@@ -98,7 +98,7 @@
         }"
         @change="handleCliChange"
       >
-        <option value="">{{ m('autoOption') }}</option>
+        <option value="">{{ getMessage('autoOption') }}</option>
         <option v-for="e in engines" :key="e.name" :value="e.name">
           {{ e.name }}
         </option>
@@ -108,7 +108,7 @@
     <!-- Model Selection -->
     <div class="px-3 py-2 flex items-center gap-2">
       <span class="text-xs w-12" :style="{ color: 'var(--ac-text-muted, #6e6e6e)' }">
-        {{ m('modelSettingLabel') }}
+        {{ getMessage('modelSettingLabel') }}
       </span>
       <select
         :value="normalizedModel"
@@ -122,7 +122,7 @@
         :disabled="isModelDisabled"
         @change="handleModelChange"
       >
-        <option value="">{{ m('defaultOption') }}</option>
+        <option value="">{{ getMessage('defaultOption') }}</option>
         <option v-for="model in availableModels" :key="model.id" :value="model.id">
           {{ model.name }}
         </option>
@@ -133,7 +133,7 @@
     <div v-if="showReasoningEffortOption" class="px-3 py-2">
       <div class="flex items-center gap-2">
         <span class="text-xs w-12" :style="{ color: 'var(--ac-text-muted, #6e6e6e)' }">
-          {{ m('effortLabel') }}
+          {{ getMessage('effortLabel') }}
         </span>
         <select
           :value="normalizedReasoningEffort"
@@ -152,16 +152,19 @@
         </select>
       </div>
       <p class="text-[10px] mt-1 ml-14" :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }">
-        {{ m('appliesToNewSessionsHint') }}
+        {{ getMessage('appliesToNewSessionsHint') }}
       </p>
     </div>
 
     <!-- CCR Option (Claude Code Router) - only shown when Claude CLI is selected -->
     <div v-if="showCcrOption" class="px-3 py-2 flex items-center gap-2">
       <span class="text-xs w-12" :style="{ color: 'var(--ac-text-muted, #6e6e6e)' }">
-        {{ m('ccrLabel') }}
+        {{ getMessage('ccrLabel') }}
       </span>
-      <label class="flex items-center gap-2 cursor-pointer" :title="m('claudeCodeRouterTooltip')">
+      <label
+        class="flex items-center gap-2 cursor-pointer"
+        :title="getMessage('claudeCodeRouterTooltip')"
+      >
         <input
           type="checkbox"
           :checked="useCcr"
@@ -172,7 +175,7 @@
           @change="handleCcrChange"
         />
         <span class="text-xs" :style="{ color: 'var(--ac-text, #1a1a1a)' }">
-          {{ m('useClaudeCodeRouterLabel') }}
+          {{ getMessage('useClaudeCodeRouterLabel') }}
         </span>
       </label>
     </div>
@@ -180,9 +183,12 @@
     <!-- Chrome MCP Option - only shown when Claude or Codex CLI is selected -->
     <div v-if="showChromeMcpOption" class="px-3 py-2 flex items-center gap-2">
       <span class="text-xs w-12" :style="{ color: 'var(--ac-text-muted, #6e6e6e)' }">
-        {{ m('mcpLabel') }}
+        {{ getMessage('mcpLabel') }}
       </span>
-      <label class="flex items-center gap-2 cursor-pointer" :title="m('chromeMcpServerTooltip')">
+      <label
+        class="flex items-center gap-2 cursor-pointer"
+        :title="getMessage('chromeMcpServerTooltip')"
+      >
         <input
           type="checkbox"
           :checked="enableChromeMcp"
@@ -193,7 +199,7 @@
           @change="handleChromeMcpChange"
         />
         <span class="text-xs" :style="{ color: 'var(--ac-text, #1a1a1a)' }">
-          {{ m('enableChromeMcpServerLabel') }}
+          {{ getMessage('enableChromeMcpServerLabel') }}
         </span>
       </label>
     </div>
@@ -210,7 +216,7 @@
         :disabled="isSaving"
         @click="handleSave"
       >
-        {{ isSaving ? m('savingLabel') : m('saveSettingsButton') }}
+        {{ isSaving ? getMessage('savingLabel') : getMessage('saveSettingsButton') }}
       </button>
     </div>
 
@@ -231,9 +237,6 @@ import {
   type ModelDefinition,
 } from '@/common/agent-models';
 import { getMessage } from '@/utils/i18n';
-
-// i18n helper
-const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 const props = defineProps<{
   open: boolean;

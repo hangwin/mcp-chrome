@@ -1,45 +1,49 @@
 <template>
   <div class="section">
-    <h2 class="section-title">{{ m('elementMarkerManagementTitle') }}</h2>
+    <h2 class="section-title">{{ getMessage('elementMarkerManagementTitle') }}</h2>
     <div class="config-card">
       <div class="status-section" style="gap: 8px">
         <div class="status-header">
-          <p class="status-label">{{ m('currentPageLabel') }}</p>
+          <p class="status-label">{{ getMessage('currentPageLabel') }}</p>
           <span class="status-text" style="opacity: 0.85">{{ currentUrl }}</span>
         </div>
         <div class="status-header">
-          <p class="status-label">{{ m('markedElementsLabel') }}</p>
+          <p class="status-label">{{ getMessage('markedElementsLabel') }}</p>
           <span class="status-text">{{ markers.length }}</span>
         </div>
       </div>
 
       <form class="mcp-config-section" @submit.prevent="onAdd">
         <div class="mcp-config-header">
-          <p class="mcp-config-label">{{ m('addMarkerLabel') }}</p>
+          <p class="mcp-config-label">{{ getMessage('addMarkerLabel') }}</p>
         </div>
         <div style="display: flex; gap: 8px; margin-bottom: 8px">
-          <input v-model="form.name" :placeholder="m('emNamePlaceholder')" class="port-input" />
+          <input
+            v-model="form.name"
+            :placeholder="getMessage('emNamePlaceholder')"
+            class="port-input"
+          />
           <select v-model="form.selectorType" class="port-input" style="max-width: 120px">
             <option value="css">CSS</option>
             <option value="xpath">XPath</option>
           </select>
           <select v-model="form.matchType" class="port-input" style="max-width: 120px">
-            <option value="prefix">{{ m('emMatchTypePrefix') }}</option>
-            <option value="exact">{{ m('emMatchTypeExact') }}</option>
-            <option value="host">{{ m('emMatchTypeHost') }}</option>
+            <option value="prefix">{{ getMessage('emMatchTypePrefix') }}</option>
+            <option value="exact">{{ getMessage('emMatchTypeExact') }}</option>
+            <option value="host">{{ getMessage('emMatchTypeHost') }}</option>
           </select>
         </div>
         <input
           v-model="form.selector"
-          :placeholder="m('cssSelectorPlaceholder')"
+          :placeholder="getMessage('cssSelectorPlaceholder')"
           class="port-input"
         />
         <div style="display: flex; gap: 8px; margin-top: 8px">
           <button class="semantic-engine-button" :disabled="!form.selector" type="submit">
-            {{ m('saveButton') }}
+            {{ getMessage('saveButton') }}
           </button>
           <button class="danger-button" type="button" @click="resetForm">{{
-            m('clearButton')
+            getMessage('clearButton')
           }}</button>
         </div>
       </form>
@@ -61,10 +65,14 @@
           </div>
           <div style="display: flex; gap: 6px">
             <button class="semantic-engine-button" @click="validate(marker)">{{
-              m('verifyButton')
+              getMessage('verifyButton')
             }}</button>
-            <button class="secondary-button" @click="prefill(marker)">{{ m('editButton') }}</button>
-            <button class="danger-button" @click="remove(marker)">{{ m('deleteButton') }}</button>
+            <button class="secondary-button" @click="prefill(marker)">{{
+              getMessage('editButton')
+            }}</button>
+            <button class="danger-button" @click="remove(marker)">{{
+              getMessage('deleteButton')
+            }}</button>
           </div>
         </div>
       </div>
@@ -77,8 +85,6 @@ import { ref, onMounted } from 'vue';
 import type { ElementMarker, UpsertMarkerRequest } from '@/common/element-marker-types';
 import { BACKGROUND_MESSAGE_TYPES } from '@/common/message-types';
 import { getMessage } from '@/utils/i18n';
-
-const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 const currentUrl = ref('');
 const markers = ref<ElementMarker[]>([]);

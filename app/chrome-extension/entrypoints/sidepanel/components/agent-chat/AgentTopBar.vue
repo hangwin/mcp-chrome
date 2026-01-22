@@ -10,7 +10,7 @@
           color: 'var(--ac-text-muted)',
           borderRadius: 'var(--ac-radius-button)',
         }"
-        :title="m('backToSessionsTitle')"
+        :title="getMessage('backToSessionsTitle')"
         @click="$emit('back')"
       >
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -31,7 +31,7 @@
           color: 'var(--ac-text)',
         }"
       >
-        {{ brandLabel || m('agentBrandLabel') }}
+        {{ brandLabel || getMessage('agentBrandLabel') }}
       </h1>
 
       <!-- Divider -->
@@ -111,7 +111,7 @@
       <button
         class="p-1 ac-btn ac-hover-text"
         :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-        :title="m('openProjectInTooltip')"
+        :title="getMessage('openProjectInTooltip')"
         @click="$emit('toggle:openProjectMenu')"
       >
         <svg
@@ -161,9 +161,6 @@
 import { computed } from 'vue';
 import { getMessage } from '@/utils/i18n';
 
-// i18n helper
-const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
-
 export type ConnectionState = 'ready' | 'connecting' | 'disconnected';
 
 const props = defineProps<{
@@ -199,11 +196,11 @@ const connectionColor = computed(() => {
 const connectionText = computed(() => {
   switch (props.connectionState) {
     case 'ready':
-      return m('connectedStatus');
+      return getMessage('connectedStatus');
     case 'connecting':
-      return m('connectingStatus');
+      return getMessage('connectingStatus');
     default:
-      return m('disconnectedStatus');
+      return getMessage('disconnectedStatus');
   }
 });
 </script>

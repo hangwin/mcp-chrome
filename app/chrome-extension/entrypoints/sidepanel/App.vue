@@ -49,7 +49,7 @@
             <input
               v-model="markerSearch"
               class="em-search-input"
-              :placeholder="m('emSearchPlaceholder')"
+              :placeholder="getMessage('emSearchPlaceholder')"
               type="text"
             />
             <button
@@ -66,7 +66,11 @@
               </svg>
             </button>
           </div>
-          <button class="em-add-btn" @click="openMarkerEditor()" :title="m('emAddMarkerTitle')">
+          <button
+            class="em-add-btn"
+            @click="openMarkerEditor()"
+            :title="getMessage('emAddMarkerTitle')"
+          >
             <svg viewBox="0 0 20 20" width="18" height="18">
               <path
                 fill="currentColor"
@@ -81,7 +85,7 @@
           <div class="em-modal">
             <div class="em-modal-header">
               <h3 class="em-modal-title">{{
-                editingMarkerId ? m('emEditMarker') : m('emAddMarker')
+                editingMarkerId ? getMessage('emEditMarker') : getMessage('emAddMarker')
               }}</h3>
               <button class="em-modal-close" @click="closeMarkerEditor">
                 <svg viewBox="0 0 20 20" width="18" height="18">
@@ -95,11 +99,11 @@
             <form @submit.prevent="saveMarker" class="em-form">
               <div class="em-form-row">
                 <div class="em-field">
-                  <label class="em-field-label">{{ m('emNameLabel') }}</label>
+                  <label class="em-field-label">{{ getMessage('emNameLabel') }}</label>
                   <input
                     v-model="markerForm.name"
                     class="em-input"
-                    :placeholder="m('emNamePlaceholder')"
+                    :placeholder="getMessage('emNamePlaceholder')"
                     required
                   />
                 </div>
@@ -107,7 +111,7 @@
 
               <div class="em-form-row em-form-row-multi">
                 <div class="em-field">
-                  <label class="em-field-label">{{ m('emSelectorTypeLabel') }}</label>
+                  <label class="em-field-label">{{ getMessage('emSelectorTypeLabel') }}</label>
                   <div class="em-select-wrapper">
                     <select v-model="markerForm.selectorType" class="em-select">
                       <option value="css">CSS Selector</option>
@@ -116,12 +120,12 @@
                   </div>
                 </div>
                 <div class="em-field">
-                  <label class="em-field-label">{{ m('emMatchTypeLabel') }}</label>
+                  <label class="em-field-label">{{ getMessage('emMatchTypeLabel') }}</label>
                   <div class="em-select-wrapper">
                     <select v-model="markerForm.matchType" class="em-select">
-                      <option value="prefix">{{ m('emMatchTypePrefix') }}</option>
-                      <option value="exact">{{ m('emMatchTypeExact') }}</option>
-                      <option value="host">{{ m('emMatchTypeHost') }}</option>
+                      <option value="prefix">{{ getMessage('emMatchTypePrefix') }}</option>
+                      <option value="exact">{{ getMessage('emMatchTypeExact') }}</option>
+                      <option value="host">{{ getMessage('emMatchTypeHost') }}</option>
                     </select>
                   </div>
                 </div>
@@ -129,11 +133,11 @@
 
               <div class="em-form-row">
                 <div class="em-field">
-                  <label class="em-field-label">{{ m('emSelectorLabel') }}</label>
+                  <label class="em-field-label">{{ getMessage('emSelectorLabel') }}</label>
                   <textarea
                     v-model="markerForm.selector"
                     class="em-textarea"
-                    :placeholder="m('emSelectorPlaceholder')"
+                    :placeholder="getMessage('emSelectorPlaceholder')"
                     rows="3"
                     required
                   ></textarea>
@@ -142,10 +146,10 @@
 
               <div class="em-modal-actions">
                 <button type="button" class="em-btn em-btn-ghost" @click="closeMarkerEditor">
-                  {{ m('cancelButton') }}
+                  {{ getMessage('cancelButton') }}
                 </button>
                 <button type="submit" class="em-btn em-btn-primary">
-                  {{ editingMarkerId ? m('updateButton') : m('saveButton') }}
+                  {{ editingMarkerId ? getMessage('updateButton') : getMessage('saveButton') }}
                 </button>
               </div>
             </form>
@@ -159,7 +163,7 @@
             <span class="em-stats-text">
               <template v-if="markerSearch">
                 {{
-                  m('emFilteredStats', [
+                  getMessage('emFilteredStats', [
                     String(filteredMarkers.length),
                     String(markers.length),
                     String(groupedMarkers.length),
@@ -167,7 +171,12 @@
                 }}
               </template>
               <template v-else>
-                {{ m('emTotalStats', [String(markers.length), String(groupedMarkers.length)]) }}
+                {{
+                  getMessage('emTotalStats', [
+                    String(markers.length),
+                    String(groupedMarkers.length),
+                  ])
+                }}
               </template>
             </span>
           </div>
@@ -192,7 +201,7 @@
                 </svg>
                 <h3 class="em-domain-name">{{ domainGroup.domain }}</h3>
                 <span class="em-domain-count">{{
-                  m('emMarkerCount', [String(domainGroup.count)])
+                  getMessage('emMarkerCount', [String(domainGroup.count)])
                 }}</span>
               </div>
             </div>
@@ -219,7 +228,7 @@
                           <button
                             class="em-action-btn em-action-verify"
                             @click="validateMarker(marker)"
-                            :title="m('emVerifyTitle')"
+                            :title="getMessage('emVerifyTitle')"
                           >
                             <svg viewBox="0 0 24 24" width="14" height="14">
                               <path
@@ -232,7 +241,7 @@
                           <button
                             class="em-action-btn em-action-edit"
                             @click="editMarker(marker)"
-                            :title="m('emEditTitle')"
+                            :title="getMessage('emEditTitle')"
                           >
                             <svg viewBox="0 0 24 24" width="14" height="14">
                               <path
@@ -245,7 +254,7 @@
                           <button
                             class="em-action-btn em-action-delete"
                             @click="deleteMarker(marker)"
-                            :title="m('emDeleteTitle')"
+                            :title="getMessage('emDeleteTitle')"
                           >
                             <svg viewBox="0 0 24 24" width="14" height="14">
                               <path
@@ -276,17 +285,17 @@
 
         <!-- No search results -->
         <div v-else-if="markers.length > 0 && filteredMarkers.length === 0" class="em-empty">
-          <p>{{ m('emNoMatchingMarkers') }}</p>
+          <p>{{ getMessage('emNoMatchingMarkers') }}</p>
           <button class="em-btn em-btn-ghost em-empty-btn" @click="markerSearch = ''">
-            {{ m('emClearSearch') }}
+            {{ getMessage('emClearSearch') }}
           </button>
         </div>
 
         <!-- Empty state -->
         <div v-else class="em-empty">
-          <p>{{ m('emNoMarkers') }}</p>
+          <p>{{ getMessage('emNoMarkers') }}</p>
           <button class="em-btn em-btn-primary em-empty-btn" @click="openMarkerEditor()">
-            {{ m('emAddMarker') }}
+            {{ getMessage('emAddMarker') }}
           </button>
         </div>
       </div>
@@ -306,7 +315,6 @@ import { useWorkflowsV3, type FlowLite } from './composables/useWorkflowsV3';
 import { getMessage } from '@/utils/i18n';
 
 // i18n helper
-const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 // Agent theme for consistent styling
 const { theme: currentTheme, initTheme } = useAgentTheme();
@@ -365,8 +373,8 @@ const groupedMarkers = computed(() => {
 
   for (const marker of filteredMarkers.value) {
     // Use pre-normalized fields from storage instead of reparsing URLs
-    const domain = marker.host || m('emLocalFile');
-    const fullUrl = marker.url || m('emUnknownUrl');
+    const domain = marker.host || getMessage('emLocalFile');
+    const fullUrl = marker.url || getMessage('emUnknownUrl');
 
     if (!groups.has(domain)) {
       groups.set(domain, new Map());
@@ -449,12 +457,12 @@ async function exportFlow(id: string) {
 
 function createTrigger() {
   // V3 Trigger management not yet implemented
-  alert(m('v3TriggerNotImplemented'));
+  alert(getMessage('v3TriggerNotImplemented'));
 }
 
 function editTrigger(_id: string) {
   // V3 Trigger management not yet implemented
-  alert(m('v3TriggerNotImplemented'));
+  alert(getMessage('v3TriggerNotImplemented'));
 }
 
 async function removeTrigger(id: string) {
@@ -474,19 +482,19 @@ async function run(id: string) {
 
 function edit(id: string) {
   // V3 Builder not yet implemented - show message
-  alert(m('v3BuilderNotImplemented'));
+  alert(getMessage('v3BuilderNotImplemented'));
   // TODO: openBuilder({ flowId: id });
 }
 
 function createFlow() {
   // V3 Builder not yet implemented - show message
-  alert(m('v3BuilderNotImplemented'));
+  alert(getMessage('v3BuilderNotImplemented'));
   // TODO: openBuilder({ newFlow: true });
 }
 
 async function remove(id: string) {
   try {
-    const ok = confirm(m('confirmDeleteWorkflow'));
+    const ok = confirm(getMessage('confirmDeleteWorkflow'));
     if (!ok) return;
     await workflowsV3.deleteFlow(id);
   } catch {}
@@ -620,7 +628,7 @@ function cancelEdit() {
 
 async function deleteMarker(marker: ElementMarker) {
   try {
-    const confirmed = confirm(m('confirmDeleteMarker', [marker.name]));
+    const confirmed = confirm(getMessage('confirmDeleteMarker', [marker.name]));
     if (!confirmed) return;
 
     const res: any = await chrome.runtime.sendMessage({
