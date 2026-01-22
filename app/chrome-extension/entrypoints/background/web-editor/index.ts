@@ -677,7 +677,7 @@ async function ensureContextMenu(): Promise<void> {
     } catch {}
     await chrome.contextMenus.create({
       id: CONTEXT_MENU_ID,
-      title: '切换网页编辑模式',
+      title: chrome.i18n.getMessage('contextMenuToggleWebEditor'),
       contexts: ['all'],
     });
   } catch (error) {

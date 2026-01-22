@@ -614,7 +614,7 @@
       <div class="em-panel" id="em_panel_root">
         <!-- Header -->
         <div class="em-header em-drag-handle" id="__em_drag_handle" title="Drag to move">
-          <h2 class="em-title">元素标注</h2>
+          <h2 class="em-title">Element Marker</h2>
           <div class="em-header-actions">
             <button class="em-icon-btn" id="__em_close" title="Close">
               <svg viewBox="0 0 24 24">
@@ -632,7 +632,7 @@
               <option value="xpath">XPath</option>
             </select>
           </div>
-          <button class="em-square-btn" id="__em_toggle_list" title="列表模式 - 批量标注相似元素 (仅支持CSS)">
+          <button class="em-square-btn" id="__em_toggle_list" title="List mode - Batch mark similar elements (CSS only)">
             <svg viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
@@ -2251,7 +2251,7 @@
         StateStore.set({
           validation: {
             status: 'success',
-            message: `✓ 验证成功 (匹配 ${filteredMatches.length} 个元素)`,
+            message: `✓ Verified (matched ${filteredMatches.length} elements)`,
           },
           validationHistory: history,
         });
@@ -2259,7 +2259,7 @@
         StateStore.set({
           validation: {
             status: 'failure',
-            message: res?.tool?.error || '验证失败',
+            message: res?.tool?.error || 'Verification failed',
           },
           validationHistory: history,
         });
@@ -2276,7 +2276,7 @@
       StateStore.set({
         validation: {
           status: 'failure',
-          message: `错误: ${err.message}`,
+          message: `Error: ${err.message}`,
         },
         validationHistory: history,
       });
@@ -2400,7 +2400,7 @@
       navigator.clipboard?.writeText(sel).catch(() => {});
 
       StateStore.set({
-        validation: { status: 'success', message: '✓ 已复制到剪贴板' },
+        validation: { status: 'success', message: '✓ Copied to clipboard' },
       });
 
       setTimeout(() => {

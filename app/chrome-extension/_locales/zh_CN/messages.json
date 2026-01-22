@@ -713,5 +713,14 @@
     "message": "切换页面（可拖拽移动，双击重置位置）",
     "description": "导航触发按钮提示"
   },
-  "switchPageTitle": { "message": "切换页面", "description": "切换页面菜单标题" }
+  "switchPageTitle": { "message": "切换页面", "description": "切换页面菜单标题" },
+
+  "contextMenuMarkElement": {
+    "message": "标注元素",
+    "description": "标注页面元素的右键菜单项"
+  },
+  "contextMenuToggleWebEditor": {
+    "message": "切换网页编辑模式",
+    "description": "切换网页编辑器模式的右键菜单项"
+  }
 }

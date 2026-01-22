@@ -54,7 +54,7 @@ async function ensureContextMenu() {
     } catch {}
     await chrome.contextMenus.create({
       id: CONTEXT_MENU_ID,
-      title: '标注元素',
+      title: chrome.i18n.getMessage('contextMenuMarkElement'),
       contexts: ['all'],
     });
   } catch (e) {

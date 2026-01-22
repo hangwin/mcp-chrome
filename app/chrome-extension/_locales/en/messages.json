@@ -749,8 +749,8 @@
     "description": "Management entries section label"
   },
   "smartAssistantTitle": {
-    "message": "Smart Assistant",
-    "description": "Smart assistant entry title"
+    "message": "AI Assistant",
+    "description": "AI assistant entry title"
   },
   "smartAssistantDesc": {
     "message": "AI Agent chat and tasks",
@@ -803,5 +803,14 @@
     "message": "Switch page (drag to move, double-click to reset)",
     "description": "Navigator trigger button tooltip"
   },
-  "switchPageTitle": { "message": "Switch Page", "description": "Switch page menu title" }
+  "switchPageTitle": { "message": "Switch Page", "description": "Switch page menu title" },
+
+  "contextMenuMarkElement": {
+    "message": "Mark Element",
+    "description": "Context menu item for marking page elements"
+  },
+  "contextMenuToggleWebEditor": {
+    "message": "Toggle Web Editor",
+    "description": "Context menu item for toggling web editor mode"
+  }
 }
