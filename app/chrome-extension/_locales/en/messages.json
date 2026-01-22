@@ -812,5 +812,116 @@
   "contextMenuToggleWebEditor": {
     "message": "Toggle Web Editor",
     "description": "Context menu item for toggling web editor mode"
-  }
+  },
+
+  "loadingText1": {
+    "message": "Thinking through this carefully...",
+    "description": "Loading text 1"
+  },
+  "loadingText2": { "message": "Almost there, just a moment...", "description": "Loading text 2" },
+  "loadingText3": {
+    "message": "I know you're waiting, hang on...",
+    "description": "Loading text 3"
+  },
+  "loadingText4": {
+    "message": "Swimming through the knowledge ocean...",
+    "description": "Loading text 4"
+  },
+  "loadingText5": { "message": "Let me think about this...", "description": "Loading text 5" },
+  "loadingText6": { "message": "Crafting your answer by hand...", "description": "Loading text 6" },
+  "loadingText7": { "message": "Gathering the team...", "description": "Loading text 7" },
+  "loadingText8": {
+    "message": "Working on it (creating new folder)...",
+    "description": "Loading text 8"
+  },
+  "loadingText9": { "message": "Deep in thought here...", "description": "Loading text 9" },
+  "loadingText10": { "message": "Processing at full speed...", "description": "Loading text 10" },
+  "loadingText11": { "message": "Brewing something special...", "description": "Loading text 11" },
+  "loadingText12": {
+    "message": "Flipping the knowledge pancake...",
+    "description": "Loading text 12"
+  },
+  "loadingText13": {
+    "message": "Raising a toast to patience...",
+    "description": "Loading text 13"
+  },
+  "loadingText14": {
+    "message": "Putting inspiration in the oven...",
+    "description": "Loading text 14"
+  },
+  "loadingText15": { "message": "Let the answer steep a bit...", "description": "Loading text 15" },
+  "loadingText16": { "message": "Maximizing the good vibes...", "description": "Loading text 16" },
+  "loadingText17": { "message": "Weaving a sweater of words...", "description": "Loading text 17" },
+  "loadingText18": { "message": "Neurons are dancing...", "description": "Loading text 18" },
+  "loadingText19": { "message": "The night owl is pondering...", "description": "Loading text 19" },
+  "loadingText20": { "message": "Adding color to the answer...", "description": "Loading text 20" },
+  "loadingText21": {
+    "message": "Frantically searching the knowledge base...",
+    "description": "Loading text 21"
+  },
+  "loadingText22": { "message": "Brain circus in session...", "description": "Loading text 22" },
+  "loadingText23": {
+    "message": "Mixing the 0s and 1s together...",
+    "description": "Loading text 23"
+  },
+  "loadingText24": { "message": "Charging up a big move...", "description": "Loading text 24" },
+  "loadingText25": {
+    "message": "Magnifying glass is foggy, wiping it...",
+    "description": "Loading text 25"
+  },
+  "loadingText26": {
+    "message": "Trying to understand this request...",
+    "description": "Loading text 26"
+  },
+  "loadingText27": {
+    "message": "Casting a spell, do not disturb...",
+    "description": "Loading text 27"
+  },
+  "loadingText28": {
+    "message": "Waking up the silicon friend...",
+    "description": "Loading text 28"
+  },
+  "loadingText29": {
+    "message": "Connecting to cyberspace wisdom...",
+    "description": "Loading text 29"
+  },
+  "loadingText30": { "message": "Please wait, calculating...", "description": "Loading text 30" },
+  "loadingText31": {
+    "message": "Traversing the knowledge wormhole...",
+    "description": "Loading text 31"
+  },
+  "loadingText32": {
+    "message": "Reverse-engineering human intent...",
+    "description": "Loading text 32"
+  },
+  "loadingText33": {
+    "message": "Crystal ball is hazy, tapping it...",
+    "description": "Loading text 33"
+  },
+  "loadingText34": {
+    "message": "Code running faster than ever...",
+    "description": "Loading text 34"
+  },
+  "loadingText35": {
+    "message": "Your assistant is online, please wait...",
+    "description": "Loading text 35"
+  },
+  "loadingText36": {
+    "message": "Galloping over as fast as I can...",
+    "description": "Loading text 36"
+  },
+  "loadingText37": { "message": "Speed-delivering knowledge...", "description": "Loading text 37" },
+  "loadingText38": { "message": "Last piece of the puzzle...", "description": "Loading text 38" },
+  "loadingText39": { "message": "Answer coming right up...", "description": "Loading text 39" },
+  "loadingText40": { "message": "Countdown to launch...", "description": "Loading text 40" },
+  "loadingText41": { "message": "Target locked...", "description": "Loading text 41" },
+
+  "workflowStatusLabel": { "message": "Status:", "description": "Workflow status label" },
+  "workflowDurationLabel": { "message": "Duration:", "description": "Workflow duration label" },
+  "workflowStatusQueued": { "message": "Queued", "description": "Workflow queued status" },
+  "workflowStatusRunning": { "message": "Running", "description": "Workflow running status" },
+  "workflowStatusPaused": { "message": "Paused", "description": "Workflow paused status" },
+  "workflowStatusSucceeded": { "message": "Succeeded", "description": "Workflow succeeded status" },
+  "workflowStatusFailed": { "message": "Failed", "description": "Workflow failed status" },
+  "workflowStatusCanceled": { "message": "Canceled", "description": "Workflow canceled status" }
 }
