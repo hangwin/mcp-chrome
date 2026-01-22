@@ -656,5 +656,134 @@
 
   "openInLabel": { "message": "Open In", "description": "Open in menu header" },
   "vsCodeLabel": { "message": "VS Code", "description": "VS Code option" },
-  "terminalLabel": { "message": "Terminal", "description": "Terminal option" }
+  "terminalLabel": { "message": "Terminal", "description": "Terminal option" },
+
+  "emSearchPlaceholder": {
+    "message": "Search marker names, selectors...",
+    "description": "Element marker search placeholder"
+  },
+  "emAddMarkerTitle": { "message": "Add marker", "description": "Add marker button title" },
+  "emAddMarker": { "message": "Add Marker", "description": "Add marker modal title" },
+  "emEditMarker": { "message": "Edit Marker", "description": "Edit marker modal title" },
+  "emNameLabel": { "message": "Name", "description": "Marker name label" },
+  "emNamePlaceholder": { "message": "e.g. Login button", "description": "Marker name placeholder" },
+  "emSelectorTypeLabel": { "message": "Selector Type", "description": "Selector type label" },
+  "emMatchTypeLabel": { "message": "Match Type", "description": "Match type label" },
+  "emMatchTypePrefix": { "message": "Path prefix", "description": "Path prefix match option" },
+  "emMatchTypeExact": { "message": "Exact match", "description": "Exact match option" },
+  "emMatchTypeHost": { "message": "Domain", "description": "Domain match option" },
+  "emSelectorLabel": { "message": "Selector", "description": "Selector label" },
+  "emSelectorPlaceholder": {
+    "message": "CSS selector or XPath",
+    "description": "Selector placeholder"
+  },
+  "cancelButton": { "message": "Cancel", "description": "Cancel button" },
+  "updateButton": { "message": "Update", "description": "Update button" },
+  "saveButton": { "message": "Save", "description": "Save button" },
+  "emFilteredStats": {
+    "message": "Filtered $FILTERED$ markers (total $TOTAL$, $DOMAINS$ domains)",
+    "description": "Filtered markers statistics",
+    "placeholders": {
+      "filtered": { "content": "$1", "example": "5" },
+      "total": { "content": "$2", "example": "10" },
+      "domains": { "content": "$3", "example": "3" }
+    }
+  },
+  "emTotalStats": {
+    "message": "Total $TOTAL$ markers, $DOMAINS$ domains",
+    "description": "Total markers statistics",
+    "placeholders": {
+      "total": { "content": "$1", "example": "10" },
+      "domains": { "content": "$2", "example": "3" }
+    }
+  },
+  "emMarkerCount": {
+    "message": "$COUNT$ markers",
+    "description": "Marker count for domain",
+    "placeholders": { "count": { "content": "$1", "example": "5" } }
+  },
+  "emVerifyTitle": { "message": "Verify", "description": "Verify marker button title" },
+  "emEditTitle": { "message": "Edit", "description": "Edit marker button title" },
+  "emDeleteTitle": { "message": "Delete", "description": "Delete marker button title" },
+  "emNoMatchingMarkers": {
+    "message": "No matching markers found",
+    "description": "No search results message"
+  },
+  "emClearSearch": { "message": "Clear search", "description": "Clear search button" },
+  "emNoMarkers": { "message": "No markers yet", "description": "Empty state message" },
+  "emLocalFile": { "message": "(Local file)", "description": "Local file domain placeholder" },
+  "emUnknownUrl": { "message": "(Unknown URL)", "description": "Unknown URL placeholder" },
+  "v3TriggerNotImplemented": {
+    "message": "V3 Trigger management not implemented yet",
+    "description": "V3 trigger not implemented alert"
+  },
+  "v3BuilderNotImplemented": {
+    "message": "V3 Builder not implemented yet",
+    "description": "V3 builder not implemented alert"
+  },
+  "confirmDeleteWorkflow": {
+    "message": "Delete this workflow? This action cannot be undone.",
+    "description": "Delete workflow confirmation"
+  },
+  "confirmDeleteMarker": {
+    "message": "Are you sure you want to delete marker \"$NAME$\"?",
+    "description": "Delete marker confirmation",
+    "placeholders": { "name": { "content": "$1", "example": "Login button" } }
+  },
+
+  "quickToolsLabel": { "message": "Quick Tools", "description": "Quick tools section label" },
+  "recordingComingSoon": {
+    "message": "Recording feature coming soon",
+    "description": "Recording coming soon tooltip"
+  },
+  "webEditorTooltip": {
+    "message": "Enable page edit mode",
+    "description": "Web editor button tooltip"
+  },
+  "elementMarkerTooltip": {
+    "message": "Enable element marking",
+    "description": "Element marker button tooltip"
+  },
+  "managementEntriesLabel": {
+    "message": "Management",
+    "description": "Management entries section label"
+  },
+  "smartAssistantTitle": {
+    "message": "Smart Assistant",
+    "description": "Smart assistant entry title"
+  },
+  "smartAssistantDesc": {
+    "message": "AI Agent chat and tasks",
+    "description": "Smart assistant entry description"
+  },
+  "workflowManagementTitle": {
+    "message": "Workflow Management",
+    "description": "Workflow management entry title"
+  },
+  "workflowManagementDesc": {
+    "message": "Record and replay automation flows",
+    "description": "Workflow management entry description"
+  },
+  "elementMarkerManagementTitle": {
+    "message": "Element Markers",
+    "description": "Element marker management entry title"
+  },
+  "elementMarkerManagementDesc": {
+    "message": "Manage page element markers",
+    "description": "Element marker management entry description"
+  },
+  "localModelTitle": { "message": "Local Model", "description": "Local model entry title" },
+  "localModelDesc": {
+    "message": "Semantic engine and model management",
+    "description": "Local model entry description"
+  },
+  "featureComingSoon": {
+    "message": "$FEATURE$ feature coming soon, stay tuned",
+    "description": "Feature coming soon toast",
+    "placeholders": { "feature": { "content": "$1", "example": "Recording" } }
+  },
+  "recordingFeatureName": { "message": "Recording", "description": "Recording feature name" },
+  "workflowFeatureName": { "message": "Workflow", "description": "Workflow feature name" },
+  "backToHomeTitle": { "message": "Back to home", "description": "Back to home button title" },
+  "backButton": { "message": "Back", "description": "Back button text" }
 }

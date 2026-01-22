@@ -602,5 +602,104 @@
 
   "openInLabel": { "message": "打开方式", "description": "打开方式菜单标题" },
   "vsCodeLabel": { "message": "VS Code", "description": "VS Code 选项" },
-  "terminalLabel": { "message": "终端", "description": "终端选项" }
+  "terminalLabel": { "message": "终端", "description": "终端选项" },
+
+  "emSearchPlaceholder": {
+    "message": "搜索标注名称、选择器...",
+    "description": "元素标注搜索占位符"
+  },
+  "emAddMarkerTitle": { "message": "新增标注", "description": "新增标注按钮标题" },
+  "emAddMarker": { "message": "新增标注", "description": "新增标注弹窗标题" },
+  "emEditMarker": { "message": "编辑标注", "description": "编辑标注弹窗标题" },
+  "emNameLabel": { "message": "名称", "description": "标注名称标签" },
+  "emNamePlaceholder": { "message": "例如: 登录按钮", "description": "标注名称占位符" },
+  "emSelectorTypeLabel": { "message": "选择器类型", "description": "选择器类型标签" },
+  "emMatchTypeLabel": { "message": "匹配类型", "description": "匹配类型标签" },
+  "emMatchTypePrefix": { "message": "路径前缀", "description": "路径前缀匹配选项" },
+  "emMatchTypeExact": { "message": "精确匹配", "description": "精确匹配选项" },
+  "emMatchTypeHost": { "message": "域名", "description": "域名匹配选项" },
+  "emSelectorLabel": { "message": "选择器", "description": "选择器标签" },
+  "emSelectorPlaceholder": { "message": "CSS 选择器或 XPath", "description": "选择器占位符" },
+  "cancelButton": { "message": "取消", "description": "取消按钮" },
+  "updateButton": { "message": "更新", "description": "更新按钮" },
+  "saveButton": { "message": "保存", "description": "保存按钮" },
+  "emFilteredStats": {
+    "message": "筛选出 $FILTERED$ 个标注（共 $TOTAL$ 个，$DOMAINS$ 个域名）",
+    "description": "筛选标注统计",
+    "placeholders": {
+      "filtered": { "content": "$1", "example": "5" },
+      "total": { "content": "$2", "example": "10" },
+      "domains": { "content": "$3", "example": "3" }
+    }
+  },
+  "emTotalStats": {
+    "message": "共 $TOTAL$ 个标注，$DOMAINS$ 个域名",
+    "description": "标注总数统计",
+    "placeholders": {
+      "total": { "content": "$1", "example": "10" },
+      "domains": { "content": "$2", "example": "3" }
+    }
+  },
+  "emMarkerCount": {
+    "message": "$COUNT$ 个标注",
+    "description": "域名标注数量",
+    "placeholders": { "count": { "content": "$1", "example": "5" } }
+  },
+  "emVerifyTitle": { "message": "验证", "description": "验证标注按钮标题" },
+  "emEditTitle": { "message": "编辑", "description": "编辑标注按钮标题" },
+  "emDeleteTitle": { "message": "删除", "description": "删除标注按钮标题" },
+  "emNoMatchingMarkers": { "message": "未找到匹配的标注", "description": "无搜索结果提示" },
+  "emClearSearch": { "message": "清除搜索", "description": "清除搜索按钮" },
+  "emNoMarkers": { "message": "暂无标注元素", "description": "空状态提示" },
+  "emLocalFile": { "message": "(本地文件)", "description": "本地文件域名占位符" },
+  "emUnknownUrl": { "message": "(未知URL)", "description": "未知URL占位符" },
+  "v3TriggerNotImplemented": {
+    "message": "V3 Trigger 管理尚未实现",
+    "description": "V3触发器未实现提示"
+  },
+  "v3BuilderNotImplemented": {
+    "message": "V3 Builder 尚未实现",
+    "description": "V3构建器未实现提示"
+  },
+  "confirmDeleteWorkflow": {
+    "message": "确认删除该工作流？此操作不可恢复",
+    "description": "删除工作流确认"
+  },
+  "confirmDeleteMarker": {
+    "message": "确定要删除标注「$NAME$」吗？",
+    "description": "删除标注确认",
+    "placeholders": { "name": { "content": "$1", "example": "登录按钮" } }
+  },
+
+  "quickToolsLabel": { "message": "快捷工具", "description": "快捷工具区域标签" },
+  "recordingComingSoon": { "message": "录制功能开发中", "description": "录制功能开发中提示" },
+  "webEditorTooltip": { "message": "开启页面编辑模式", "description": "网页编辑器按钮提示" },
+  "elementMarkerTooltip": { "message": "开启元素标注", "description": "元素标注按钮提示" },
+  "managementEntriesLabel": { "message": "管理入口", "description": "管理入口区域标签" },
+  "smartAssistantTitle": { "message": "智能助手", "description": "智能助手入口标题" },
+  "smartAssistantDesc": { "message": "AI Agent 对话与任务", "description": "智能助手入口描述" },
+  "workflowManagementTitle": { "message": "工作流管理", "description": "工作流管理入口标题" },
+  "workflowManagementDesc": {
+    "message": "录制与回放自动化流程",
+    "description": "工作流管理入口描述"
+  },
+  "elementMarkerManagementTitle": {
+    "message": "元素标注管理",
+    "description": "元素标注管理入口标题"
+  },
+  "elementMarkerManagementDesc": {
+    "message": "管理页面元素标注",
+    "description": "元素标注管理入口描述"
+  },
+  "localModelTitle": { "message": "本地模型", "description": "本地模型入口标题" },
+  "localModelDesc": { "message": "语义引擎与模型管理", "description": "本地模型入口描述" },
+  "featureComingSoon": {
+    "message": "$FEATURE$ 功能开发中，敬请期待",
+    "description": "功能开发中提示",
+    "placeholders": { "feature": { "content": "$1", "example": "录制" } }
+  },
+  "recordingFeatureName": { "message": "录制回放", "description": "录制回放功能名称" },
+  "workflowFeatureName": { "message": "工作流管理", "description": "工作流管理功能名称" },
+  "backToHomeTitle": { "message": "返回首页", "description": "返回首页按钮标题" },
+  "backButton": { "message": "返回", "description": "返回按钮文本" }
 }
