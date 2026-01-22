@@ -500,5 +500,161 @@
     "message": "Paste JS/CSS/TM here",
     "description": "script textarea placeholder"
   },
-  "placeholderDomainHint": { "message": "example.com", "description": "domain filter placeholder" }
+  "placeholderDomainHint": { "message": "example.com", "description": "domain filter placeholder" },
+
+  "dropImagesHere": { "message": "Drop images here", "description": "Drag and drop overlay text" },
+  "removeImageTitle": { "message": "Remove image", "description": "Remove image button title" },
+  "attachImageTooltip": {
+    "message": "Attach image (drag, paste, or click)",
+    "description": "Attach image button tooltip"
+  },
+  "expandEditorTitle": { "message": "Expand editor", "description": "Expand editor button title" },
+  "resetConversationTitle": {
+    "message": "Reset conversation",
+    "description": "Reset conversation button title"
+  },
+  "sessionSettingsTitle": {
+    "message": "Session settings",
+    "description": "Session settings button title"
+  },
+  "switchModelTooltip": { "message": "Switch model", "description": "Model selector tooltip" },
+  "reasoningEffortTooltip": {
+    "message": "Reasoning effort",
+    "description": "Reasoning effort tooltip"
+  },
+  "stopRequestLabel": { "message": "Stop", "description": "Stop request button label" },
+  "sendMessageLabel": { "message": "Send", "description": "Send message button label" },
+  "statusSending": { "message": "Sending...", "description": "Sending status" },
+  "statusStopping": { "message": "Stopping...", "description": "Stopping status" },
+  "statusStarting": { "message": "Starting...", "description": "Starting status" },
+  "statusPreparing": { "message": "Preparing...", "description": "Preparing status" },
+  "statusWorking": { "message": "Working...", "description": "Working status" },
+  "statusReady": { "message": "Ready", "description": "Ready status" },
+  "resetConversationConfirm": {
+    "message": "Reset this conversation? All messages will be deleted and the session will start fresh.",
+    "description": "Reset conversation confirmation"
+  },
+  "askClaudePlaceholder": {
+    "message": "Ask Claude to write code...",
+    "description": "Chat input placeholder"
+  },
+
+  "inputSectionLabel": { "message": "Input", "description": "Input settings section label" },
+  "cometCaretLabel": { "message": "Comet caret", "description": "Comet caret toggle label" },
+  "storageSectionLabel": { "message": "Storage", "description": "Storage settings section label" },
+  "clearAttachmentCacheLabel": {
+    "message": "Clear Attachment Cache",
+    "description": "Clear attachment cache button"
+  },
+  "reconnectServerLabel": {
+    "message": "Reconnect Server",
+    "description": "Reconnect server button"
+  },
+
+  "searchSessionsPlaceholder": {
+    "message": "Search sessions...",
+    "description": "Search sessions input placeholder"
+  },
+  "creatingLabel": { "message": "Creating...", "description": "Creating session status" },
+  "newLabel": { "message": "New", "description": "New session button label" },
+  "loadingSessionsStatus": {
+    "message": "Loading sessions...",
+    "description": "Loading sessions status"
+  },
+  "noMatchingSessions": {
+    "message": "No matching sessions",
+    "description": "No matching sessions message"
+  },
+  "noSessionsYet": { "message": "No sessions yet", "description": "No sessions message" },
+  "tryDifferentSearch": {
+    "message": "Try a different search term",
+    "description": "Search hint message"
+  },
+  "startConversationHint": {
+    "message": "Start a new conversation with AI",
+    "description": "Empty state hint"
+  },
+  "startNewSessionButton": {
+    "message": "Start New Session",
+    "description": "Start new session button"
+  },
+
+  "unnamedSession": { "message": "Unnamed Session", "description": "Default session name" },
+  "runningBadge": { "message": "Running", "description": "Running status badge" },
+  "openProjectTitle": { "message": "Open project", "description": "Open project button title" },
+  "renameTitle": { "message": "Rename", "description": "Rename button title" },
+  "deleteTitle": { "message": "Delete", "description": "Delete button title" },
+  "thisSession": { "message": "this session", "description": "Default session name for deletion" },
+  "justNow": { "message": "just now", "description": "Just now time label" },
+  "minutesAgo": {
+    "message": "$MINS$m ago",
+    "description": "Minutes ago time label",
+    "placeholders": { "mins": { "content": "$1", "example": "5" } }
+  },
+  "hoursAgo": {
+    "message": "$HOURS$h ago",
+    "description": "Hours ago time label",
+    "placeholders": { "hours": { "content": "$1", "example": "2" } }
+  },
+  "daysAgo": {
+    "message": "$DAYS$d ago",
+    "description": "Days ago time label",
+    "placeholders": { "days": { "content": "$1", "example": "3" } }
+  },
+  "deleteSessionConfirm": {
+    "message": "Delete \"$NAME$\"?",
+    "description": "Delete session confirmation",
+    "placeholders": { "name": { "content": "$1", "example": "My Session" } }
+  },
+
+  "projectsSectionLabel": { "message": "Projects", "description": "Projects section label" },
+  "newProjectButton": { "message": "+ New Project", "description": "New project button" },
+  "selectingProjectStatus": {
+    "message": "Selecting...",
+    "description": "Selecting project status"
+  },
+  "settingsSectionLabel": { "message": "Settings", "description": "Settings section label" },
+  "cliLabel": { "message": "CLI", "description": "CLI setting label" },
+  "modelSettingLabel": { "message": "Model", "description": "Model setting label" },
+  "ccrLabel": { "message": "CCR", "description": "Claude Code Router label" },
+  "mcpLabel": { "message": "MCP", "description": "MCP label" },
+  "effortLabel": { "message": "Effort", "description": "Effort setting label" },
+  "autoOption": { "message": "Auto", "description": "Auto option" },
+  "defaultOption": { "message": "Default", "description": "Default option" },
+  "useClaudeCodeRouterLabel": {
+    "message": "Use Claude Code Router",
+    "description": "Claude Code Router toggle"
+  },
+  "enableChromeMcpServerLabel": {
+    "message": "Enable Chrome MCP Server",
+    "description": "Chrome MCP Server toggle"
+  },
+  "appliesToNewSessionsHint": {
+    "message": "Applies to new sessions. Edit existing session in Session Settings.",
+    "description": "Settings scope hint"
+  },
+  "savingLabel": { "message": "Saving...", "description": "Saving status" },
+  "saveSettingsButton": { "message": "Save Settings", "description": "Save settings button" },
+  "claudeCodeRouterTooltip": {
+    "message": "Use Claude Code Router for API routing",
+    "description": "Claude Code Router tooltip"
+  },
+  "chromeMcpServerTooltip": {
+    "message": "Enable local Chrome MCP server integration",
+    "description": "Chrome MCP Server tooltip"
+  },
+
+  "backToSessionsTitle": {
+    "message": "Back to sessions",
+    "description": "Back to sessions button title"
+  },
+  "agentBrandLabel": { "message": "Agent", "description": "Default agent brand label" },
+  "openProjectInTooltip": {
+    "message": "Open project in VS Code or Terminal",
+    "description": "Open project dropdown tooltip"
+  },
+
+  "openInLabel": { "message": "Open In", "description": "Open in menu header" },
+  "vsCodeLabel": { "message": "VS Code", "description": "VS Code option" },
+  "terminalLabel": { "message": "Terminal", "description": "Terminal option" }
 }

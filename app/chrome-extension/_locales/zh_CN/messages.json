@@ -488,5 +488,119 @@
     "description": "匹配示例占位符"
   },
   "placeholderScriptHint": { "message": "在此粘贴 JS/CSS/TM", "description": "脚本文本域占位符" },
-  "placeholderDomainHint": { "message": "example.com", "description": "域名筛选占位符" }
+  "placeholderDomainHint": { "message": "example.com", "description": "域名筛选占位符" },
+
+  "dropImagesHere": { "message": "拖放图片到这里", "description": "拖放覆盖层文字" },
+  "removeImageTitle": { "message": "移除图片", "description": "移除图片按钮标题" },
+  "attachImageTooltip": {
+    "message": "添加图片（拖放、粘贴或点击）",
+    "description": "添加图片按钮提示"
+  },
+  "expandEditorTitle": { "message": "展开编辑器", "description": "展开编辑器按钮标题" },
+  "resetConversationTitle": { "message": "重置对话", "description": "重置对话按钮标题" },
+  "sessionSettingsTitle": { "message": "会话设置", "description": "会话设置按钮标题" },
+  "switchModelTooltip": { "message": "切换模型", "description": "模型选择器提示" },
+  "reasoningEffortTooltip": { "message": "推理强度", "description": "推理强度提示" },
+  "stopRequestLabel": { "message": "停止", "description": "停止请求按钮标签" },
+  "sendMessageLabel": { "message": "发送", "description": "发送消息按钮标签" },
+  "statusSending": { "message": "发送中...", "description": "发送状态" },
+  "statusStopping": { "message": "停止中...", "description": "停止状态" },
+  "statusStarting": { "message": "启动中...", "description": "启动状态" },
+  "statusPreparing": { "message": "准备中...", "description": "准备状态" },
+  "statusWorking": { "message": "工作中...", "description": "工作状态" },
+  "statusReady": { "message": "就绪", "description": "就绪状态" },
+  "resetConversationConfirm": {
+    "message": "重置此对话？所有消息将被删除，会话将重新开始。",
+    "description": "重置对话确认"
+  },
+  "askClaudePlaceholder": { "message": "让 Claude 帮你写代码...", "description": "聊天输入占位符" },
+
+  "inputSectionLabel": { "message": "输入", "description": "输入设置区域标签" },
+  "cometCaretLabel": { "message": "彗星光标", "description": "彗星光标开关标签" },
+  "storageSectionLabel": { "message": "存储", "description": "存储设置区域标签" },
+  "clearAttachmentCacheLabel": { "message": "清除附件缓存", "description": "清除附件缓存按钮" },
+  "reconnectServerLabel": { "message": "重新连接服务器", "description": "重新连接服务器按钮" },
+
+  "searchSessionsPlaceholder": { "message": "搜索会话...", "description": "搜索会话输入占位符" },
+  "creatingLabel": { "message": "创建中...", "description": "创建会话状态" },
+  "newLabel": { "message": "新建", "description": "新建会话按钮标签" },
+  "loadingSessionsStatus": { "message": "加载会话中...", "description": "加载会话状态" },
+  "noMatchingSessions": { "message": "没有匹配的会话", "description": "没有匹配会话消息" },
+  "noSessionsYet": { "message": "暂无会话", "description": "暂无会话消息" },
+  "tryDifferentSearch": { "message": "尝试其他搜索词", "description": "搜索提示消息" },
+  "startConversationHint": { "message": "开始与 AI 对话", "description": "空状态提示" },
+  "startNewSessionButton": { "message": "开始新会话", "description": "开始新会话按钮" },
+
+  "unnamedSession": { "message": "未命名会话", "description": "默认会话名称" },
+  "runningBadge": { "message": "运行中", "description": "运行状态徽章" },
+  "openProjectTitle": { "message": "打开项目", "description": "打开项目按钮标题" },
+  "renameTitle": { "message": "重命名", "description": "重命名按钮标题" },
+  "deleteTitle": { "message": "删除", "description": "删除按钮标题" },
+  "thisSession": { "message": "此会话", "description": "删除时默认会话名称" },
+  "justNow": { "message": "刚刚", "description": "刚刚时间标签" },
+  "minutesAgo": {
+    "message": "$MINS$分钟前",
+    "description": "分钟前时间标签",
+    "placeholders": { "mins": { "content": "$1", "example": "5" } }
+  },
+  "hoursAgo": {
+    "message": "$HOURS$小时前",
+    "description": "小时前时间标签",
+    "placeholders": { "hours": { "content": "$1", "example": "2" } }
+  },
+  "daysAgo": {
+    "message": "$DAYS$天前",
+    "description": "天前时间标签",
+    "placeholders": { "days": { "content": "$1", "example": "3" } }
+  },
+  "deleteSessionConfirm": {
+    "message": "删除「$NAME$」？",
+    "description": "删除会话确认",
+    "placeholders": { "name": { "content": "$1", "example": "我的会话" } }
+  },
+
+  "projectsSectionLabel": { "message": "项目", "description": "项目区域标签" },
+  "newProjectButton": { "message": "+ 新建项目", "description": "新建项目按钮" },
+  "selectingProjectStatus": { "message": "选择中...", "description": "选择项目状态" },
+  "settingsSectionLabel": { "message": "设置", "description": "设置区域标签" },
+  "cliLabel": { "message": "CLI", "description": "CLI 设置标签" },
+  "modelSettingLabel": { "message": "模型", "description": "模型设置标签" },
+  "ccrLabel": { "message": "CCR", "description": "Claude Code Router 标签" },
+  "mcpLabel": { "message": "MCP", "description": "MCP 标签" },
+  "effortLabel": { "message": "强度", "description": "强度设置标签" },
+  "autoOption": { "message": "自动", "description": "自动选项" },
+  "defaultOption": { "message": "默认", "description": "默认选项" },
+  "useClaudeCodeRouterLabel": {
+    "message": "使用 Claude Code Router",
+    "description": "Claude Code Router 开关"
+  },
+  "enableChromeMcpServerLabel": {
+    "message": "启用 Chrome MCP Server",
+    "description": "Chrome MCP Server 开关"
+  },
+  "appliesToNewSessionsHint": {
+    "message": "仅对新会话生效。在会话设置中编辑现有会话。",
+    "description": "设置范围提示"
+  },
+  "savingLabel": { "message": "保存中...", "description": "保存状态" },
+  "saveSettingsButton": { "message": "保存设置", "description": "保存设置按钮" },
+  "claudeCodeRouterTooltip": {
+    "message": "使用 Claude Code Router 进行 API 路由",
+    "description": "Claude Code Router 提示"
+  },
+  "chromeMcpServerTooltip": {
+    "message": "启用本地 Chrome MCP 服务器集成",
+    "description": "Chrome MCP Server 提示"
+  },
+
+  "backToSessionsTitle": { "message": "返回会话列表", "description": "返回会话列表按钮标题" },
+  "agentBrandLabel": { "message": "Agent", "description": "默认代理品牌标签" },
+  "openProjectInTooltip": {
+    "message": "在 VS Code 或终端中打开项目",
+    "description": "打开项目下拉菜单提示"
+  },
+
+  "openInLabel": { "message": "打开方式", "description": "打开方式菜单标题" },
+  "vsCodeLabel": { "message": "VS Code", "description": "VS Code 选项" },
+  "terminalLabel": { "message": "终端", "description": "终端选项" }
 }

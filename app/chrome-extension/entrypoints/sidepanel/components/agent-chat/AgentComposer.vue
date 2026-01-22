@@ -11,7 +11,7 @@
       }"
     >
       <span class="text-sm font-medium" :style="{ color: 'var(--ac-accent)' }">
-        Drop images here
+        {{ m('dropImagesHere') }}
       </span>
     </div>
 
@@ -54,7 +54,7 @@
             backgroundColor: 'var(--ac-error)',
             color: 'white',
           }"
-          title="Remove image"
+          :title="m('removeImageTitle')"
           @click="$emit('attachment:remove', index)"
         >
           <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -135,7 +135,7 @@
             type="button"
             class="absolute top-2 right-2 p-1.5 transition-all hover:scale-105 cursor-pointer"
             :style="expandButtonStyle"
-            title="Expand editor"
+            :title="m('expandEditorTitle')"
             @click="openDrawer"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -158,7 +158,7 @@
             v-if="supportsImages"
             class="p-1.5 ac-btn"
             :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-            data-tooltip="Attach image (drag, paste, or click)"
+            :data-tooltip="m('attachImageTooltip')"
             @click="$emit('attachment:add')"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -172,7 +172,11 @@
           </button>
 
           <!-- Model Selector (auto-width) -->
-          <div v-if="availableModels.length > 0" class="relative" data-tooltip="Switch model">
+          <div
+            v-if="availableModels.length > 0"
+            class="relative"
+            :data-tooltip="m('switchModelTooltip')"
+          >
             <!-- Hidden span to measure text width -->
             <span
               ref="modelWidthRef"
@@ -225,7 +229,7 @@
               fontFamily: 'var(--ac-font-mono)',
               borderRadius: 'var(--ac-radius-button)',
             }"
-            data-tooltip="Reasoning effort"
+            :data-tooltip="m('reasoningEffortTooltip')"
             @change="handleReasoningEffortChange"
           >
             <option v-for="effort in availableReasoningEfforts" :key="effort" :value="effort">
@@ -237,7 +241,7 @@
           <button
             class="p-1 ac-btn"
             :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-            data-tooltip="Reset conversation"
+            :data-tooltip="m('resetConversationTitle')"
             @click="handleReset"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -254,7 +258,7 @@
           <button
             class="p-1 ac-btn"
             :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-            data-tooltip="Session settings"
+            :data-tooltip="m('sessionSettingsTitle')"
             @click="handleOpenSettings"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -286,8 +290,8 @@
             class="p-1 transition-colors cursor-pointer"
             :style="primaryActionButtonStyle"
             :disabled="primaryActionDisabled"
-            :title="isRequestActive ? 'Stop' : 'Send'"
-            :aria-label="isRequestActive ? 'Stop request' : 'Send message'"
+            :title="isRequestActive ? m('stopRequestLabel') : m('sendMessageLabel')"
+            :aria-label="isRequestActive ? m('stopRequestLabel') : m('sendMessageLabel')"
             @click="handlePrimaryAction"
           >
             <!-- Stop icon (square) when request is active -->
@@ -335,7 +339,7 @@
             v-if="supportsImages"
             class="p-1.5 ac-btn"
             :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-            data-tooltip="Attach image"
+            :data-tooltip="m('attachImageTooltip')"
             @click="$emit('attachment:add')"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -349,7 +353,11 @@
           </button>
 
           <!-- Model Selector -->
-          <div v-if="availableModels.length > 0" class="relative" data-tooltip="Switch model">
+          <div
+            v-if="availableModels.length > 0"
+            class="relative"
+            :data-tooltip="m('switchModelTooltip')"
+          >
             <select
               :value="selectedModel"
               class="py-0.5 text-[10px] border-none bg-transparent cursor-pointer appearance-none pr-4 pl-1.5"
@@ -402,8 +410,13 @@ import type { ModelDefinition } from '@/common/agent-models';
 import type { AttachmentWithPreview } from '../../composables/useAttachments';
 import type { RequestState } from '../../composables/useAgentChat';
 import { useTextareaAutoResize } from '../../composables/useTextareaAutoResize';
+import type { ElementReferenceData } from '../../composables/useElementReferences';
+import { getMessage } from '@/utils/i18n';
 import ComposerDrawer from './ComposerDrawer.vue';
 import FakeCaretOverlay from './FakeCaretOverlay.vue';
+
+// i18n helper
+const m = (key: string, substitutions?: string[]) => getMessage(key, substitutions);
 
 const props = defineProps<{
   modelValue: string;
@@ -474,18 +487,18 @@ watch(
 );
 
 const statusText = computed(() => {
-  if (props.sending) return 'Sending...';
-  if (props.cancelling) return 'Stopping...';
+  if (props.sending) return m('statusSending');
+  if (props.cancelling) return m('statusStopping');
   // Use requestState for more accurate status display
   switch (props.requestState) {
     case 'starting':
-      return 'Starting...';
+      return m('statusStarting');
     case 'ready':
-      return 'Preparing...';
+      return m('statusPreparing');
     case 'running':
-      return 'Working...';
+      return m('statusWorking');
     default:
-      return 'Ready';
+      return m('statusReady');
   }
 });
 
@@ -652,11 +665,7 @@ function handleReasoningEffortChange(event: Event): void {
 }
 
 function handleReset(): void {
-  if (
-    confirm(
-      'Reset this conversation? All messages will be deleted and the session will start fresh.',
-    )
-  ) {
+  if (confirm(m('resetConversationConfirm'))) {
     emit('session:reset');
   }
 }
