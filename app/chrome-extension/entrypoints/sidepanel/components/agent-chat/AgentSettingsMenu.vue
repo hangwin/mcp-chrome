@@ -14,7 +14,7 @@
       class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
       :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
     >
-      Theme
+      {{ getMessage('themeLabel') }}
     </div>
 
     <button
@@ -51,7 +51,7 @@
       class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
       :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
     >
-      Input
+      {{ getMessage('inputSectionLabel') }}
     </div>
 
     <button
@@ -59,7 +59,7 @@
       :style="{ color: 'var(--ac-text, #1a1a1a)' }"
       @click="$emit('fakeCaret:toggle', !fakeCaretEnabled)"
     >
-      <span>Comet caret</span>
+      <span>{{ getMessage('cometCaretLabel') }}</span>
       <svg
         v-if="fakeCaretEnabled"
         class="w-4 h-4"
@@ -84,7 +84,7 @@
       class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
       :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
     >
-      Storage
+      {{ getMessage('storageSectionLabel') }}
     </div>
 
     <button
@@ -92,7 +92,7 @@
       :style="{ color: 'var(--ac-text, #1a1a1a)' }"
       @click="$emit('attachments:open')"
     >
-      Clear Attachment Cache
+      {{ getMessage('clearAttachmentCacheLabel') }}
     </button>
 
     <!-- Divider -->
@@ -109,13 +109,14 @@
       :style="{ color: 'var(--ac-text, #1a1a1a)' }"
       @click="$emit('reconnect')"
     >
-      Reconnect Server
+      {{ getMessage('reconnectServerLabel') }}
     </button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { type AgentThemeId, THEME_LABELS } from '../../composables';
+import { getMessage } from '@/utils/i18n';
 
 defineProps<{
   open: boolean;

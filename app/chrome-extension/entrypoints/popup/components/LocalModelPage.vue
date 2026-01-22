@@ -1,8 +1,8 @@
 <template>
   <div class="local-model-page">
-    <!-- 返回按钮 -->
+    <!-- Back button -->
     <div class="page-header">
-      <button class="back-button" @click="$emit('back')" title="返回首页">
+      <button class="back-button" @click="$emit('back')" :title="getMessage('backToHomeTitle')">
         <svg
           viewBox="0 0 24 24"
           width="20"
@@ -13,9 +13,9 @@
         >
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
-        <span>返回</span>
+        <span>{{ getMessage('backButton') }}</span>
       </button>
-      <h2 class="page-title">本地模型</h2>
+      <h2 class="page-title">{{ getMessage('localModelTitle') }}</h2>
     </div>
 
     <div class="page-content">

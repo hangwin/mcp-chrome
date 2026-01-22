@@ -10,7 +10,7 @@
           color: 'var(--ac-text-muted)',
           borderRadius: 'var(--ac-radius-button)',
         }"
-        title="Back to sessions"
+        :title="getMessage('backToSessionsTitle')"
         @click="$emit('back')"
       >
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -31,7 +31,7 @@
           color: 'var(--ac-text)',
         }"
       >
-        {{ brandLabel || 'Agent' }}
+        {{ brandLabel || getMessage('agentBrandLabel') }}
       </h1>
 
       <!-- Divider -->
@@ -111,7 +111,7 @@
       <button
         class="p-1 ac-btn ac-hover-text"
         :style="{ color: 'var(--ac-text-subtle)', borderRadius: 'var(--ac-radius-button)' }"
-        title="Open project in VS Code or Terminal"
+        :title="getMessage('openProjectInTooltip')"
         @click="$emit('toggle:openProjectMenu')"
       >
         <svg
@@ -159,6 +159,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { getMessage } from '@/utils/i18n';
 
 export type ConnectionState = 'ready' | 'connecting' | 'disconnected';
 
@@ -195,11 +196,11 @@ const connectionColor = computed(() => {
 const connectionText = computed(() => {
   switch (props.connectionState) {
     case 'ready':
-      return 'Connected';
+      return getMessage('connectedStatus');
     case 'connecting':
-      return 'Connecting...';
+      return getMessage('connectingStatus');
     default:
-      return 'Disconnected';
+      return getMessage('disconnectedStatus');
   }
 });
 </script>

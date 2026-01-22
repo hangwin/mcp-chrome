@@ -68,44 +68,44 @@
           </div>
         </div>
 
-        <!-- 快捷工具卡片 -->
+        <!-- Quick Tools Card -->
         <div class="section">
-          <h2 class="section-title">快捷工具</h2>
+          <h2 class="section-title">{{ getMessage('quickToolsLabel') }}</h2>
           <div class="rr-icon-buttons">
             <button
               class="rr-icon-btn rr-icon-btn-record rr-icon-btn-coming-soon has-tooltip"
               @click="startRecording"
-              data-tooltip="录制功能开发中"
+              :data-tooltip="getMessage('recordingComingSoon')"
             >
               <RecordIcon :recording="false" />
             </button>
             <button
               class="rr-icon-btn rr-icon-btn-stop rr-icon-btn-coming-soon has-tooltip"
               @click="stopRecording"
-              data-tooltip="录制功能开发中"
+              :data-tooltip="getMessage('recordingComingSoon')"
             >
               <StopIcon />
             </button>
             <button
               class="rr-icon-btn rr-icon-btn-edit has-tooltip"
               @click="toggleWebEditor"
-              data-tooltip="开启页面编辑模式"
+              :data-tooltip="getMessage('webEditorTooltip')"
             >
               <EditIcon />
             </button>
             <button
               class="rr-icon-btn rr-icon-btn-marker has-tooltip"
               @click="toggleElementMarker"
-              data-tooltip="开启元素标注"
+              :data-tooltip="getMessage('elementMarkerTooltip')"
             >
               <MarkerIcon />
             </button>
           </div>
         </div>
 
-        <!-- 管理入口卡片 -->
+        <!-- Management Entries Card -->
         <div class="section">
-          <h2 class="section-title">管理入口</h2>
+          <h2 class="section-title">{{ getMessage('managementEntriesLabel') }}</h2>
           <div class="entry-card">
             <button class="entry-item" @click="openAgentSidepanel">
               <div class="entry-icon agent">
@@ -125,8 +125,8 @@
                 </svg>
               </div>
               <div class="entry-content">
-                <span class="entry-title">智能助手</span>
-                <span class="entry-desc">AI Agent 对话与任务</span>
+                <span class="entry-title">{{ getMessage('smartAssistantTitle') }}</span>
+                <span class="entry-desc">{{ getMessage('smartAssistantDesc') }}</span>
               </div>
               <svg
                 class="entry-arrow"
@@ -146,10 +146,10 @@
               </div>
               <div class="entry-content">
                 <span class="entry-title">
-                  工作流管理
+                  {{ getMessage('workflowManagementTitle') }}
                   <span class="coming-soon-badge">Coming Soon</span>
                 </span>
-                <span class="entry-desc">录制与回放自动化流程</span>
+                <span class="entry-desc">{{ getMessage('workflowManagementDesc') }}</span>
               </div>
               <svg
                 class="entry-arrow"
@@ -181,8 +181,8 @@
                 </svg>
               </div>
               <div class="entry-content">
-                <span class="entry-title">元素标注管理</span>
-                <span class="entry-desc">管理页面元素标注</span>
+                <span class="entry-title">{{ getMessage('elementMarkerManagementTitle') }}</span>
+                <span class="entry-desc">{{ getMessage('elementMarkerManagementDesc') }}</span>
               </div>
               <svg
                 class="entry-arrow"
@@ -214,8 +214,8 @@
                 </svg>
               </div>
               <div class="entry-content">
-                <span class="entry-title">本地模型</span>
-                <span class="entry-desc">语义引擎与模型管理</span>
+                <span class="entry-title">{{ getMessage('localModelTitle') }}</span>
+                <span class="entry-desc">{{ getMessage('localModelDesc') }}</span>
               </div>
               <svg
                 class="entry-arrow"
@@ -325,7 +325,7 @@
           <circle cx="12" cy="12" r="10" />
           <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        <span>{{ comingSoonToast.feature }} 功能开发中，敬请期待</span>
+        <span>{{ getMessage('featureComingSoon', [comingSoonToast.feature]) }}</span>
       </div>
     </Transition>
   </div>
@@ -432,8 +432,8 @@ function isFlowBoundToCurrent(flow: any) {
 
 // 运行记录与覆盖项在侧边栏页面查看
 const startRecording = async () => {
-  // TODO: 录制回放功能开发中，暂时拦截
-  showComingSoonToast('录制回放');
+  // TODO: Recording feature coming soon
+  showComingSoonToast(getMessage('recordingFeatureName'));
   return;
   // if (rrRecording.value) return;
   // try {
@@ -449,8 +449,8 @@ const startRecording = async () => {
 };
 
 const stopRecording = async () => {
-  // TODO: 录制回放功能开发中，暂时拦截
-  showComingSoonToast('录制回放');
+  // TODO: Recording feature coming soon
+  showComingSoonToast(getMessage('recordingFeatureName'));
   return;
   // if (!rrRecording.value) return;
   // try {
@@ -634,8 +634,8 @@ async function openSidepanelAndClose(tab: string) {
 
 // Open sidepanel from popup for workflow management
 function openWorkflowSidepanel() {
-  // TODO: 工作流功能开发中，暂时拦截
-  showComingSoonToast('工作流管理');
+  // TODO: Workflow feature coming soon
+  showComingSoonToast(getMessage('workflowFeatureName'));
   // openSidepanelAndClose('workflows');
 }
 

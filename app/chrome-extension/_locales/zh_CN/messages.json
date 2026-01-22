@@ -488,5 +488,290 @@
     "description": "匹配示例占位符"
   },
   "placeholderScriptHint": { "message": "在此粘贴 JS/CSS/TM", "description": "脚本文本域占位符" },
-  "placeholderDomainHint": { "message": "example.com", "description": "域名筛选占位符" }
+  "placeholderDomainHint": { "message": "example.com", "description": "域名筛选占位符" },
+
+  "dropImagesHere": { "message": "拖放图片到这里", "description": "拖放覆盖层文字" },
+  "removeImageTitle": { "message": "移除图片", "description": "移除图片按钮标题" },
+  "attachImageTooltip": {
+    "message": "添加图片（拖放、粘贴或点击）",
+    "description": "添加图片按钮提示"
+  },
+  "expandEditorTitle": { "message": "展开编辑器", "description": "展开编辑器按钮标题" },
+  "resetConversationTitle": { "message": "重置对话", "description": "重置对话按钮标题" },
+  "sessionSettingsTitle": { "message": "会话设置", "description": "会话设置按钮标题" },
+  "switchModelTooltip": { "message": "切换模型", "description": "模型选择器提示" },
+  "reasoningEffortTooltip": { "message": "推理强度", "description": "推理强度提示" },
+  "stopRequestLabel": { "message": "停止", "description": "停止请求按钮标签" },
+  "sendMessageLabel": { "message": "发送", "description": "发送消息按钮标签" },
+  "statusSending": { "message": "发送中...", "description": "发送状态" },
+  "statusStopping": { "message": "停止中...", "description": "停止状态" },
+  "statusStarting": { "message": "启动中...", "description": "启动状态" },
+  "statusPreparing": { "message": "准备中...", "description": "准备状态" },
+  "statusWorking": { "message": "工作中...", "description": "工作状态" },
+  "statusReady": { "message": "就绪", "description": "就绪状态" },
+  "resetConversationConfirm": {
+    "message": "重置此对话？所有消息将被删除，会话将重新开始。",
+    "description": "重置对话确认"
+  },
+  "askClaudePlaceholder": { "message": "让 Claude 帮你写代码...", "description": "聊天输入占位符" },
+
+  "inputSectionLabel": { "message": "输入", "description": "输入设置区域标签" },
+  "cometCaretLabel": { "message": "彗星光标", "description": "彗星光标开关标签" },
+  "storageSectionLabel": { "message": "存储", "description": "存储设置区域标签" },
+  "clearAttachmentCacheLabel": { "message": "清除附件缓存", "description": "清除附件缓存按钮" },
+  "reconnectServerLabel": { "message": "重新连接服务器", "description": "重新连接服务器按钮" },
+
+  "searchSessionsPlaceholder": { "message": "搜索会话...", "description": "搜索会话输入占位符" },
+  "creatingLabel": { "message": "创建中...", "description": "创建会话状态" },
+  "newLabel": { "message": "新建", "description": "新建会话按钮标签" },
+  "loadingSessionsStatus": { "message": "加载会话中...", "description": "加载会话状态" },
+  "noMatchingSessions": { "message": "没有匹配的会话", "description": "没有匹配会话消息" },
+  "noSessionsYet": { "message": "暂无会话", "description": "暂无会话消息" },
+  "tryDifferentSearch": { "message": "尝试其他搜索词", "description": "搜索提示消息" },
+  "startConversationHint": { "message": "开始与 AI 对话", "description": "空状态提示" },
+  "startNewSessionButton": { "message": "开始新会话", "description": "开始新会话按钮" },
+
+  "unnamedSession": { "message": "未命名会话", "description": "默认会话名称" },
+  "runningBadge": { "message": "运行中", "description": "运行状态徽章" },
+  "openProjectTitle": { "message": "打开项目", "description": "打开项目按钮标题" },
+  "renameTitle": { "message": "重命名", "description": "重命名按钮标题" },
+  "deleteTitle": { "message": "删除", "description": "删除按钮标题" },
+  "thisSession": { "message": "此会话", "description": "删除时默认会话名称" },
+  "justNow": { "message": "刚刚", "description": "刚刚时间标签" },
+  "minutesAgo": {
+    "message": "$MINS$分钟前",
+    "description": "分钟前时间标签",
+    "placeholders": { "mins": { "content": "$1", "example": "5" } }
+  },
+  "hoursAgo": {
+    "message": "$HOURS$小时前",
+    "description": "小时前时间标签",
+    "placeholders": { "hours": { "content": "$1", "example": "2" } }
+  },
+  "daysAgo": {
+    "message": "$DAYS$天前",
+    "description": "天前时间标签",
+    "placeholders": { "days": { "content": "$1", "example": "3" } }
+  },
+  "deleteSessionConfirm": {
+    "message": "删除「$NAME$」？",
+    "description": "删除会话确认",
+    "placeholders": { "name": { "content": "$1", "example": "我的会话" } }
+  },
+
+  "projectsSectionLabel": { "message": "项目", "description": "项目区域标签" },
+  "newProjectButton": { "message": "+ 新建项目", "description": "新建项目按钮" },
+  "selectingProjectStatus": { "message": "选择中...", "description": "选择项目状态" },
+  "settingsSectionLabel": { "message": "设置", "description": "设置区域标签" },
+  "cliLabel": { "message": "CLI", "description": "CLI 设置标签" },
+  "modelSettingLabel": { "message": "模型", "description": "模型设置标签" },
+  "ccrLabel": { "message": "CCR", "description": "Claude Code Router 标签" },
+  "mcpLabel": { "message": "MCP", "description": "MCP 标签" },
+  "effortLabel": { "message": "强度", "description": "强度设置标签" },
+  "autoOption": { "message": "自动", "description": "自动选项" },
+  "defaultOption": { "message": "默认", "description": "默认选项" },
+  "useClaudeCodeRouterLabel": {
+    "message": "使用 Claude Code Router",
+    "description": "Claude Code Router 开关"
+  },
+  "enableChromeMcpServerLabel": {
+    "message": "启用 Chrome MCP Server",
+    "description": "Chrome MCP Server 开关"
+  },
+  "appliesToNewSessionsHint": {
+    "message": "仅对新会话生效。在会话设置中编辑现有会话。",
+    "description": "设置范围提示"
+  },
+  "savingLabel": { "message": "保存中...", "description": "保存状态" },
+  "saveSettingsButton": { "message": "保存设置", "description": "保存设置按钮" },
+  "claudeCodeRouterTooltip": {
+    "message": "使用 Claude Code Router 进行 API 路由",
+    "description": "Claude Code Router 提示"
+  },
+  "chromeMcpServerTooltip": {
+    "message": "启用本地 Chrome MCP 服务器集成",
+    "description": "Chrome MCP Server 提示"
+  },
+
+  "backToSessionsTitle": { "message": "返回会话列表", "description": "返回会话列表按钮标题" },
+  "agentBrandLabel": { "message": "Agent", "description": "默认代理品牌标签" },
+  "openProjectInTooltip": {
+    "message": "在 VS Code 或终端中打开项目",
+    "description": "打开项目下拉菜单提示"
+  },
+
+  "openInLabel": { "message": "打开方式", "description": "打开方式菜单标题" },
+  "vsCodeLabel": { "message": "VS Code", "description": "VS Code 选项" },
+  "terminalLabel": { "message": "终端", "description": "终端选项" },
+
+  "emSearchPlaceholder": {
+    "message": "搜索标注名称、选择器...",
+    "description": "元素标注搜索占位符"
+  },
+  "emAddMarkerTitle": { "message": "新增标注", "description": "新增标注按钮标题" },
+  "emAddMarker": { "message": "新增标注", "description": "新增标注弹窗标题" },
+  "emEditMarker": { "message": "编辑标注", "description": "编辑标注弹窗标题" },
+  "emNameLabel": { "message": "名称", "description": "标注名称标签" },
+  "emNamePlaceholder": { "message": "例如: 登录按钮", "description": "标注名称占位符" },
+  "emSelectorTypeLabel": { "message": "选择器类型", "description": "选择器类型标签" },
+  "emMatchTypeLabel": { "message": "匹配类型", "description": "匹配类型标签" },
+  "emMatchTypePrefix": { "message": "路径前缀", "description": "路径前缀匹配选项" },
+  "emMatchTypeExact": { "message": "精确匹配", "description": "精确匹配选项" },
+  "emMatchTypeHost": { "message": "域名", "description": "域名匹配选项" },
+  "emSelectorLabel": { "message": "选择器", "description": "选择器标签" },
+  "emSelectorPlaceholder": { "message": "CSS 选择器或 XPath", "description": "选择器占位符" },
+  "cancelButton": { "message": "取消", "description": "取消按钮" },
+  "updateButton": { "message": "更新", "description": "更新按钮" },
+  "saveButton": { "message": "保存", "description": "保存按钮" },
+  "emFilteredStats": {
+    "message": "筛选出 $FILTERED$ 个标注（共 $TOTAL$ 个，$DOMAINS$ 个域名）",
+    "description": "筛选标注统计",
+    "placeholders": {
+      "filtered": { "content": "$1", "example": "5" },
+      "total": { "content": "$2", "example": "10" },
+      "domains": { "content": "$3", "example": "3" }
+    }
+  },
+  "emTotalStats": {
+    "message": "共 $TOTAL$ 个标注，$DOMAINS$ 个域名",
+    "description": "标注总数统计",
+    "placeholders": {
+      "total": { "content": "$1", "example": "10" },
+      "domains": { "content": "$2", "example": "3" }
+    }
+  },
+  "emMarkerCount": {
+    "message": "$COUNT$ 个标注",
+    "description": "域名标注数量",
+    "placeholders": { "count": { "content": "$1", "example": "5" } }
+  },
+  "emVerifyTitle": { "message": "验证", "description": "验证标注按钮标题" },
+  "emEditTitle": { "message": "编辑", "description": "编辑标注按钮标题" },
+  "emDeleteTitle": { "message": "删除", "description": "删除标注按钮标题" },
+  "emNoMatchingMarkers": { "message": "未找到匹配的标注", "description": "无搜索结果提示" },
+  "emClearSearch": { "message": "清除搜索", "description": "清除搜索按钮" },
+  "emNoMarkers": { "message": "暂无标注元素", "description": "空状态提示" },
+  "emLocalFile": { "message": "(本地文件)", "description": "本地文件域名占位符" },
+  "emUnknownUrl": { "message": "(未知URL)", "description": "未知URL占位符" },
+  "v3TriggerNotImplemented": {
+    "message": "V3 Trigger 管理尚未实现",
+    "description": "V3触发器未实现提示"
+  },
+  "v3BuilderNotImplemented": {
+    "message": "V3 Builder 尚未实现",
+    "description": "V3构建器未实现提示"
+  },
+  "confirmDeleteWorkflow": {
+    "message": "确认删除该工作流？此操作不可恢复",
+    "description": "删除工作流确认"
+  },
+  "confirmDeleteMarker": {
+    "message": "确定要删除标注「$NAME$」吗？",
+    "description": "删除标注确认",
+    "placeholders": { "name": { "content": "$1", "example": "登录按钮" } }
+  },
+
+  "quickToolsLabel": { "message": "快捷工具", "description": "快捷工具区域标签" },
+  "recordingComingSoon": { "message": "录制功能开发中", "description": "录制功能开发中提示" },
+  "webEditorTooltip": { "message": "开启页面编辑模式", "description": "网页编辑器按钮提示" },
+  "elementMarkerTooltip": { "message": "开启元素标注", "description": "元素标注按钮提示" },
+  "managementEntriesLabel": { "message": "管理入口", "description": "管理入口区域标签" },
+  "smartAssistantTitle": { "message": "智能助手", "description": "智能助手入口标题" },
+  "smartAssistantDesc": { "message": "AI Agent 对话与任务", "description": "智能助手入口描述" },
+  "workflowManagementTitle": { "message": "工作流管理", "description": "工作流管理入口标题" },
+  "workflowManagementDesc": {
+    "message": "录制与回放自动化流程",
+    "description": "工作流管理入口描述"
+  },
+  "elementMarkerManagementTitle": {
+    "message": "元素标注管理",
+    "description": "元素标注管理入口标题"
+  },
+  "elementMarkerManagementDesc": {
+    "message": "管理页面元素标注",
+    "description": "元素标注管理入口描述"
+  },
+  "localModelTitle": { "message": "本地模型", "description": "本地模型入口标题" },
+  "localModelDesc": { "message": "语义引擎与模型管理", "description": "本地模型入口描述" },
+  "featureComingSoon": {
+    "message": "$FEATURE$ 功能开发中，敬请期待",
+    "description": "功能开发中提示",
+    "placeholders": { "feature": { "content": "$1", "example": "录制" } }
+  },
+  "recordingFeatureName": { "message": "录制回放", "description": "录制回放功能名称" },
+  "workflowFeatureName": { "message": "工作流管理", "description": "工作流管理功能名称" },
+  "backToHomeTitle": { "message": "返回首页", "description": "返回首页按钮标题" },
+  "backButton": { "message": "返回", "description": "返回按钮文本" },
+
+  "markedElementsLabel": { "message": "已标注元素", "description": "已标注元素数量标签" },
+  "addMarkerLabel": { "message": "新增标注", "description": "新增标注表单标题" },
+  "cssSelectorPlaceholder": { "message": "CSS 选择器", "description": "CSS选择器输入占位符" },
+  "clearButton": { "message": "清空", "description": "清空表单按钮" },
+  "verifyButton": { "message": "验证", "description": "验证按钮" },
+  "editButton": { "message": "编辑", "description": "编辑按钮" },
+  "navigatorTriggerTooltip": {
+    "message": "切换页面（可拖拽移动，双击重置位置）",
+    "description": "导航触发按钮提示"
+  },
+  "switchPageTitle": { "message": "切换页面", "description": "切换页面菜单标题" },
+
+  "contextMenuMarkElement": {
+    "message": "标注元素",
+    "description": "标注页面元素的右键菜单项"
+  },
+  "contextMenuToggleWebEditor": {
+    "message": "切换网页编辑模式",
+    "description": "切换网页编辑器模式的右键菜单项"
+  },
+
+  "loadingText1": { "message": "本来应该从从容容游刃有余", "description": "加载文本1" },
+  "loadingText2": { "message": "现在是匆匆忙忙连滚带爬", "description": "加载文本2" },
+  "loadingText3": { "message": "我知道你很急，但是先别急", "description": "加载文本3" },
+  "loadingText4": { "message": "在知识的海洋里狗刨", "description": "加载文本4" },
+  "loadingText5": { "message": "让子弹再飞一会儿", "description": "加载文本5" },
+  "loadingText6": { "message": "正在为您手搓答案", "description": "加载文本6" },
+  "loadingText7": { "message": "浪浪山小妖怪集结中", "description": "加载文本7" },
+  "loadingText8": { "message": "别催，已经在写了（新建文件夹）", "description": "加载文本8" },
+  "loadingText9": { "message": "正在汗流浃背地思考中", "description": "加载文本9" },
+  "loadingText10": { "message": "CPU 都要给我干烧了", "description": "加载文本10" },
+  "loadingText11": { "message": "村咖慢焙，精华需要时间", "description": "加载文本11" },
+  "loadingText12": { "message": "知识煎饼翻面中", "description": "加载文本12" },
+  "loadingText13": { "message": "敬自己一杯，马上好", "description": "加载文本13" },
+  "loadingText14": { "message": "正在把灵感放入烤箱", "description": "加载文本14" },
+  "loadingText15": { "message": "让答案再泡一会儿", "description": "加载文本15" },
+  "loadingText16": { "message": "情绪价值拉满中", "description": "加载文本16" },
+  "loadingText17": { "message": "正在为您编织语言的毛衣", "description": "加载文本17" },
+  "loadingText18": { "message": "神经元蹦迪中", "description": "加载文本18" },
+  "loadingText19": { "message": "熬夜的猫头鹰在思考", "description": "加载文本19" },
+  "loadingText20": { "message": "给答案上色中", "description": "加载文本20" },
+  "loadingText21": { "message": "正在疯狂翻阅知识库", "description": "加载文本21" },
+  "loadingText22": { "message": "大脑马戏团开演", "description": "加载文本22" },
+  "loadingText23": { "message": "正在把 0 和 1 捏在一起", "description": "加载文本23" },
+  "loadingText24": { "message": "正在憋个大招", "description": "加载文本24" },
+  "loadingText25": { "message": "放大镜有点起雾，擦擦", "description": "加载文本25" },
+  "loadingText26": { "message": "试图理解这个离谱的需求", "description": "加载文本26" },
+  "loadingText27": { "message": "正在施法，莫打扰", "description": "加载文本27" },
+  "loadingText28": { "message": "唤醒硅基朋友", "description": "加载文本28" },
+  "loadingText29": { "message": "正在连接赛博空间的智慧", "description": "加载文本29" },
+  "loadingText30": { "message": "道友请留步，正在推演", "description": "加载文本30" },
+  "loadingText31": { "message": "穿越知识黑洞", "description": "加载文本31" },
+  "loadingText32": { "message": "正在反向解析人类意图", "description": "加载文本32" },
+  "loadingText33": { "message": "水晶球有点模糊，拍两下", "description": "加载文本33" },
+  "loadingText34": { "message": "代码跑得比记者还快", "description": "加载文本34" },
+  "loadingText35": { "message": "主理人已上线，请稍候", "description": "加载文本35" },
+  "loadingText36": { "message": "快马加鞭赶来中", "description": "加载文本36" },
+  "loadingText37": { "message": "正在光速搬运知识", "description": "加载文本37" },
+  "loadingText38": { "message": "拼图最后一块", "description": "加载文本38" },
+  "loadingText39": { "message": "答案即将杀青", "description": "加载文本39" },
+  "loadingText40": { "message": "发射倒计时", "description": "加载文本40" },
+  "loadingText41": { "message": "目标锁定中", "description": "加载文本41" },
+
+  "workflowStatusLabel": { "message": "状态:", "description": "工作流状态标签" },
+  "workflowDurationLabel": { "message": "耗时:", "description": "工作流耗时标签" },
+  "workflowStatusQueued": { "message": "排队中", "description": "工作流排队中状态" },
+  "workflowStatusRunning": { "message": "运行中", "description": "工作流运行中状态" },
+  "workflowStatusPaused": { "message": "已暂停", "description": "工作流暂停状态" },
+  "workflowStatusSucceeded": { "message": "成功", "description": "工作流成功状态" },
+  "workflowStatusFailed": { "message": "失败", "description": "工作流失败状态" },
+  "workflowStatusCanceled": { "message": "已取消", "description": "工作流取消状态" }
 }

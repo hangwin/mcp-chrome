@@ -500,5 +500,428 @@
     "message": "Paste JS/CSS/TM here",
     "description": "script textarea placeholder"
   },
-  "placeholderDomainHint": { "message": "example.com", "description": "domain filter placeholder" }
+  "placeholderDomainHint": { "message": "example.com", "description": "domain filter placeholder" },
+
+  "dropImagesHere": { "message": "Drop images here", "description": "Drag and drop overlay text" },
+  "removeImageTitle": { "message": "Remove image", "description": "Remove image button title" },
+  "attachImageTooltip": {
+    "message": "Attach image (drag, paste, or click)",
+    "description": "Attach image button tooltip"
+  },
+  "expandEditorTitle": { "message": "Expand editor", "description": "Expand editor button title" },
+  "resetConversationTitle": {
+    "message": "Reset conversation",
+    "description": "Reset conversation button title"
+  },
+  "sessionSettingsTitle": {
+    "message": "Session settings",
+    "description": "Session settings button title"
+  },
+  "switchModelTooltip": { "message": "Switch model", "description": "Model selector tooltip" },
+  "reasoningEffortTooltip": {
+    "message": "Reasoning effort",
+    "description": "Reasoning effort tooltip"
+  },
+  "stopRequestLabel": { "message": "Stop", "description": "Stop request button label" },
+  "sendMessageLabel": { "message": "Send", "description": "Send message button label" },
+  "statusSending": { "message": "Sending...", "description": "Sending status" },
+  "statusStopping": { "message": "Stopping...", "description": "Stopping status" },
+  "statusStarting": { "message": "Starting...", "description": "Starting status" },
+  "statusPreparing": { "message": "Preparing...", "description": "Preparing status" },
+  "statusWorking": { "message": "Working...", "description": "Working status" },
+  "statusReady": { "message": "Ready", "description": "Ready status" },
+  "resetConversationConfirm": {
+    "message": "Reset this conversation? All messages will be deleted and the session will start fresh.",
+    "description": "Reset conversation confirmation"
+  },
+  "askClaudePlaceholder": {
+    "message": "Ask Claude to write code...",
+    "description": "Chat input placeholder"
+  },
+
+  "inputSectionLabel": { "message": "Input", "description": "Input settings section label" },
+  "cometCaretLabel": { "message": "Comet caret", "description": "Comet caret toggle label" },
+  "storageSectionLabel": { "message": "Storage", "description": "Storage settings section label" },
+  "clearAttachmentCacheLabel": {
+    "message": "Clear Attachment Cache",
+    "description": "Clear attachment cache button"
+  },
+  "reconnectServerLabel": {
+    "message": "Reconnect Server",
+    "description": "Reconnect server button"
+  },
+
+  "searchSessionsPlaceholder": {
+    "message": "Search sessions...",
+    "description": "Search sessions input placeholder"
+  },
+  "creatingLabel": { "message": "Creating...", "description": "Creating session status" },
+  "newLabel": { "message": "New", "description": "New session button label" },
+  "loadingSessionsStatus": {
+    "message": "Loading sessions...",
+    "description": "Loading sessions status"
+  },
+  "noMatchingSessions": {
+    "message": "No matching sessions",
+    "description": "No matching sessions message"
+  },
+  "noSessionsYet": { "message": "No sessions yet", "description": "No sessions message" },
+  "tryDifferentSearch": {
+    "message": "Try a different search term",
+    "description": "Search hint message"
+  },
+  "startConversationHint": {
+    "message": "Start a new conversation with AI",
+    "description": "Empty state hint"
+  },
+  "startNewSessionButton": {
+    "message": "Start New Session",
+    "description": "Start new session button"
+  },
+
+  "unnamedSession": { "message": "Unnamed Session", "description": "Default session name" },
+  "runningBadge": { "message": "Running", "description": "Running status badge" },
+  "openProjectTitle": { "message": "Open project", "description": "Open project button title" },
+  "renameTitle": { "message": "Rename", "description": "Rename button title" },
+  "deleteTitle": { "message": "Delete", "description": "Delete button title" },
+  "thisSession": { "message": "this session", "description": "Default session name for deletion" },
+  "justNow": { "message": "just now", "description": "Just now time label" },
+  "minutesAgo": {
+    "message": "$MINS$m ago",
+    "description": "Minutes ago time label",
+    "placeholders": { "mins": { "content": "$1", "example": "5" } }
+  },
+  "hoursAgo": {
+    "message": "$HOURS$h ago",
+    "description": "Hours ago time label",
+    "placeholders": { "hours": { "content": "$1", "example": "2" } }
+  },
+  "daysAgo": {
+    "message": "$DAYS$d ago",
+    "description": "Days ago time label",
+    "placeholders": { "days": { "content": "$1", "example": "3" } }
+  },
+  "deleteSessionConfirm": {
+    "message": "Delete \"$NAME$\"?",
+    "description": "Delete session confirmation",
+    "placeholders": { "name": { "content": "$1", "example": "My Session" } }
+  },
+
+  "projectsSectionLabel": { "message": "Projects", "description": "Projects section label" },
+  "newProjectButton": { "message": "+ New Project", "description": "New project button" },
+  "selectingProjectStatus": {
+    "message": "Selecting...",
+    "description": "Selecting project status"
+  },
+  "settingsSectionLabel": { "message": "Settings", "description": "Settings section label" },
+  "cliLabel": { "message": "CLI", "description": "CLI setting label" },
+  "modelSettingLabel": { "message": "Model", "description": "Model setting label" },
+  "ccrLabel": { "message": "CCR", "description": "Claude Code Router label" },
+  "mcpLabel": { "message": "MCP", "description": "MCP label" },
+  "effortLabel": { "message": "Effort", "description": "Effort setting label" },
+  "autoOption": { "message": "Auto", "description": "Auto option" },
+  "defaultOption": { "message": "Default", "description": "Default option" },
+  "useClaudeCodeRouterLabel": {
+    "message": "Use Claude Code Router",
+    "description": "Claude Code Router toggle"
+  },
+  "enableChromeMcpServerLabel": {
+    "message": "Enable Chrome MCP Server",
+    "description": "Chrome MCP Server toggle"
+  },
+  "appliesToNewSessionsHint": {
+    "message": "Applies to new sessions. Edit existing session in Session Settings.",
+    "description": "Settings scope hint"
+  },
+  "savingLabel": { "message": "Saving...", "description": "Saving status" },
+  "saveSettingsButton": { "message": "Save Settings", "description": "Save settings button" },
+  "claudeCodeRouterTooltip": {
+    "message": "Use Claude Code Router for API routing",
+    "description": "Claude Code Router tooltip"
+  },
+  "chromeMcpServerTooltip": {
+    "message": "Enable local Chrome MCP server integration",
+    "description": "Chrome MCP Server tooltip"
+  },
+
+  "backToSessionsTitle": {
+    "message": "Back to sessions",
+    "description": "Back to sessions button title"
+  },
+  "agentBrandLabel": { "message": "Agent", "description": "Default agent brand label" },
+  "openProjectInTooltip": {
+    "message": "Open project in VS Code or Terminal",
+    "description": "Open project dropdown tooltip"
+  },
+
+  "openInLabel": { "message": "Open In", "description": "Open in menu header" },
+  "vsCodeLabel": { "message": "VS Code", "description": "VS Code option" },
+  "terminalLabel": { "message": "Terminal", "description": "Terminal option" },
+
+  "emSearchPlaceholder": {
+    "message": "Search marker names, selectors...",
+    "description": "Element marker search placeholder"
+  },
+  "emAddMarkerTitle": { "message": "Add marker", "description": "Add marker button title" },
+  "emAddMarker": { "message": "Add Marker", "description": "Add marker modal title" },
+  "emEditMarker": { "message": "Edit Marker", "description": "Edit marker modal title" },
+  "emNameLabel": { "message": "Name", "description": "Marker name label" },
+  "emNamePlaceholder": { "message": "e.g. Login button", "description": "Marker name placeholder" },
+  "emSelectorTypeLabel": { "message": "Selector Type", "description": "Selector type label" },
+  "emMatchTypeLabel": { "message": "Match Type", "description": "Match type label" },
+  "emMatchTypePrefix": { "message": "Path prefix", "description": "Path prefix match option" },
+  "emMatchTypeExact": { "message": "Exact match", "description": "Exact match option" },
+  "emMatchTypeHost": { "message": "Domain", "description": "Domain match option" },
+  "emSelectorLabel": { "message": "Selector", "description": "Selector label" },
+  "emSelectorPlaceholder": {
+    "message": "CSS selector or XPath",
+    "description": "Selector placeholder"
+  },
+  "cancelButton": { "message": "Cancel", "description": "Cancel button" },
+  "updateButton": { "message": "Update", "description": "Update button" },
+  "saveButton": { "message": "Save", "description": "Save button" },
+  "emFilteredStats": {
+    "message": "Filtered $FILTERED$ markers (total $TOTAL$, $DOMAINS$ domains)",
+    "description": "Filtered markers statistics",
+    "placeholders": {
+      "filtered": { "content": "$1", "example": "5" },
+      "total": { "content": "$2", "example": "10" },
+      "domains": { "content": "$3", "example": "3" }
+    }
+  },
+  "emTotalStats": {
+    "message": "Total $TOTAL$ markers, $DOMAINS$ domains",
+    "description": "Total markers statistics",
+    "placeholders": {
+      "total": { "content": "$1", "example": "10" },
+      "domains": { "content": "$2", "example": "3" }
+    }
+  },
+  "emMarkerCount": {
+    "message": "$COUNT$ markers",
+    "description": "Marker count for domain",
+    "placeholders": { "count": { "content": "$1", "example": "5" } }
+  },
+  "emVerifyTitle": { "message": "Verify", "description": "Verify marker button title" },
+  "emEditTitle": { "message": "Edit", "description": "Edit marker button title" },
+  "emDeleteTitle": { "message": "Delete", "description": "Delete marker button title" },
+  "emNoMatchingMarkers": {
+    "message": "No matching markers found",
+    "description": "No search results message"
+  },
+  "emClearSearch": { "message": "Clear search", "description": "Clear search button" },
+  "emNoMarkers": { "message": "No markers yet", "description": "Empty state message" },
+  "emLocalFile": { "message": "(Local file)", "description": "Local file domain placeholder" },
+  "emUnknownUrl": { "message": "(Unknown URL)", "description": "Unknown URL placeholder" },
+  "v3TriggerNotImplemented": {
+    "message": "V3 Trigger management not implemented yet",
+    "description": "V3 trigger not implemented alert"
+  },
+  "v3BuilderNotImplemented": {
+    "message": "V3 Builder not implemented yet",
+    "description": "V3 builder not implemented alert"
+  },
+  "confirmDeleteWorkflow": {
+    "message": "Delete this workflow? This action cannot be undone.",
+    "description": "Delete workflow confirmation"
+  },
+  "confirmDeleteMarker": {
+    "message": "Are you sure you want to delete marker \"$NAME$\"?",
+    "description": "Delete marker confirmation",
+    "placeholders": { "name": { "content": "$1", "example": "Login button" } }
+  },
+
+  "quickToolsLabel": { "message": "Quick Tools", "description": "Quick tools section label" },
+  "recordingComingSoon": {
+    "message": "Recording feature coming soon",
+    "description": "Recording coming soon tooltip"
+  },
+  "webEditorTooltip": {
+    "message": "Enable page edit mode",
+    "description": "Web editor button tooltip"
+  },
+  "elementMarkerTooltip": {
+    "message": "Enable element marking",
+    "description": "Element marker button tooltip"
+  },
+  "managementEntriesLabel": {
+    "message": "Management",
+    "description": "Management entries section label"
+  },
+  "smartAssistantTitle": {
+    "message": "AI Assistant",
+    "description": "AI assistant entry title"
+  },
+  "smartAssistantDesc": {
+    "message": "AI Agent chat and tasks",
+    "description": "Smart assistant entry description"
+  },
+  "workflowManagementTitle": {
+    "message": "Workflow Management",
+    "description": "Workflow management entry title"
+  },
+  "workflowManagementDesc": {
+    "message": "Record and replay automation flows",
+    "description": "Workflow management entry description"
+  },
+  "elementMarkerManagementTitle": {
+    "message": "Element Markers",
+    "description": "Element marker management entry title"
+  },
+  "elementMarkerManagementDesc": {
+    "message": "Manage page element markers",
+    "description": "Element marker management entry description"
+  },
+  "localModelTitle": { "message": "Local Model", "description": "Local model entry title" },
+  "localModelDesc": {
+    "message": "Semantic engine and model management",
+    "description": "Local model entry description"
+  },
+  "featureComingSoon": {
+    "message": "$FEATURE$ feature coming soon, stay tuned",
+    "description": "Feature coming soon toast",
+    "placeholders": { "feature": { "content": "$1", "example": "Recording" } }
+  },
+  "recordingFeatureName": { "message": "Recording", "description": "Recording feature name" },
+  "workflowFeatureName": { "message": "Workflow", "description": "Workflow feature name" },
+  "backToHomeTitle": { "message": "Back to home", "description": "Back to home button title" },
+  "backButton": { "message": "Back", "description": "Back button text" },
+
+  "markedElementsLabel": {
+    "message": "Marked Elements",
+    "description": "Marked elements count label"
+  },
+  "addMarkerLabel": { "message": "Add Marker", "description": "Add marker form header" },
+  "cssSelectorPlaceholder": {
+    "message": "CSS selector",
+    "description": "CSS selector input placeholder"
+  },
+  "clearButton": { "message": "Clear", "description": "Clear form button" },
+  "verifyButton": { "message": "Verify", "description": "Verify button" },
+  "editButton": { "message": "Edit", "description": "Edit button" },
+  "navigatorTriggerTooltip": {
+    "message": "Switch page (drag to move, double-click to reset)",
+    "description": "Navigator trigger button tooltip"
+  },
+  "switchPageTitle": { "message": "Switch Page", "description": "Switch page menu title" },
+
+  "contextMenuMarkElement": {
+    "message": "Mark Element",
+    "description": "Context menu item for marking page elements"
+  },
+  "contextMenuToggleWebEditor": {
+    "message": "Toggle Web Editor",
+    "description": "Context menu item for toggling web editor mode"
+  },
+
+  "loadingText1": {
+    "message": "Thinking through this carefully...",
+    "description": "Loading text 1"
+  },
+  "loadingText2": { "message": "Almost there, just a moment...", "description": "Loading text 2" },
+  "loadingText3": {
+    "message": "I know you're waiting, hang on...",
+    "description": "Loading text 3"
+  },
+  "loadingText4": {
+    "message": "Swimming through the knowledge ocean...",
+    "description": "Loading text 4"
+  },
+  "loadingText5": { "message": "Let me think about this...", "description": "Loading text 5" },
+  "loadingText6": { "message": "Crafting your answer by hand...", "description": "Loading text 6" },
+  "loadingText7": { "message": "Gathering the team...", "description": "Loading text 7" },
+  "loadingText8": {
+    "message": "Working on it (creating new folder)...",
+    "description": "Loading text 8"
+  },
+  "loadingText9": { "message": "Deep in thought here...", "description": "Loading text 9" },
+  "loadingText10": { "message": "Processing at full speed...", "description": "Loading text 10" },
+  "loadingText11": { "message": "Brewing something special...", "description": "Loading text 11" },
+  "loadingText12": {
+    "message": "Flipping the knowledge pancake...",
+    "description": "Loading text 12"
+  },
+  "loadingText13": {
+    "message": "Raising a toast to patience...",
+    "description": "Loading text 13"
+  },
+  "loadingText14": {
+    "message": "Putting inspiration in the oven...",
+    "description": "Loading text 14"
+  },
+  "loadingText15": { "message": "Let the answer steep a bit...", "description": "Loading text 15" },
+  "loadingText16": { "message": "Maximizing the good vibes...", "description": "Loading text 16" },
+  "loadingText17": { "message": "Weaving a sweater of words...", "description": "Loading text 17" },
+  "loadingText18": { "message": "Neurons are dancing...", "description": "Loading text 18" },
+  "loadingText19": { "message": "The night owl is pondering...", "description": "Loading text 19" },
+  "loadingText20": { "message": "Adding color to the answer...", "description": "Loading text 20" },
+  "loadingText21": {
+    "message": "Frantically searching the knowledge base...",
+    "description": "Loading text 21"
+  },
+  "loadingText22": { "message": "Brain circus in session...", "description": "Loading text 22" },
+  "loadingText23": {
+    "message": "Mixing the 0s and 1s together...",
+    "description": "Loading text 23"
+  },
+  "loadingText24": { "message": "Charging up a big move...", "description": "Loading text 24" },
+  "loadingText25": {
+    "message": "Magnifying glass is foggy, wiping it...",
+    "description": "Loading text 25"
+  },
+  "loadingText26": {
+    "message": "Trying to understand this request...",
+    "description": "Loading text 26"
+  },
+  "loadingText27": {
+    "message": "Casting a spell, do not disturb...",
+    "description": "Loading text 27"
+  },
+  "loadingText28": {
+    "message": "Waking up the silicon friend...",
+    "description": "Loading text 28"
+  },
+  "loadingText29": {
+    "message": "Connecting to cyberspace wisdom...",
+    "description": "Loading text 29"
+  },
+  "loadingText30": { "message": "Please wait, calculating...", "description": "Loading text 30" },
+  "loadingText31": {
+    "message": "Traversing the knowledge wormhole...",
+    "description": "Loading text 31"
+  },
+  "loadingText32": {
+    "message": "Reverse-engineering human intent...",
+    "description": "Loading text 32"
+  },
+  "loadingText33": {
+    "message": "Crystal ball is hazy, tapping it...",
+    "description": "Loading text 33"
+  },
+  "loadingText34": {
+    "message": "Code running faster than ever...",
+    "description": "Loading text 34"
+  },
+  "loadingText35": {
+    "message": "Your assistant is online, please wait...",
+    "description": "Loading text 35"
+  },
+  "loadingText36": {
+    "message": "Galloping over as fast as I can...",
+    "description": "Loading text 36"
+  },
+  "loadingText37": { "message": "Speed-delivering knowledge...", "description": "Loading text 37" },
+  "loadingText38": { "message": "Last piece of the puzzle...", "description": "Loading text 38" },
+  "loadingText39": { "message": "Answer coming right up...", "description": "Loading text 39" },
+  "loadingText40": { "message": "Countdown to launch...", "description": "Loading text 40" },
+  "loadingText41": { "message": "Target locked...", "description": "Loading text 41" },
+
+  "workflowStatusLabel": { "message": "Status:", "description": "Workflow status label" },
+  "workflowDurationLabel": { "message": "Duration:", "description": "Workflow duration label" },
+  "workflowStatusQueued": { "message": "Queued", "description": "Workflow queued status" },
+  "workflowStatusRunning": { "message": "Running", "description": "Workflow running status" },
+  "workflowStatusPaused": { "message": "Paused", "description": "Workflow paused status" },
+  "workflowStatusSucceeded": { "message": "Succeeded", "description": "Workflow succeeded status" },
+  "workflowStatusFailed": { "message": "Failed", "description": "Workflow failed status" },
+  "workflowStatusCanceled": { "message": "Canceled", "description": "Workflow canceled status" }
 }

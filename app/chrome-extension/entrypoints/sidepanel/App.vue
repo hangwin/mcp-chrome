@@ -49,7 +49,7 @@
             <input
               v-model="markerSearch"
               class="em-search-input"
-              placeholder="搜索标注名称、选择器..."
+              :placeholder="getMessage('emSearchPlaceholder')"
               type="text"
             />
             <button
@@ -66,7 +66,11 @@
               </svg>
             </button>
           </div>
-          <button class="em-add-btn" @click="openMarkerEditor()" title="新增标注">
+          <button
+            class="em-add-btn"
+            @click="openMarkerEditor()"
+            :title="getMessage('emAddMarkerTitle')"
+          >
             <svg viewBox="0 0 20 20" width="18" height="18">
               <path
                 fill="currentColor"
@@ -80,7 +84,9 @@
         <div v-if="markerEditorOpen" class="em-modal-overlay" @click.self="closeMarkerEditor">
           <div class="em-modal">
             <div class="em-modal-header">
-              <h3 class="em-modal-title">{{ editingMarkerId ? '编辑标注' : '新增标注' }}</h3>
+              <h3 class="em-modal-title">{{
+                editingMarkerId ? getMessage('emEditMarker') : getMessage('emAddMarker')
+              }}</h3>
               <button class="em-modal-close" @click="closeMarkerEditor">
                 <svg viewBox="0 0 20 20" width="18" height="18">
                   <path
@@ -93,11 +99,11 @@
             <form @submit.prevent="saveMarker" class="em-form">
               <div class="em-form-row">
                 <div class="em-field">
-                  <label class="em-field-label">名称</label>
+                  <label class="em-field-label">{{ getMessage('emNameLabel') }}</label>
                   <input
                     v-model="markerForm.name"
                     class="em-input"
-                    placeholder="例如: 登录按钮"
+                    :placeholder="getMessage('emNamePlaceholder')"
                     required
                   />
                 </div>
@@ -105,7 +111,7 @@
 
               <div class="em-form-row em-form-row-multi">
                 <div class="em-field">
-                  <label class="em-field-label">选择器类型</label>
+                  <label class="em-field-label">{{ getMessage('emSelectorTypeLabel') }}</label>
                   <div class="em-select-wrapper">
                     <select v-model="markerForm.selectorType" class="em-select">
                       <option value="css">CSS Selector</option>
@@ -114,12 +120,12 @@
                   </div>
                 </div>
                 <div class="em-field">
-                  <label class="em-field-label">匹配类型</label>
+                  <label class="em-field-label">{{ getMessage('emMatchTypeLabel') }}</label>
                   <div class="em-select-wrapper">
                     <select v-model="markerForm.matchType" class="em-select">
-                      <option value="prefix">路径前缀</option>
-                      <option value="exact">精确匹配</option>
-                      <option value="host">域名</option>
+                      <option value="prefix">{{ getMessage('emMatchTypePrefix') }}</option>
+                      <option value="exact">{{ getMessage('emMatchTypeExact') }}</option>
+                      <option value="host">{{ getMessage('emMatchTypeHost') }}</option>
                     </select>
                   </div>
                 </div>
@@ -127,11 +133,11 @@
 
               <div class="em-form-row">
                 <div class="em-field">
-                  <label class="em-field-label">选择器</label>
+                  <label class="em-field-label">{{ getMessage('emSelectorLabel') }}</label>
                   <textarea
                     v-model="markerForm.selector"
                     class="em-textarea"
-                    placeholder="CSS 选择器或 XPath"
+                    :placeholder="getMessage('emSelectorPlaceholder')"
                     rows="3"
                     required
                   ></textarea>
@@ -140,10 +146,10 @@
 
               <div class="em-modal-actions">
                 <button type="button" class="em-btn em-btn-ghost" @click="closeMarkerEditor">
-                  取消
+                  {{ getMessage('cancelButton') }}
                 </button>
                 <button type="submit" class="em-btn em-btn-primary">
-                  {{ editingMarkerId ? '更新' : '保存' }}
+                  {{ editingMarkerId ? getMessage('updateButton') : getMessage('saveButton') }}
                 </button>
               </div>
             </form>
@@ -156,12 +162,21 @@
           <div class="em-stats-bar">
             <span class="em-stats-text">
               <template v-if="markerSearch">
-                筛选出 <strong>{{ filteredMarkers.length }}</strong> 个标注 （共
-                {{ markers.length }} 个，{{ groupedMarkers.length }} 个域名）
+                {{
+                  getMessage('emFilteredStats', [
+                    String(filteredMarkers.length),
+                    String(markers.length),
+                    String(groupedMarkers.length),
+                  ])
+                }}
               </template>
               <template v-else>
-                共 <strong>{{ markers.length }}</strong> 个标注，
-                <strong>{{ groupedMarkers.length }}</strong> 个域名
+                {{
+                  getMessage('emTotalStats', [
+                    String(markers.length),
+                    String(groupedMarkers.length),
+                  ])
+                }}
               </template>
             </span>
           </div>
@@ -185,7 +200,9 @@
                   <path fill="currentColor" d="M6 8l4 4 4-4" />
                 </svg>
                 <h3 class="em-domain-name">{{ domainGroup.domain }}</h3>
-                <span class="em-domain-count">{{ domainGroup.count }} 个标注</span>
+                <span class="em-domain-count">{{
+                  getMessage('emMarkerCount', [String(domainGroup.count)])
+                }}</span>
               </div>
             </div>
 
@@ -211,7 +228,7 @@
                           <button
                             class="em-action-btn em-action-verify"
                             @click="validateMarker(marker)"
-                            title="验证"
+                            :title="getMessage('emVerifyTitle')"
                           >
                             <svg viewBox="0 0 24 24" width="14" height="14">
                               <path
@@ -224,7 +241,7 @@
                           <button
                             class="em-action-btn em-action-edit"
                             @click="editMarker(marker)"
-                            title="编辑"
+                            :title="getMessage('emEditTitle')"
                           >
                             <svg viewBox="0 0 24 24" width="14" height="14">
                               <path
@@ -237,7 +254,7 @@
                           <button
                             class="em-action-btn em-action-delete"
                             @click="deleteMarker(marker)"
-                            title="删除"
+                            :title="getMessage('emDeleteTitle')"
                           >
                             <svg viewBox="0 0 24 24" width="14" height="14">
                               <path
@@ -268,17 +285,17 @@
 
         <!-- No search results -->
         <div v-else-if="markers.length > 0 && filteredMarkers.length === 0" class="em-empty">
-          <p>未找到匹配的标注</p>
+          <p>{{ getMessage('emNoMatchingMarkers') }}</p>
           <button class="em-btn em-btn-ghost em-empty-btn" @click="markerSearch = ''">
-            清除搜索
+            {{ getMessage('emClearSearch') }}
           </button>
         </div>
 
         <!-- Empty state -->
         <div v-else class="em-empty">
-          <p>暂无标注元素</p>
+          <p>{{ getMessage('emNoMarkers') }}</p>
           <button class="em-btn em-btn-primary em-empty-btn" @click="openMarkerEditor()">
-            新增标注
+            {{ getMessage('emAddMarker') }}
           </button>
         </div>
       </div>
@@ -295,6 +312,9 @@ import SidepanelNavigator from './components/SidepanelNavigator.vue';
 import { WorkflowsView } from './components/workflows';
 import { useAgentTheme } from './composables/useAgentTheme';
 import { useWorkflowsV3, type FlowLite } from './composables/useWorkflowsV3';
+import { getMessage } from '@/utils/i18n';
+
+// i18n helper
 
 // Agent theme for consistent styling
 const { theme: currentTheme, initTheme } = useAgentTheme();
@@ -353,8 +373,8 @@ const groupedMarkers = computed(() => {
 
   for (const marker of filteredMarkers.value) {
     // Use pre-normalized fields from storage instead of reparsing URLs
-    const domain = marker.host || '(本地文件)';
-    const fullUrl = marker.url || '(未知URL)';
+    const domain = marker.host || getMessage('emLocalFile');
+    const fullUrl = marker.url || getMessage('emUnknownUrl');
 
     if (!groups.has(domain)) {
       groups.set(domain, new Map());
@@ -437,12 +457,12 @@ async function exportFlow(id: string) {
 
 function createTrigger() {
   // V3 Trigger management not yet implemented
-  alert('V3 Trigger 管理尚未实现，暂时无法创建触发器');
+  alert(getMessage('v3TriggerNotImplemented'));
 }
 
 function editTrigger(_id: string) {
   // V3 Trigger management not yet implemented
-  alert('V3 Trigger 管理尚未实现，暂时无法编辑触发器');
+  alert(getMessage('v3TriggerNotImplemented'));
 }
 
 async function removeTrigger(id: string) {
@@ -462,19 +482,19 @@ async function run(id: string) {
 
 function edit(id: string) {
   // V3 Builder not yet implemented - show message
-  alert('V3 Builder 尚未实现，暂时无法编辑工作流');
+  alert(getMessage('v3BuilderNotImplemented'));
   // TODO: openBuilder({ flowId: id });
 }
 
 function createFlow() {
   // V3 Builder not yet implemented - show message
-  alert('V3 Builder 尚未实现，暂时无法创建工作流');
+  alert(getMessage('v3BuilderNotImplemented'));
   // TODO: openBuilder({ newFlow: true });
 }
 
 async function remove(id: string) {
   try {
-    const ok = confirm('确认删除该工作流？此操作不可恢复');
+    const ok = confirm(getMessage('confirmDeleteWorkflow'));
     if (!ok) return;
     await workflowsV3.deleteFlow(id);
   } catch {}
@@ -608,7 +628,7 @@ function cancelEdit() {
 
 async function deleteMarker(marker: ElementMarker) {
   try {
-    const confirmed = confirm(`确定要删除标注 "${marker.name}" 吗?`);
+    const confirmed = confirm(getMessage('confirmDeleteMarker', [marker.name]));
     if (!confirmed) return;
 
     const res: any = await chrome.runtime.sendMessage({
