@@ -18,6 +18,7 @@ import * as path from 'path';
 let stdioMcpServer: Server | null = null;
 let mcpClient: Client | null = null;
 let sessionId: string | undefined = undefined;
+let isCleaningUp = false;
 
 // Read configuration from stdio-config.json
 const loadConfig = () => {
@@ -79,17 +80,29 @@ export const ensureMcpClient = async () => {
 
 // Cleanup function to close session on exit
 const cleanup = async () => {
+  // Prevent concurrent cleanup calls
+  if (isCleaningUp) return;
+  isCleaningUp = true;
+
   console.error('[stdio-mcp] Closing session...');
   if (sessionId) {
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => {
+      abortController.abort();
+    }, 3000);
+
     try {
       const config = loadConfig();
       await fetch(config.url, {
         method: 'DELETE',
-        headers: { 'Mcp-Session-Id': sessionId! },
+        headers: { 'Mcp-Session-Id': sessionId },
+        signal: abortController.signal,
       });
       console.error('[stdio-mcp] Session terminated');
     } catch (e: any) {
       console.error('[stdio-mcp] Failed to terminate session:', e.message);
+    } finally {
+      clearTimeout(timeoutId);
     }
     sessionId = undefined;
   }
@@ -152,9 +165,13 @@ async function main() {
   const parentCheck = setInterval(() => {
     try {
       process.kill(parentPid, 0);
-    } catch {
-      clearInterval(parentCheck);
-      cleanup();
+    } catch (error: any) {
+      // Only treat ESRCH ("No such process") as a terminated parent.
+      // Other errors like EPERM mean the process may still exist.
+      if (error && error.code === 'ESRCH') {
+        clearInterval(parentCheck);
+        cleanup();
+      }
     }
   }, 10000);
   parentCheck.unref();
