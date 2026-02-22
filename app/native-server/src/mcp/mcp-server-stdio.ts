@@ -17,6 +17,7 @@ import * as path from 'path';
 
 let stdioMcpServer: Server | null = null;
 let mcpClient: Client | null = null;
+let sessionId: string | undefined = undefined;
 
 // Read configuration from stdio-config.json
 const loadConfig = () => {
@@ -65,12 +66,36 @@ export const ensureMcpClient = async () => {
     mcpClient = new Client({ name: 'Mcp Chrome Proxy', version: '1.0.0' }, { capabilities: {} });
     const transport = new StreamableHTTPClientTransport(new URL(config.url), {});
     await mcpClient.connect(transport);
+    // Save session ID for cleanup on exit
+    sessionId = transport.sessionId;
     return mcpClient;
   } catch (error) {
     mcpClient?.close();
     mcpClient = null;
+    sessionId = undefined;
     console.error('Failed to connect to MCP server:', error);
   }
+};
+
+// Cleanup function to close session on exit
+const cleanup = async () => {
+  console.error('[stdio-mcp] Closing session...');
+  if (sessionId) {
+    try {
+      const config = loadConfig();
+      await fetch(config.url, {
+        method: 'DELETE',
+        headers: { 'Mcp-Session-Id': sessionId! },
+      });
+      console.error('[stdio-mcp] Session terminated');
+    } catch (e: any) {
+      console.error('[stdio-mcp] Failed to terminate session:', e.message);
+    }
+    sessionId = undefined;
+  }
+  mcpClient?.close();
+  stdioMcpServer?.close();
+  process.exit(0);
 };
 
 export const setupTools = (server: Server) => {
@@ -117,6 +142,22 @@ const handleToolCall = async (name: string, args: any): Promise<CallToolResult> 
 async function main() {
   const transport = new StdioServerTransport();
   await getStdioMcpServer().connect(transport);
+
+  // Setup stdin handlers to cleanup session on exit
+  process.stdin.on('end', cleanup);
+  process.stdin.on('close', cleanup);
+
+  // Watchdog for parent PID (backup mechanism)
+  const parentPid = process.ppid;
+  const parentCheck = setInterval(() => {
+    try {
+      process.kill(parentPid, 0);
+    } catch {
+      clearInterval(parentCheck);
+      cleanup();
+    }
+  }, 10000);
+  parentCheck.unref();
 }
 
 main().catch((error) => {
