@@ -63,7 +63,7 @@
             :cancelling="chat.cancelling.value"
             :can-cancel="!!chat.currentRequestId.value"
             :can-send="chat.canSend.value"
-            placeholder="Ask Claude to write code..."
+            placeholder="Ask AI to write code..."
             :engine-name="currentEngineName"
             :selected-model="currentSessionModel"
             :available-models="currentAvailableModels"
