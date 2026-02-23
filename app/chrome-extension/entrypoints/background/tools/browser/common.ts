@@ -151,6 +151,14 @@ class NavigateTool extends BaseBrowserToolExecutor {
         try {
           if (!input.includes('*')) {
             const u = new URL(input);
+
+            // file:// URLs have no host, so wildcard variants are meaningless.
+            // Use the exact URL so chrome.tabs.query can match the specific local file.
+            if (u.protocol === 'file:') {
+              patterns.add(input);
+              return Array.from(patterns);
+            }
+
             // Use host-level wildcard to include all paths; we'll do precise selection later
             const pathWildcard = '/*';
 
@@ -469,9 +477,14 @@ class CloseTabsTool extends BaseBrowserToolExecutor {
             // Use URL to normalize; fallback to simple suffixing when parsing fails.
             try {
               const u = new URL(urlPattern);
-              const basePath = u.pathname || '/';
-              const pathWithWildcard = basePath.endsWith('/') ? `${basePath}*` : `${basePath}/*`;
-              urlPattern = `${u.protocol}//${u.host}${pathWithWildcard}`;
+
+              // file:// URLs have no host, so host + path-wildcard patterns are meaningless.
+              // Keep the exact URL so chrome.tabs.query matches the specific local file.
+              if (u.protocol !== 'file:') {
+                const basePath = u.pathname || '/';
+                const pathWithWildcard = basePath.endsWith('/') ? `${basePath}*` : `${basePath}/*`;
+                urlPattern = `${u.protocol}//${u.host}${pathWithWildcard}`;
+              }
             } catch {
               // Not a fully-qualified URL; ensure it ends with wildcard
               urlPattern = urlPattern.endsWith('/') ? `${urlPattern}*` : `${urlPattern}/*`;
