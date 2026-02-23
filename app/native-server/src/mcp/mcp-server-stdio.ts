@@ -117,6 +117,16 @@ const handleToolCall = async (name: string, args: any): Promise<CallToolResult> 
 async function main() {
   const transport = new StdioServerTransport();
   await getStdioMcpServer().connect(transport);
+
+  // Exit cleanly when the parent process dies (stdin pipe closes).
+  // Without this, the process becomes a zombie after the parent
+  // (e.g. Claude Code) terminates.
+  process.stdin.on('close', () => {
+    process.exit(0);
+  });
+  process.stdin.on('end', () => {
+    process.exit(0);
+  });
 }
 
 main().catch((error) => {
