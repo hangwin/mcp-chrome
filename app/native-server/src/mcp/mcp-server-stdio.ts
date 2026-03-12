@@ -52,13 +52,24 @@ export const getStdioMcpServer = () => {
   return stdioMcpServer;
 };
 
-export const ensureMcpClient = async () => {
+export const ensureMcpClient = async (forceNew = false) => {
   try {
-    if (mcpClient) {
-      const pingResult = await mcpClient.ping();
-      if (pingResult) {
-        return mcpClient;
+    if (mcpClient && !forceNew) {
+      try {
+        const pingResult = await mcpClient.ping();
+        if (pingResult) {
+          return mcpClient;
+        }
+      } catch {
+        // Ping failed — old client/transport is dead, will rebuild below
+        console.error('[chrome-mcp-stdio] Ping failed, rebuilding client');
       }
+    }
+
+    // Always close the old client before creating a new one
+    if (mcpClient) {
+      try { mcpClient.close(); } catch { /* ignore close errors */ }
+      mcpClient = null;
     }
 
     const config = loadConfig();
@@ -67,9 +78,12 @@ export const ensureMcpClient = async () => {
     await mcpClient.connect(transport);
     return mcpClient;
   } catch (error) {
-    mcpClient?.close();
+    if (mcpClient) {
+      try { mcpClient.close(); } catch { /* ignore close errors */ }
+    }
     mcpClient = null;
-    console.error('Failed to connect to MCP server:', error);
+    console.error('[chrome-mcp-stdio] Failed to connect to MCP server:', error);
+    throw error;
   }
 };
 
@@ -89,29 +103,52 @@ export const setupTools = (server: Server) => {
   server.setRequestHandler(ListPromptsRequestSchema, async () => ({ prompts: [] }));
 };
 
+const isConnectionError = (error: any): boolean => {
+  const msg = error?.message || '';
+  return (
+    msg.includes('EOF') ||
+    msg.includes('closed') ||
+    msg.includes('ECONNREFUSED') ||
+    msg.includes('fetch failed') ||
+    msg.includes('client is closing')
+  );
+};
+
 const handleToolCall = async (name: string, args: any): Promise<CallToolResult> => {
-  try {
-    const client = await ensureMcpClient();
-    if (!client) {
-      throw new Error('Failed to connect to MCP server');
+  const DEFAULT_CALL_TIMEOUT_MS = 2 * 60 * 1000;
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const client = await ensureMcpClient(attempt > 0);
+      if (!client) {
+        throw new Error('Failed to connect to MCP server');
+      }
+      const result = await client.callTool({ name, arguments: args }, undefined, {
+        timeout: DEFAULT_CALL_TIMEOUT_MS,
+      });
+      return result as CallToolResult;
+    } catch (error: any) {
+      if (attempt === 0 && isConnectionError(error)) {
+        console.error('[chrome-mcp-stdio] Connection error, retrying with fresh client:', error.message);
+        continue;
+      }
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error calling tool: ${error.message}`,
+          },
+        ],
+        isError: true,
+      };
     }
-    // Use a sane default of 2 minutes; the previous value mistakenly used 2*6*1000 (12s)
-    const DEFAULT_CALL_TIMEOUT_MS = 2 * 60 * 1000;
-    const result = await client.callTool({ name, arguments: args }, undefined, {
-      timeout: DEFAULT_CALL_TIMEOUT_MS,
-    });
-    return result as CallToolResult;
-  } catch (error: any) {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `Error calling tool: ${error.message}`,
-        },
-      ],
-      isError: true,
-    };
   }
+
+  // Should never reach here, but satisfy TypeScript
+  return {
+    content: [{ type: 'text', text: 'Unexpected error: retry loop exhausted' }],
+    isError: true,
+  };
 };
 
 async function main() {
