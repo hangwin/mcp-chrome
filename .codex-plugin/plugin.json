@@ -1,0 +1,27 @@
+{
+  "name": "mcp-chrome",
+  "version": "0.1.0",
+  "description": "Chrome MCP server for Codex - browser automation via Chrome extension",
+  "author": {
+    "name": "hangwin",
+    "url": "https://github.com/hangwin"
+  },
+  "homepage": "https://github.com/hangwin/mcp-chrome",
+  "repository": "https://github.com/hangwin/mcp-chrome",
+  "keywords": [
+    "mcp",
+    "chrome",
+    "browser",
+    "automation",
+    "codex"
+  ],
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "MCP Chrome",
+    "shortDescription": "Control Chrome from Codex via MCP",
+    "longDescription": "Chrome extension-based MCP server that exposes Chrome browser functionality to AI assistants. Enables browser automation, content analysis, and semantic search without launching a separate browser process.",
+    "category": "Productivity",
+    "websiteURL": "https://github.com/hangwin/mcp-chrome"
+  },
+  "skills": "./skills/"
+}
