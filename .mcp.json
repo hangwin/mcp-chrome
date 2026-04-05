@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "mcp-chrome": {
+      "command": "npx",
+      "args": [
+        "mcp-chrome-bridge"
+      ]
+    }
+  }
+}
