@@ -225,6 +225,23 @@ const fallbackMessages: Record<string, string> = {
   clearAllCache: 'Clear All Cache',
   expired: 'Expired',
   bookmarksBar: 'Bookmarks Bar',
+
+  // Popup home view
+  quickToolsLabel: 'Quick Tools',
+  recordingComingSoonTooltip: 'Recording feature in development',
+  enablePageEditTooltip: 'Enable page edit mode',
+  enableElementMarkerTooltip: 'Enable element marker',
+  managementSectionLabel: 'Management',
+  agentChatTitle: 'AI Assistant',
+  agentChatDesc: 'AI Agent conversations & tasks',
+  workflowManagementTitle: 'Workflow Management',
+  workflowManagementDesc: 'Record & replay automation flows',
+  elementMarkerTitle: 'Element Marker Management',
+  elementMarkerDesc: 'Manage page element markers',
+  localModelTitle: 'Local Model',
+  localModelDesc: 'Semantic engine & model management',
+  comingSoonMessage: '{0} feature is under development, stay tuned',
+  featureRecordReplay: 'Recording & Replay',
 };
 
 /**
