@@ -147,11 +147,12 @@ eg：config in augment:
 Complete tool list: [Complete Tool List](docs/TOOLS.md)
 
 <details>
-<summary><strong>📊 Browser Management (6 tools)</strong></summary>
+<summary><strong>📊 Browser Management (8 tools)</strong></summary>
 
 - `get_windows_and_tabs` - List all browser windows and tabs
 - `chrome_navigate` - Navigate to URLs and control viewport
 - `chrome_switch_tab` - Switch the current active tab
+- `chrome_move_tab` - Move a tab to another window (or detach into a new window) without reloading
 - `chrome_close_tabs` - Close specific tabs or windows
 - `chrome_go_back_or_forward` - Browser navigation control
 - `chrome_inject_script` - Inject content scripts into web pages

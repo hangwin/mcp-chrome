@@ -102,6 +102,28 @@ Switch to a specific browser tab.
 }
 ```
 
+### `chrome_move_tab`
+
+Move an existing tab to another window, or detach it into a new window. Tab state — scroll position, navigation history, and form input — is preserved (the underlying renderer is reattached, not reloaded).
+
+**Parameters**:
+
+- `tabId` (number, required): The ID of the tab to move.
+- `windowId` (number, optional): The ID of the destination window. Required unless `newWindow=true`. Mutually exclusive with `newWindow`.
+- `newWindow` (boolean, optional): When `true`, detach the tab into a brand-new window. Mutually exclusive with `windowId`. Default: `false`.
+- `index` (number, optional): Position in the destination window. Negative values append. Default: `-1`. Ignored when `newWindow=true`.
+- `focused` (boolean, optional): Focus the destination window after moving. Default: `true`.
+
+**Example**:
+
+```json
+{
+  "tabId": 456,
+  "windowId": 123,
+  "index": 0
+}
+```
+
 ### `chrome_go_back_or_forward`
 
 Navigate browser history.
