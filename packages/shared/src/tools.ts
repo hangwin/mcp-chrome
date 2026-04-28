@@ -8,6 +8,7 @@ export const TOOL_NAMES = {
     SCREENSHOT: 'chrome_screenshot',
     CLOSE_TABS: 'chrome_close_tabs',
     SWITCH_TAB: 'chrome_switch_tab',
+    MOVE_TAB: 'chrome_move_tab',
     WEB_FETCHER: 'chrome_get_web_content',
     CLICK: 'chrome_click_element',
     FILL: 'chrome_fill_or_select',
@@ -518,6 +519,40 @@ export const TOOL_SCHEMAS: Tool[] = [
         windowId: {
           type: 'number',
           description: 'The ID of the window where the tab is located.',
+        },
+      },
+      required: ['tabId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.MOVE_TAB,
+    description:
+      'Move an existing tab to another window (or detach into a new window) without reloading the page. Tab state — scroll position, navigation history, form input — is preserved.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tabId: {
+          type: 'number',
+          description: 'The ID of the tab to move.',
+        },
+        windowId: {
+          type: 'number',
+          description:
+            'The ID of the destination window. Required unless newWindow=true. Mutually exclusive with newWindow.',
+        },
+        newWindow: {
+          type: 'boolean',
+          description:
+            'When true, detach the tab into a brand-new window. Mutually exclusive with windowId. Default: false.',
+        },
+        index: {
+          type: 'number',
+          description:
+            'Position in the destination window. Negative values append (default -1). Ignored when newWindow=true.',
+        },
+        focused: {
+          type: 'boolean',
+          description: 'Focus the destination window after moving. Default: true.',
         },
       },
       required: ['tabId'],
