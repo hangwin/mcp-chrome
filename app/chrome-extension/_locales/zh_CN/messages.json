@@ -488,5 +488,69 @@
     "description": "匹配示例占位符"
   },
   "placeholderScriptHint": { "message": "在此粘贴 JS/CSS/TM", "description": "脚本文本域占位符" },
-  "placeholderDomainHint": { "message": "example.com", "description": "域名筛选占位符" }
+  "placeholderDomainHint": { "message": "example.com", "description": "域名筛选占位符" },
+
+  "quickToolsLabel": {
+    "message": "快捷工具",
+    "description": "弹窗中快捷工具区域的标题"
+  },
+  "recordingComingSoonTooltip": {
+    "message": "录制功能开发中",
+    "description": "录制/停止录制按钮的提示文案（功能尚未上线）"
+  },
+  "enablePageEditTooltip": {
+    "message": "开启页面编辑模式",
+    "description": "网页编辑切换按钮的提示文案"
+  },
+  "enableElementMarkerTooltip": {
+    "message": "开启元素标注",
+    "description": "元素标注切换按钮的提示文案"
+  },
+  "managementSectionLabel": {
+    "message": "管理入口",
+    "description": "弹窗中管理入口区域的标题"
+  },
+  "agentChatTitle": {
+    "message": "智能助手",
+    "description": "弹窗中智能助手入口的标题"
+  },
+  "agentChatDesc": {
+    "message": "AI Agent 对话与任务",
+    "description": "弹窗中智能助手入口的描述"
+  },
+  "workflowManagementTitle": {
+    "message": "工作流管理",
+    "description": "弹窗中工作流管理入口的标题"
+  },
+  "workflowManagementDesc": {
+    "message": "录制与回放自动化流程",
+    "description": "弹窗中工作流管理入口的描述"
+  },
+  "elementMarkerTitle": {
+    "message": "元素标注管理",
+    "description": "弹窗中元素标注管理入口的标题"
+  },
+  "elementMarkerDesc": {
+    "message": "管理页面元素标注",
+    "description": "弹窗中元素标注管理入口的描述"
+  },
+  "localModelTitle": {
+    "message": "本地模型",
+    "description": "弹窗中本地模型入口的标题"
+  },
+  "localModelDesc": {
+    "message": "语义引擎与模型管理",
+    "description": "弹窗中本地模型入口的描述"
+  },
+  "comingSoonMessage": {
+    "message": "$FEATURE$ 功能开发中，敬请期待",
+    "description": "调用尚未上线功能时的 toast 提示",
+    "placeholders": {
+      "feature": { "content": "$1" }
+    }
+  },
+  "featureRecordReplay": {
+    "message": "录制回放",
+    "description": "录制与回放功能的显示名称"
+  }
 }

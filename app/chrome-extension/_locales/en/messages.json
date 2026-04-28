@@ -500,5 +500,69 @@
     "message": "Paste JS/CSS/TM here",
     "description": "script textarea placeholder"
   },
-  "placeholderDomainHint": { "message": "example.com", "description": "domain filter placeholder" }
+  "placeholderDomainHint": { "message": "example.com", "description": "domain filter placeholder" },
+
+  "quickToolsLabel": {
+    "message": "Quick Tools",
+    "description": "Section title for the quick tools row in the popup"
+  },
+  "recordingComingSoonTooltip": {
+    "message": "Recording feature in development",
+    "description": "Tooltip on the record/stop record buttons while the feature is not yet shipped"
+  },
+  "enablePageEditTooltip": {
+    "message": "Enable page edit mode",
+    "description": "Tooltip on the web editor toggle button"
+  },
+  "enableElementMarkerTooltip": {
+    "message": "Enable element marker",
+    "description": "Tooltip on the element marker toggle button"
+  },
+  "managementSectionLabel": {
+    "message": "Management",
+    "description": "Section title for the management entries card in the popup"
+  },
+  "agentChatTitle": {
+    "message": "AI Assistant",
+    "description": "Title for the agent chat entry in the popup"
+  },
+  "agentChatDesc": {
+    "message": "AI Agent conversations & tasks",
+    "description": "Description for the agent chat entry in the popup"
+  },
+  "workflowManagementTitle": {
+    "message": "Workflow Management",
+    "description": "Title for the workflow management entry in the popup"
+  },
+  "workflowManagementDesc": {
+    "message": "Record & replay automation flows",
+    "description": "Description for the workflow management entry in the popup"
+  },
+  "elementMarkerTitle": {
+    "message": "Element Marker Management",
+    "description": "Title for the element marker management entry in the popup"
+  },
+  "elementMarkerDesc": {
+    "message": "Manage page element markers",
+    "description": "Description for the element marker management entry in the popup"
+  },
+  "localModelTitle": {
+    "message": "Local Model",
+    "description": "Title for the local model entry in the popup"
+  },
+  "localModelDesc": {
+    "message": "Semantic engine & model management",
+    "description": "Description for the local model entry in the popup"
+  },
+  "comingSoonMessage": {
+    "message": "$FEATURE$ feature is under development, stay tuned",
+    "description": "Toast message shown when a coming-soon feature is invoked",
+    "placeholders": {
+      "feature": { "content": "$1" }
+    }
+  },
+  "featureRecordReplay": {
+    "message": "Recording & Replay",
+    "description": "Display name for the recording & replay feature"
+  }
 }
