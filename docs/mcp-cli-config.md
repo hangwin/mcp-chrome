@@ -9,26 +9,33 @@ Both Codex CLI and Claude Code can connect to this endpoint to use Chrome browse
 
 ## Codex CLI Configuration
 
-### Option 1: HTTP MCP Server (Recommended)
+### Option 1: Add the server via Codex CLI (Recommended)
 
-Add the following to your `~/.codex/config.json`:
-
-```json
-{
-  "mcpServers": {
-    "chrome-mcp": {
-      "url": "http://127.0.0.1:12306/mcp"
-    }
-  }
-}
-```
-
-### Option 2: Via Environment Variable
-
-Set the MCP URL via environment variable before running codex:
+Run:
 
 ```bash
-export MCP_HTTP_PORT=12306
+codex mcp add chrome-mcp --url http://127.0.0.1:12306/mcp
+```
+
+This writes the MCP server entry to `~/.codex/config.toml`.
+
+### Option 2: Edit the Codex config manually
+
+Add the following to your `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.chrome-mcp]
+url = "http://127.0.0.1:12306/mcp"
+```
+
+### About `MCP_HTTP_PORT`
+
+`MCP_HTTP_PORT` controls the port exposed by the Chrome MCP Server itself. It does **not** register a server entry in Codex automatically.
+
+If you change the server port, update the URL in Codex as well, or rerun:
+
+```bash
+codex mcp add chrome-mcp --url http://127.0.0.1:<your-port>/mcp
 ```
 
 ## Claude Code Configuration
