@@ -175,13 +175,14 @@ export class Server {
         });
 
         const transport = new SSEServerTransport('/messages', reply.raw);
+        const server = getMcpServer();
         this.transportsMap.set(transport.sessionId, transport);
 
         reply.raw.on('close', () => {
           this.transportsMap.delete(transport.sessionId);
+          void server.close().catch(() => {});
         });
 
-        const server = getMcpServer();
         await server.connect(transport);
 
         reply.raw.write(':\n\n');
@@ -230,12 +231,14 @@ export class Server {
           },
         });
 
+        const server = getMcpServer();
         transport.onclose = () => {
           if (transport?.sessionId && this.transportsMap.get(transport.sessionId)) {
             this.transportsMap.delete(transport.sessionId);
           }
+          void server.close().catch(() => {});
         };
-        await getMcpServer().connect(transport);
+        await server.connect(transport);
       } else {
         reply.code(HTTP_STATUS.BAD_REQUEST).send({ error: ERROR_MESSAGES.INVALID_MCP_REQUEST });
         return;
