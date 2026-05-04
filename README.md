@@ -159,6 +159,19 @@ Complete tool list: [Complete Tool List](docs/TOOLS.md)
 </details>
 
 <details>
+<summary><strong>🗂️ Tab Grouping (5 tools)</strong></summary>
+
+- `chrome_tab_group_create` - Create a new tab group from one or more tabs (optional title/color/window)
+- `chrome_tab_group_update` - Rename, recolor, or collapse/expand an existing group
+- `chrome_tab_group_add_tabs` - Add existing tabs to an existing group
+- `chrome_tab_group_close` - Close every tab inside a group
+- `chrome_tab_group_list` - List all tab groups (filter by window/color/title/collapsed) with their tab IDs
+
+Requires Chrome 89+ and the `tabGroups` permission (already declared in the manifest).
+
+</details>
+
+<details>
 <summary><strong>📸 Screenshots & Visual (1 tool)</strong></summary>
 
 - `chrome_screenshot` - Advanced screenshot capture with element targeting, full-page support, and custom dimensions
