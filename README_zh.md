@@ -157,6 +157,19 @@ pnpm list -g mcp-chrome-bridge
 </details>
 
 <details>
+<summary><strong>🗂️ 标签页分组 (5个工具)</strong></summary>
+
+- `chrome_tab_group_create` - 将一个或多个标签页组成新分组（可选标题/颜色/窗口）
+- `chrome_tab_group_update` - 重命名分组、修改颜色或折叠/展开
+- `chrome_tab_group_add_tabs` - 把已有标签页加入到已有分组
+- `chrome_tab_group_close` - 关闭分组中的所有标签页
+- `chrome_tab_group_list` - 列出所有分组（可按窗口/颜色/标题/折叠状态筛选），并附带分组内标签页 ID
+
+需要 Chrome 89+，并已在 manifest 中声明 `tabGroups` 权限。
+
+</details>
+
+<details>
 <summary><strong>📸 截图和视觉 (1个工具)</strong></summary>
 
 - `chrome_screenshot` - 高级截图捕获，支持元素定位、全页面和自定义尺寸

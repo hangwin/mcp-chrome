@@ -55,6 +55,8 @@ export default defineConfig({
       'alarms',
       // Allow programmatic control of Chrome Side Panel
       'sidePanel',
+      // Allow grouping/labeling tabs via the tab-group MCP tools
+      'tabGroups',
     ],
     host_permissions: ['<all_urls>'],
     options_ui: {
