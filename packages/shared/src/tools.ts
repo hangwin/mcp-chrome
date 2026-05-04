@@ -39,6 +39,11 @@ export const TOOL_NAMES = {
     PERFORMANCE_STOP_TRACE: 'performance_stop_trace',
     PERFORMANCE_ANALYZE_INSIGHT: 'performance_analyze_insight',
     GIF_RECORDER: 'chrome_gif_recorder',
+    TAB_GROUP_CREATE: 'chrome_tab_group_create',
+    TAB_GROUP_UPDATE: 'chrome_tab_group_update',
+    TAB_GROUP_ADD_TABS: 'chrome_tab_group_add_tabs',
+    TAB_GROUP_CLOSE: 'chrome_tab_group_close',
+    TAB_GROUP_LIST: 'chrome_tab_group_list',
   },
   RECORD_REPLAY: {
     FLOW_RUN: 'record_replay_flow_run',
@@ -1395,6 +1400,131 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: ['action'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_CREATE,
+    description:
+      'Create a new Chrome tab group from a list of tabs. Optionally set the group title, color, or target window. Returns the new groupId. Requires Chrome 89+ and the "tabGroups" permission.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tabIds: {
+          type: 'array',
+          items: { type: 'number' },
+          minItems: 1,
+          description:
+            'Tab IDs to include in the new group. All tabs must belong to the same window (Chrome moves them together when grouping).',
+        },
+        title: {
+          type: 'string',
+          description: 'Optional title displayed on the group label.',
+        },
+        color: {
+          type: 'string',
+          enum: ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'],
+          description: 'Optional color for the group label. Defaults to a Chrome-assigned color.',
+        },
+        windowId: {
+          type: 'number',
+          description:
+            'Optional window ID for the new group. Tabs must already live in this window; otherwise Chrome ignores this hint.',
+        },
+      },
+      required: ['tabIds'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_UPDATE,
+    description:
+      'Update an existing Chrome tab group: rename it, change its color, or expand/collapse it. At least one of title, color, or collapsed must be provided.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        groupId: {
+          type: 'number',
+          description: 'The ID of the group to update (from chrome_tab_group_create or _list).',
+        },
+        title: {
+          type: 'string',
+          description: 'New title for the group label. Pass an empty string to clear the title.',
+        },
+        color: {
+          type: 'string',
+          enum: ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'],
+          description: 'New color for the group label.',
+        },
+        collapsed: {
+          type: 'boolean',
+          description:
+            'Collapse (true) or expand (false) the group. Note: Chrome cannot collapse a group whose tab is currently active.',
+        },
+      },
+      required: ['groupId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_ADD_TABS,
+    description:
+      'Add one or more existing tabs to an existing Chrome tab group. Tabs must be in the same window as the group; otherwise Chrome rejects the call.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        groupId: {
+          type: 'number',
+          description: 'The ID of the existing group to add tabs to.',
+        },
+        tabIds: {
+          type: 'array',
+          items: { type: 'number' },
+          minItems: 1,
+          description: 'Tab IDs to add to the group.',
+        },
+      },
+      required: ['groupId', 'tabIds'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_CLOSE,
+    description:
+      'Close all tabs that belong to a Chrome tab group. The group itself disappears once empty. Use chrome_tab_group_update with collapsed=true if you only want to hide the group.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        groupId: {
+          type: 'number',
+          description: 'The ID of the group whose tabs should be closed.',
+        },
+      },
+      required: ['groupId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_LIST,
+    description:
+      'List all Chrome tab groups, optionally filtered by window, color, title, or collapsed state. Each entry includes the tab IDs that currently belong to the group.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        windowId: {
+          type: 'number',
+          description: 'Restrict results to groups in a specific window.',
+        },
+        color: {
+          type: 'string',
+          enum: ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'],
+          description: 'Restrict results to groups with this color.',
+        },
+        title: {
+          type: 'string',
+          description: 'Restrict results to groups with this exact title.',
+        },
+        collapsed: {
+          type: 'boolean',
+          description: 'Restrict results to collapsed (true) or expanded (false) groups.',
+        },
+      },
+      required: [],
     },
   },
 ];
