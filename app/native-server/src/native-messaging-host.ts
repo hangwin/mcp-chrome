@@ -236,7 +236,7 @@ export class NativeMessagingHost {
 
       this.sendMessage({
         type: NativeMessageType.SERVER_STARTED,
-        payload: { port },
+        payload: { port, authToken: this.associatedServer.getAuthToken() },
       });
     } catch (error: any) {
       this.sendError(`Failed to start server: ${error.message}`);

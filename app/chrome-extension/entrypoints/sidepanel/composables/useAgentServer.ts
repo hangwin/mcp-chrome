@@ -10,6 +10,7 @@ import type { AgentEngineInfo, RealtimeEvent } from 'chrome-mcp-shared';
 interface ServerStatus {
   isRunning: boolean;
   port?: number;
+  authToken?: string;
   lastUpdated: number;
 }
 
@@ -147,11 +148,24 @@ export function useAgentServer(options: UseAgentServerOptions = {}) {
   }
 
   // Fetch available engines
+  function getAuthHeaders(): Record<string, string> {
+    const token = serverStatus.value?.authToken;
+    return token ? { 'x-chrome-mcp-auth': token, Authorization: `Bearer ${token}` } : {};
+  }
+
+  function appendAuthToken(url: string): string {
+    const token = serverStatus.value?.authToken;
+    if (!token) return url;
+    const parsed = new URL(url);
+    parsed.searchParams.set('authToken', token);
+    return parsed.toString();
+  }
+
   async function fetchEngines(): Promise<void> {
     if (!serverPort.value) return;
     try {
       const url = `http://127.0.0.1:${serverPort.value}/agent/engines`;
-      const response = await fetch(url);
+      const response = await fetch(url, { headers: getAuthHeaders() });
       if (response.ok) {
         const data = await response.json();
         engines.value = data.engines || [];
@@ -181,7 +195,9 @@ export function useAgentServer(options: UseAgentServerOptions = {}) {
     closeEventSource();
 
     currentStreamSessionId = targetSessionId;
-    const url = `http://127.0.0.1:${serverPort.value}/agent/chat/${encodeURIComponent(targetSessionId)}/stream`;
+    const url = appendAuthToken(
+      `http://127.0.0.1:${serverPort.value}/agent/chat/${encodeURIComponent(targetSessionId)}/stream`,
+    );
     const es = new EventSource(url);
 
     es.onopen = () => {

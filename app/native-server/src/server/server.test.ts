@@ -1,27 +1,91 @@
-import { describe, expect, test, afterAll, beforeAll } from '@jest/globals';
-import supertest from 'supertest';
-import Server from './index';
+import { describe, expect, test, beforeEach } from '@jest/globals';
+import type { FastifyRequest } from 'fastify';
+import {
+  buildAuthHeaders,
+  extractAuthToken,
+  getOrCreateAuthToken,
+  isAuthorizedRequest,
+  resetAuthTokenForTests,
+} from './auth';
 
-describe('服务器测试', () => {
-  // 启动服务器测试实例
-  beforeAll(async () => {
-    await Server.getInstance().ready();
+function mockRequest(input: {
+  method?: string;
+  url?: string;
+  headers?: Record<string, string | string[] | undefined>;
+}): FastifyRequest {
+  return {
+    method: input.method ?? 'GET',
+    url: input.url ?? '/agent/engines',
+    headers: input.headers ?? {},
+  } as FastifyRequest;
+}
+
+describe('local server authentication', () => {
+  beforeEach(() => {
+    resetAuthTokenForTests();
   });
 
-  // 关闭服务器
-  afterAll(async () => {
-    await Server.stop();
+  test('generates a stable process-local auth token', () => {
+    const first = getOrCreateAuthToken();
+    const second = getOrCreateAuthToken();
+
+    expect(first).toBe(second);
+    expect(first.length).toBeGreaterThanOrEqual(32);
   });
 
-  test('GET /ping 应返回正确响应', async () => {
-    const response = await supertest(Server.getInstance().server)
-      .get('/ping')
-      .expect(200)
-      .expect('Content-Type', /json/);
+  test('extracts auth token from dedicated, query, or bearer credentials', () => {
+    expect(extractAuthToken(mockRequest({ headers: buildAuthHeaders('secret-token') }))).toBe(
+      'secret-token',
+    );
 
-    expect(response.body).toEqual({
-      status: 'ok',
-      message: 'pong',
-    });
+    expect(extractAuthToken(mockRequest({ url: '/mcp?authToken=query-secret' }))).toBe(null);
+
+    expect(
+      extractAuthToken(
+        mockRequest({
+          url: '/mcp?authToken=query-secret',
+          headers: {},
+        }),
+      ),
+    ).toBe(null);
+
+    expect(
+      extractAuthToken(
+        {
+          ...mockRequest({ url: '/mcp?authToken=query-secret' }),
+          query: { authToken: 'query-secret' },
+        } as FastifyRequest,
+      ),
+    ).toBe('query-secret');
+
+    expect(
+      extractAuthToken(mockRequest({ headers: { authorization: 'Bearer bearer-secret' } })),
+    ).toBe('bearer-secret');
+  });
+
+  test('keeps health checks and extension origins public but rejects untrusted routes without token', () => {
+    expect(isAuthorizedRequest(mockRequest({ url: '/ping' }))).toBe(true);
+    expect(
+      isAuthorizedRequest(
+        mockRequest({
+          url: '/agent/engines',
+          headers: { origin: 'chrome-extension://example-extension' },
+        }),
+      ),
+    ).toBe(true);
+    expect(isAuthorizedRequest(mockRequest({ url: '/agent/engines' }))).toBe(false);
+  });
+
+  test('accepts protected routes with the generated auth token', () => {
+    const token = getOrCreateAuthToken();
+
+    expect(
+      isAuthorizedRequest(
+        mockRequest({
+          url: '/agent/engines',
+          headers: buildAuthHeaders(token),
+        }),
+      ),
+    ).toBe(true);
   });
 });

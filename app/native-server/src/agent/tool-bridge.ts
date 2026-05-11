@@ -1,7 +1,8 @@
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
-import { NATIVE_SERVER_PORT } from '../constant/index.js';
+import { AUTH_HEADER, AUTH_SCHEME, AUTH_TOKEN_ENV } from '../server/auth';
+import { NATIVE_SERVER_PORT } from '../constant';
 
 export interface CliToolInvocation {
   /**
@@ -41,8 +42,17 @@ export class AgentToolBridge {
   constructor(options: AgentToolBridgeOptions = {}) {
     const url =
       options.mcpUrl || `http://127.0.0.1:${process.env.MCP_HTTP_PORT || NATIVE_SERVER_PORT}/mcp`;
+    const token = process.env[AUTH_TOKEN_ENV]?.trim();
+    const requestInit = token
+      ? {
+          headers: {
+            [AUTH_HEADER]: token,
+            Authorization: `${AUTH_SCHEME} ${token}`,
+          },
+        }
+      : undefined;
 
-    this.transport = new StreamableHTTPClientTransport(new URL(url));
+    this.transport = new StreamableHTTPClientTransport(new URL(url), { requestInit });
     this.client = new Client(
       {
         name: 'chrome-mcp-agent-bridge',

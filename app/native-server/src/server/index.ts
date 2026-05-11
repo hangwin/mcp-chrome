@@ -20,9 +20,11 @@ import {
 import { NativeMessagingHost } from '../native-messaging-host';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import type { StreamableHTTPServerTransportOptions } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { randomUUID } from 'node:crypto';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import { getMcpServer } from '../mcp/mcp-server';
+import { getOrCreateAuthToken, requireLocalAuth } from './auth';
 import { AgentStreamManager } from '../agent/stream-manager';
 import { AgentChatService } from '../agent/chat-service';
 import { CodexEngine } from '../agent/engines/codex';
@@ -37,6 +39,15 @@ import { registerAgentRoutes } from './routes';
 interface ExtensionRequestPayload {
   data?: unknown;
 }
+
+const MCP_TRANSPORT_SECURITY_OPTIONS: Pick<
+  StreamableHTTPServerTransportOptions,
+  'enableDnsRebindingProtection' | 'allowedHosts' | 'allowedOrigins'
+> = {
+  enableDnsRebindingProtection: true,
+  allowedHosts: [`${SERVER_CONFIG.HOST}:${NATIVE_SERVER_PORT}`, SERVER_CONFIG.HOST],
+  allowedOrigins: [],
+};
 
 // ============================================================
 // Server Class
@@ -69,9 +80,14 @@ export class Server {
     this.nativeHost = nativeHost;
   }
 
-  private async setupPlugins(): Promise<void> {
-    await this.fastify.register(cors, {
-      origin: (origin, cb) => {
+  private setupPlugins(): void {
+    getOrCreateAuthToken();
+
+    this.fastify.addHook('onRequest', requireLocalAuth);
+
+    void this.fastify.register(cors, {
+      hook: 'preHandler',
+      origin: (origin: string | undefined, cb: (err: Error | null, allow: boolean) => void) => {
         // Allow requests with no origin (e.g., curl, server-to-server)
         if (!origin) {
           return cb(null, true);
@@ -83,6 +99,14 @@ export class Server {
         cb(null, allowed);
       },
       methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+      allowedHeaders: [
+        'Content-Type',
+        'Accept',
+        'Authorization',
+        'x-chrome-mcp-auth',
+        'mcp-session-id',
+        'mcp-protocol-version',
+      ],
       credentials: true,
     });
   }
@@ -222,6 +246,7 @@ export class Server {
       } else if (!sessionId && isInitializeRequest(request.body)) {
         const newSessionId = randomUUID();
         transport = new StreamableHTTPServerTransport({
+          ...MCP_TRANSPORT_SECURITY_OPTIONS,
           sessionIdGenerator: () => newSessionId,
           onsessioninitialized: (initializedSessionId) => {
             if (transport && initializedSessionId === newSessionId) {
@@ -359,6 +384,10 @@ export class Server {
 
   public getInstance(): FastifyInstance {
     return this.fastify;
+  }
+
+  public getAuthToken(): string {
+    return getOrCreateAuthToken();
   }
 }
 

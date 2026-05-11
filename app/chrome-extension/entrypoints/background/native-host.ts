@@ -33,6 +33,7 @@ let manualDisconnect = false;
 interface ServerStatus {
   isRunning: boolean;
   port?: number;
+  authToken?: string;
   lastUpdated: number;
 }
 
@@ -411,6 +412,7 @@ export function connectNativeHost(port: number = NATIVE_HOST.DEFAULT_PORT): bool
         currentServerStatus = {
           isRunning: true,
           port: port,
+          authToken: typeof message.payload?.authToken === 'string' ? message.payload.authToken : undefined,
           lastUpdated: Date.now(),
         };
         await saveServerStatus(currentServerStatus);
