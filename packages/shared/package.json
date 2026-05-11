@@ -28,12 +28,12 @@
     "dist"
   ],
   "devDependencies": {
-    "@types/node": "^18.0.0",
-    "@typescript-eslint/parser": "^8.32.0",
-    "tsup": "^8.4.0"
+    "@types/node": "18.19.130",
+    "@typescript-eslint/parser": "8.49.0",
+    "tsup": "8.5.1"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.0",
-    "zod": "^3.24.4"
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "zod": "3.25.76"
   }
 }
