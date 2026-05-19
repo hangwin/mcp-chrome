@@ -227,7 +227,9 @@ Stop debugger capture and return data with response bodies.
 
 ### `chrome_network_request`
 
-Send custom HTTP requests.
+Send custom HTTP requests with the cookies, TLS fingerprint, and other context of a chosen tab.
+
+By default the request runs in the currently active tab. For credentialed cross-origin fetches — where the request URL's domain must match the tab's origin to get the right cookies — pass `tabId` or `tabUrl` to pick a tab at the origin you actually want.
 
 **Parameters**:
 
@@ -235,8 +237,14 @@ Send custom HTTP requests.
 - `method` (string, optional): HTTP method (default: "GET")
 - `headers` (object, optional): Request headers
 - `body` (string, optional): Request body
+- `timeout` (number, optional): Timeout in milliseconds (default: 30000)
+- `formData` (object, optional): Multipart/form-data descriptor (see schema for details)
+- `tabId` (number, optional): Target an existing tab by ID. Most precise way to pick the origin the request fires from. Overrides `tabUrl` / active-tab selection.
+- `tabUrl` (string, optional): Find a tab whose URL matches this value, or create one if none exists. Named `tabUrl` (not `url`) because `url` is already the request URL.
+- `windowId` (number, optional): When the active-tab fallback is used (no `tabId` / `tabUrl` supplied), restrict the active-tab query to this window.
+- `background` (boolean, optional, default true): When true, do not activate the chosen tab — a network call should not yank the user out of whatever tab they are reading. Only consulted when `tabId` / `tabUrl` / `windowId` is supplied. Set false to focus the tab anyway.
 
-**Example**:
+**Example (default — active tab)**:
 
 ```json
 {
@@ -246,6 +254,29 @@ Send custom HTTP requests.
     "Content-Type": "application/json"
   },
   "body": "{\"key\": \"value\"}"
+}
+```
+
+**Example (credentialed cross-origin — pick a tab by URL)**:
+
+```json
+{
+  "url": "https://www.example.com/dapi/some-endpoint",
+  "method": "POST",
+  "headers": { "Content-Type": "application/json" },
+  "body": "{\"action\":\"foo\"}",
+  "tabUrl": "https://www.example.com/"
+}
+```
+
+The first call opens example.com in a background tab (if none is open already), then fires the POST from that tab so example.com's cookies are included. Subsequent calls reuse the matched tab.
+
+**Example (pin to a known tab id)**:
+
+```json
+{
+  "url": "https://api.example.com/inventory",
+  "tabId": 42
 }
 ```
 

@@ -563,7 +563,8 @@ export const TOOL_SCHEMAS: Tool[] = [
   },
   {
     name: TOOL_NAMES.BROWSER.NETWORK_REQUEST,
-    description: 'Send a network request from the browser with cookies and other browser context',
+    description:
+      "Send a network request from the browser with the cookies, TLS fingerprint, and other context of a chosen tab. By default the request runs in the currently active tab; pass tabId or tabUrl to run it from a tab at a specific origin (required for credentialed cross-origin fetches, where the request URL's domain must match the tab's origin).",
     inputSchema: {
       type: 'object',
       properties: {
@@ -591,6 +592,26 @@ export const TOOL_SCHEMAS: Tool[] = [
           type: 'object',
           description:
             'Multipart/form-data descriptor. If provided, overrides body and builds FormData with optional file attachments. Shape: { fields?: Record<string,string|number|boolean>, files?: Array<{ name: string, fileUrl?: string, filePath?: string, base64Data?: string, filename?: string, contentType?: string }> }. Also supports a compact array form: [ [name, fileSpec, filename?], ... ] where fileSpec may be url:, file:, or base64:.',
+        },
+        tabId: {
+          type: 'number',
+          description:
+            'Target an existing tab by ID. Most precise way to pick the origin the request fires from. Overrides tabUrl/active-tab selection when provided.',
+        },
+        tabUrl: {
+          type: 'string',
+          description:
+            'Find a tab whose URL matches this value, or create one if none exists. Use when you know the origin you need to fetch from but not which tab is open (e.g. "https://www.example.com/"). Named tabUrl, not url, because url is already the request URL.',
+        },
+        windowId: {
+          type: 'number',
+          description:
+            'When the active-tab fallback is used (no tabId/tabUrl supplied), restrict the active-tab query to this window.',
+        },
+        background: {
+          type: 'boolean',
+          description:
+            'When true (default), do not activate the chosen tab — a network call should not yank the user out of whatever tab they are reading. Only consulted when tabId/tabUrl/windowId is supplied (the active-tab fallback never changes focus). Set false to focus the tab anyway.',
         },
       },
       required: ['url'],
