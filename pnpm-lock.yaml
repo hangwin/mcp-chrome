@@ -90,8 +90,8 @@ importers:
         specifier: 0.8.5
         version: 0.8.5
       markstream-vue:
-        specifier: 0.0.3-beta.5
-        version: 0.0.3-beta.5(vue@3.5.25)
+        specifier: 1.0.1-beta.1
+        version: 1.0.1-beta.1(vue@3.5.25)
       vue:
         specifier: ^3.5.13
         version: 3.5.25(typescript@5.9.3)
@@ -661,6 +661,10 @@ packages:
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
+
+  /@chenglou/pretext@0.0.5:
+    resolution: {integrity: sha512-A8GZN10REdFGsyuiUgLV8jjPDDFMg5GmgxGWV0I3igxBOnzj+jgz2VMmVD7g+SFyoctfeqHFxbNatKSzVRWtRg==}
+    dev: false
 
   /@commitlint/cli@19.8.1(@types/node@22.19.2)(typescript@5.9.3):
     resolution: {integrity: sha512-LXUdNIkspyxrlV6VDHWBmCZRtkEVRpBKxi2Gtw3J54cGWhLCTouVD/Q6ZSaSvd2YaDObWK8mDjrz3TIKtaQMAA==}
@@ -1692,21 +1696,21 @@ packages:
       ipaddr.js: 2.3.0
     dev: false
 
-  /@floating-ui/core@1.7.3:
-    resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
+  /@floating-ui/core@1.7.5:
+    resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
     dependencies:
-      '@floating-ui/utils': 0.2.10
+      '@floating-ui/utils': 0.2.11
     dev: false
 
-  /@floating-ui/dom@1.7.4:
-    resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
+  /@floating-ui/dom@1.7.6:
+    resolution: {integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==}
     dependencies:
-      '@floating-ui/core': 1.7.3
-      '@floating-ui/utils': 0.2.10
+      '@floating-ui/core': 1.7.5
+      '@floating-ui/utils': 0.2.11
     dev: false
 
-  /@floating-ui/utils@0.2.10:
-    resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+  /@floating-ui/utils@0.2.11:
+    resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
     dev: false
 
   /@huggingface/jinja@0.2.2:
@@ -2812,8 +2816,16 @@ packages:
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
     dev: true
 
+  /@types/linkify-it@5.0.0:
+    resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
+    dev: false
+
   /@types/long@4.0.2:
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
+    dev: false
+
+  /@types/mdurl@2.0.0:
+    resolution: {integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==}
     dev: false
 
   /@types/methods@1.1.4:
@@ -7216,10 +7228,12 @@ packages:
     resolution: {integrity: sha512-7pxkHuvqTOu3iwVGmDPeYjQg+AIS9VQxzyLP9JCg9lBjgPAJXGEkChK6A2iFuj3tS0GV3HG2u5AMNhcQqwxpJw==}
     dev: false
 
-  /markdown-it-ts@0.0.2:
-    resolution: {integrity: sha512-QKNmck9IHgsCqJkvk5Zgw29534WZldNtuCnsEKm5HX80XsEUGfX1m3vexY9jmfHYDq8469fAsbwp78bRusI7HQ==}
+  /markdown-it-ts@1.0.0:
+    resolution: {integrity: sha512-hQT/yCYryC3jNs2wJ35R4m1zKcBxNuFaKCGzwpmq2OuMXMNbUK1oTwCxONIjy5lXWWG1UCNbGXe1nbTiWbH/iA==}
     engines: {node: '>=18'}
     dependencies:
+      '@types/linkify-it': 5.0.0
+      '@types/mdurl': 2.0.0
       entities: 4.5.0
       linkify-it: 5.0.0
       mdurl: 2.0.0
@@ -7227,22 +7241,29 @@ packages:
       uc.micro: 2.1.0
     dev: false
 
-  /markstream-vue@0.0.3-beta.5(vue@3.5.25):
-    resolution: {integrity: sha512-mqrwry/nWf25yNcSvdXijh5gZT8oC5wLafPncydFjC8Wtc7Zvr8MkTlRjiWP9wczlQxCr1GW2AHxZDQbKPgrJQ==}
+  /markstream-core@1.0.0:
+    resolution: {integrity: sha512-V39W0rPgJ5Yj/XEl11LaKQxX9dYOI34RL729Zoi9oyy/Y6z6H+PJOsBFktu7gU9ZZxCsevWMb/Re2LgSKbWfRg==}
+    dev: false
+
+  /markstream-vue@1.0.1-beta.1(vue@3.5.25):
+    resolution: {integrity: sha512-45br3sbOQirIg0tmPMWRmdWk/vLE5aJtVx7cvLaa3e+klyYpILzQ7c4eOMq2EZkQTVewJhZHUVc2FTj+ujUJPg==}
     peerDependencies:
+      '@antv/infographic': ^0.2.3
+      '@terrastruct/d2': '>=0.1.33'
       katex: '>=0.16.22'
       mermaid: '>=11'
-      shiki: ^3.13.0
-      stream-markdown: '>=0.0.11'
-      stream-monaco: '>=0.0.8'
+      stream-markdown: '>=0.0.15'
+      stream-monaco: '>=0.0.41'
       vue: '>=3.0.0'
       vue-i18n: '>=9'
     peerDependenciesMeta:
+      '@antv/infographic':
+        optional: true
+      '@terrastruct/d2':
+        optional: true
       katex:
         optional: true
       mermaid:
-        optional: true
-      shiki:
         optional: true
       stream-markdown:
         optional: true
@@ -7251,8 +7272,10 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@floating-ui/dom': 1.7.4
-      stream-markdown-parser: 0.0.42
+      '@chenglou/pretext': 0.0.5
+      '@floating-ui/dom': 1.7.6
+      markstream-core: 1.0.0
+      stream-markdown-parser: 1.0.0
       vue: 3.5.25(typescript@5.9.3)
     dev: false
 
@@ -8751,8 +8774,8 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /stream-markdown-parser@0.0.42:
-    resolution: {integrity: sha512-e8mn3NW7moO/W5KsZ5jWg/iqw8PceuZq4bzynUf1yc+fUBGqu5SKu5SXDF7EH4jC9EDQiUsK49Fne/G/NYS7hQ==}
+  /stream-markdown-parser@1.0.0:
+    resolution: {integrity: sha512-uOYQ8G9YFFtGM726fK77O/mJPYrwYHPy0DKBtk7bCPmkf06XwDVSOAFRTo2FsXnZ3vAaPBtxOgNGJ0CGieBcSQ==}
     dependencies:
       markdown-it-container: 4.0.0
       markdown-it-footnote: 4.0.0
@@ -8761,7 +8784,7 @@ packages:
       markdown-it-sub: 2.0.0
       markdown-it-sup: 2.0.0
       markdown-it-task-checkbox: 1.0.6
-      markdown-it-ts: 0.0.2
+      markdown-it-ts: 1.0.0
     dev: false
 
   /streamx@2.23.0:

@@ -14,6 +14,7 @@
         :max-live-nodes="0"
         :render-batch-size="16"
         :render-batch-delay="8"
+        :smooth-streaming="true"
       />
     </div>
 
