@@ -33,7 +33,7 @@
     "elkjs": "^0.11.0",
     "gifenc": "^1.0.3",
     "hnswlib-wasm-static": "0.8.5",
-    "markstream-vue": "0.0.3-beta.5",
+    "markstream-vue": "1.0.1-beta.1",
     "vue": "^3.5.13",
     "zod": "^3.24.4"
   },
