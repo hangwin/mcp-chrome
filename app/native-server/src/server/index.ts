@@ -23,6 +23,7 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import { randomUUID } from 'node:crypto';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import { getMcpServer } from '../mcp/mcp-server';
+import { NativeMessageType } from 'chrome-mcp-shared';
 import { AgentStreamManager } from '../agent/stream-manager';
 import { AgentChatService } from '../agent/chat-service';
 import { CodexEngine } from '../agent/engines/codex';
@@ -110,10 +111,32 @@ export class Server {
 
   private setupHealthRoutes(): void {
     this.fastify.get('/ping', async (_request: FastifyRequest, reply: FastifyReply) => {
-      reply.status(HTTP_STATUS.OK).send({
-        status: 'ok',
-        message: 'pong',
-      });
+      if (!this.nativeHost) {
+        return reply.status(503).send({
+          status: 'error',
+          message: 'Extension bridge not available',
+          extensionConnected: false,
+        });
+      }
+
+      try {
+        await this.nativeHost.sendRequestToExtensionAndWait(
+          { ping: true },
+          NativeMessageType.PROCESS_DATA,
+          1500,
+        );
+        reply.status(HTTP_STATUS.OK).send({
+          status: 'ok',
+          message: 'pong',
+          extensionConnected: true,
+        });
+      } catch {
+        reply.status(503).send({
+          status: 'error',
+          message: 'Chrome extension not connected',
+          extensionConnected: false,
+        });
+      }
     });
   }
 
