@@ -100,6 +100,11 @@ export const OFFSCREEN_MESSAGE_TYPES = {
   GIF_ADD_FRAME: 'gifAddFrame',
   GIF_FINISH: 'gifFinish',
   GIF_RESET: 'gifReset',
+  // WebM demo recording
+  DEMO_START: 'demoStart',
+  DEMO_ADD_FRAME: 'demoAddFrame',
+  DEMO_FINISH: 'demoFinish',
+  DEMO_RESET: 'demoReset',
 } as const;
 
 // Content script message types

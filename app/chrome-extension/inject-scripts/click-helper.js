@@ -177,6 +177,20 @@ if (window.__CLICK_HELPER_INITIALIZED__) {
         });
       }
 
+      // MCP built-in cursor: show pointer + pulse before the real click.
+      try {
+        if (
+          window.__MCP_CURSOR__ &&
+          typeof window.__MCP_CURSOR__.showClick === 'function' &&
+          typeof clickX === 'number' &&
+          typeof clickY === 'number'
+        ) {
+          await window.__MCP_CURSOR__.showClick(clickX, clickY, { holdMs: 550, hideAfterMs: 1400 });
+        }
+      } catch (e) {
+        // never block clicks
+      }
+
       if (
         element &&
         (elementInfo.clickMethod === 'selector' || elementInfo.clickMethod === 'ref')

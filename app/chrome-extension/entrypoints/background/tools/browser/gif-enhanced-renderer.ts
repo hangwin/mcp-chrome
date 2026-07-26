@@ -771,8 +771,10 @@ export function renderGifEnhancedOverlays(params: RenderGifEnhancedOverlaysParam
       }
     }
 
-    // Render labels: always show annotation actions, respect labelCfg.enabled for other actions
-    const isAnnotation = action.type === 'annotation' || typeof action.label === 'string';
+    // Labels: only forced for explicit annotation actions.
+    // Having `action.label` (e.g. "Click" from click tools) must NOT bypass labels.enabled —
+    // otherwise demos always show a "Click" pill even when labels are off.
+    const isAnnotation = action.type === 'annotation';
     const shouldRenderLabel = labelCfg.enabled || isAnnotation;
 
     if (shouldRenderLabel) {

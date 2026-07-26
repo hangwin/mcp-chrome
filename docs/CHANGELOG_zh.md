@@ -7,6 +7,12 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [Unreleased]
+
+### 新增
+
+- 产品讲解 WebM 录制工具 `chrome_demo_recorder`（`start` / `step` / `stop`），支持 `product` / `compact` 预设、分步标题/旁白字幕，以及可用于生成字幕的步骤时间轴。
+
 ## [v1.0.35]
 
 ### 新增

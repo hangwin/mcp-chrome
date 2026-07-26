@@ -2,6 +2,8 @@ import { createErrorResponse, ToolResult } from '@/common/tool-handler';
 import { BaseBrowserToolExecutor } from '../base-browser';
 import { TOOL_NAMES } from 'agent-chrome-mcp-shared';
 import { TOOL_MESSAGE_TYPES } from '@/common/message-types';
+import { isDemoRecordingActive, notifyDemoAction } from './demo-recorder';
+import { ensureMcpCursor } from './mcp-cursor';
 import { TIMEOUTS, ERROR_MESSAGES } from '@/common/constants';
 
 interface Coordinates {
@@ -96,6 +98,7 @@ class ClickTool extends BaseBrowserToolExecutor {
         }
       }
 
+      await ensureMcpCursor(tab.id);
       await this.injectContentScript(tab.id, ['inject-scripts/click-helper.js']);
 
       // Send click message to content script
@@ -127,6 +130,28 @@ class ClickTool extends BaseBrowserToolExecutor {
         clickMethod = 'selector';
       } else {
         clickMethod = 'unknown';
+      }
+
+      // Show click ripple in product demo recordings.
+      if (isDemoRecordingActive(tab.id)) {
+        const rect = result?.elementInfo?.rect;
+        const clickPoint =
+          coordinates ||
+          (rect
+            ? {
+                x: Math.round(rect.left + rect.width / 2),
+                y: Math.round(rect.top + rect.height / 2),
+              }
+            : undefined);
+        try {
+          await notifyDemoAction(tab.id, {
+            type:
+              args.double === true ? 'double_click' : button === 'right' ? 'right_click' : 'click',
+            coordinates: clickPoint,
+          });
+        } catch (error) {
+          console.warn('[ClickTool] Demo capture failed:', error);
+        }
       }
 
       return {
@@ -242,6 +267,26 @@ class FillTool extends BaseBrowserToolExecutor {
 
       if (result && result.error) {
         return createErrorResponse(result.error);
+      }
+
+      if (tab.id && isDemoRecordingActive(tab.id)) {
+        const rect = result?.elementInfo?.rect;
+        const point = rect
+          ? {
+              x: Math.round(rect.left + rect.width / 2),
+              y: Math.round(rect.top + rect.height / 2),
+            }
+          : undefined;
+        try {
+          await notifyDemoAction(tab.id, {
+            type: 'fill',
+            coordinates: point,
+            text: String(value).slice(0, 40),
+            label: 'Type',
+          });
+        } catch (error) {
+          console.warn('[FillTool] Demo capture failed:', error);
+        }
       }
 
       return {

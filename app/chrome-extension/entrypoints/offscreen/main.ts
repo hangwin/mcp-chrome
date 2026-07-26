@@ -6,6 +6,7 @@ import {
   BACKGROUND_MESSAGE_TYPES,
 } from '@/common/message-types';
 import { handleGifMessage } from './gif-encoder';
+import { handleDemoMessage } from './webm-encoder';
 import { initKeepalive } from './rr-keepalive';
 
 // 初始化 RR V3 Keepalive
@@ -69,6 +70,11 @@ chrome.runtime.onMessage.addListener(
 
     // Handle GIF encoding messages first
     if (handleGifMessage(message, sendResponse)) {
+      return true;
+    }
+
+    // Handle WebM demo recording messages
+    if (handleDemoMessage(message, sendResponse)) {
       return true;
     }
 

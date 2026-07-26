@@ -14,6 +14,8 @@ import {
   type ActionMetadata,
   type ActionType,
 } from './gif-recorder';
+import { isDemoRecordingActive, notifyDemoAction } from './demo-recorder';
+import { showMcpCursorClick } from './mcp-cursor';
 
 type MouseButton = 'left' | 'right' | 'middle';
 
@@ -558,6 +560,7 @@ class ComputerTool extends BaseBrowserToolExecutor {
         }
         // Fallback to CDP if DOM failed
         try {
+          await showMcpCursorClick(tab.id, coord.x, coord.y, { holdMs: 220 });
           await CDPHelper.attach(tab.id);
           const button: MouseButton = params.action === 'right_click' ? 'right' : 'left';
           const clickCount = 1;
@@ -1400,28 +1403,37 @@ class ComputerTool extends BaseBrowserToolExecutor {
   }
 
   /**
-   * Trigger GIF auto-capture after a successful action.
-   * This is a no-op if auto-capture is not active.
+   * Trigger GIF auto-capture / demo overlays after a successful action.
+   * This is a no-op if neither recorder is active.
    */
   private async triggerAutoCapture(
     tabId: number,
     actionType: ActionType,
     metadata?: Partial<ActionMetadata>,
   ): Promise<void> {
+    const action = {
+      type: actionType,
+      ...metadata,
+    } as ActionMetadata;
+
+    if (isDemoRecordingActive(tabId)) {
+      try {
+        await notifyDemoAction(tabId, action);
+      } catch (error) {
+        console.warn('[ComputerTool] Demo capture failed:', error);
+      }
+    }
+
     if (!isAutoCaptureActive(tabId)) {
       return;
     }
 
     try {
-      await captureFrameOnAction(tabId, {
-        type: actionType,
-        ...metadata,
-      });
+      await captureFrameOnAction(tabId, action);
     } catch (error) {
       // Log but don't fail the main action
       console.warn('[ComputerTool] Auto-capture failed:', error);
     }
   }
 }
-
 export const computerTool = new ComputerTool();

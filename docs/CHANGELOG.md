@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Product demo WebM recorder tool `chrome_demo_recorder` (`start` / `step` / `stop`) with `product` and `compact` presets, step title/narration overlays, and a step timeline for subtitles.
+
 ## [v1.0.35]
 
 ### Added

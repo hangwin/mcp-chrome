@@ -24,6 +24,8 @@ Chrome MCP is for browser-based work automation, not only coding. Target scenari
 - Click, type, scroll, and send keyboard commands.
 - Inject scripts and communicate with injected helpers.
 - Capture screenshots, including page and element-focused screenshots.
+- Record short animated GIFs of browser activity (`chrome_gif_recorder`).
+- Record product-style WebM demo walkthroughs with step titles/captions (`chrome_demo_recorder`).
 - Manage bookmarks and browsing history.
 
 ## Work Automation Scenarios

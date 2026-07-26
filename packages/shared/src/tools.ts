@@ -42,6 +42,7 @@ export const TOOL_NAMES = {
     PERFORMANCE_STOP_TRACE: 'performance_stop_trace',
     PERFORMANCE_ANALYZE_INSIGHT: 'performance_analyze_insight',
     GIF_RECORDER: 'chrome_gif_recorder',
+    DEMO_RECORDER: 'chrome_demo_recorder',
   },
   RECORD_REPLAY: {
     FLOW_RUN: 'record_replay_flow_run',
@@ -1454,6 +1455,137 @@ export const TOOL_SCHEMAS: Tool[] = [
               description: 'How long overlays remain visible in ms (default: 1500).',
             },
           },
+        },
+      },
+      required: ['action'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.DEMO_RECORDER,
+    description:
+      'Record a product-style demo video (WebM) while the agent operates the browser.\n\nTypical flow:\n1. action="start" with preset="product"\n2. Operate the page with chrome_computer / chrome_navigate\n3. action="step" before each spoken beat (title + narration overlay, optional hold)\n4. action="stop" to export WebM + step timeline\n\nOverlay placement is agent-controlled via titlePosition / narrationPosition (top|bottom|center|corners|none) and optional titleX/Y, narrationX/Y (0–1 fractions).\n\nCapture follows the focused tab (and retargets when step/action uses another tabId), so multi-tab walkthroughs are recorded correctly.\n\nUse this for product walkthrough videos. Prefer chrome_gif_recorder for short GIF clips.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        action: {
+          type: 'string',
+          enum: ['start', 'step', 'stop', 'status', 'clear'],
+          description:
+            'start: begin WebM demo session; step: mark a chapter with title/narration; stop: finish and download; status: current state; clear: abort without saving',
+        },
+        tabId: {
+          type: 'number',
+          description:
+            'Target tab ID. On start: initial capture tab (default: active). On step: pin capture to this tab for that beat. Between steps, capture follows the focused tab.',
+        },
+        preset: {
+          type: 'string',
+          enum: ['product', 'compact'],
+          description:
+            'Recording preset. product=1920x1080@15fps high bitrate (default). compact=1280x720@10fps.',
+        },
+        title: {
+          type: 'string',
+          description:
+            'Title text for the demo banner (start) or step heading (step). Placement controlled by titlePosition / titleX / titleY.',
+        },
+        narration: {
+          type: 'string',
+          description:
+            'Spoken/subtitle caption for a step. Placement controlled by narrationPosition / narrationX / narrationY.',
+        },
+        titlePosition: {
+          type: 'string',
+          enum: [
+            'top',
+            'bottom',
+            'center',
+            'top-left',
+            'top-right',
+            'bottom-left',
+            'bottom-right',
+            'none',
+          ],
+          description:
+            'Where to draw the title overlay. Default: top (top-left, not centered). Use center only when you want a centered title. Use none to hide. Can be set on start (session default) or per step.',
+        },
+        narrationPosition: {
+          type: 'string',
+          enum: [
+            'top',
+            'bottom',
+            'center',
+            'top-left',
+            'top-right',
+            'bottom-left',
+            'bottom-right',
+            'none',
+          ],
+          description:
+            'Where to draw the narration caption. Default: bottom. Use none to hide. Can be set on start or per step.',
+        },
+        titleX: {
+          type: 'number',
+          description:
+            'Optional 0–1 horizontal fraction for the title box (overrides slot X). 0=left, 1=right.',
+        },
+        titleY: {
+          type: 'number',
+          description:
+            'Optional 0–1 vertical fraction for the title box (overrides slot Y). 0=top, 1=bottom.',
+        },
+        narrationX: {
+          type: 'number',
+          description:
+            'Optional 0–1 horizontal fraction for the narration box (overrides slot X). 0=left, 1=right.',
+        },
+        narrationY: {
+          type: 'number',
+          description:
+            'Optional 0–1 vertical fraction for the narration box (overrides slot Y). 0=top, 1=bottom.',
+        },
+        overlayTheme: {
+          type: 'string',
+          enum: ['light', 'dark'],
+          description:
+            'Overlay panel theme for title chrome. Default: light. Does not change the page theme — switch the site UI separately if needed.',
+        },
+        captionStyle: {
+          type: 'string',
+          enum: ['shadow', 'box'],
+          description:
+            'Narration rendering. box (default): dark glass subtitle capsule that hugs text. shadow: stroked text only, no panel.',
+        },
+        titleStyle: {
+          type: 'string',
+          enum: ['shadow', 'pill', 'banner'],
+          description:
+            'Title rendering. pill (default): compact glass chip. shadow: stroked text only. banner: full-width top/bottom bar.',
+        },
+        holdMs: {
+          type: 'number',
+          description:
+            'step only: keep the step overlay visible for this many ms before returning (default: 1800, max: 15000).',
+        },
+        fps: {
+          type: 'number',
+          description: 'Override preset frames per second (1-30).',
+        },
+        width: {
+          type: 'number',
+          description: 'Override output width (max: 1920).',
+        },
+        height: {
+          type: 'number',
+          description: 'Override output height (max: 1080).',
+        },
+        maxDurationMs: {
+          type: 'number',
+          description: 'Safety cap for recording length in ms (default: 180000, max: 600000).',
+        },
+        filename: {
+          type: 'string',
+          description: 'Output filename without extension (default: timestamped demo_*).',
         },
       },
       required: ['action'],

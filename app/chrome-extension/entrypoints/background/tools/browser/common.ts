@@ -2,6 +2,7 @@ import { createErrorResponse, ToolResult } from '@/common/tool-handler';
 import { BaseBrowserToolExecutor } from '../base-browser';
 import { TOOL_NAMES } from 'agent-chrome-mcp-shared';
 import { captureFrameOnAction, isAutoCaptureActive } from './gif-recorder';
+import { isDemoRecordingActive, notifyDemoAction } from './demo-recorder';
 import { pinTabToMcpGroupIfPresent } from '@/utils/mcp-tab-group';
 
 // Default window dimensions
@@ -36,6 +37,13 @@ class NavigateTool extends BaseBrowserToolExecutor {
       await captureFrameOnAction(tabId, { type: 'navigate', url });
     } catch (error) {
       console.warn('[NavigateTool] Auto-capture failed:', error);
+    }
+    if (isDemoRecordingActive(tabId)) {
+      try {
+        await notifyDemoAction(tabId, { type: 'navigate', url, label: 'Navigate' });
+      } catch (error) {
+        console.warn('[NavigateTool] Demo capture failed:', error);
+      }
     }
   }
 

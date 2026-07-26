@@ -29,3 +29,4 @@ export {
   performanceAnalyzeInsightTool,
 } from './performance';
 export { gifRecorderTool } from './gif-recorder';
+export { demoRecorderTool } from './demo-recorder';
