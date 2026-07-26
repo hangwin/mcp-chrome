@@ -4,7 +4,7 @@
     <div v-show="currentView === 'home'" class="home-view">
       <div class="header">
         <div class="header-content">
-          <h1 class="header-title">Agent Chrome MCP</h1>
+          <h1 class="header-title">Chrome MCP</h1>
         </div>
       </div>
       <div class="content">
@@ -626,7 +626,7 @@ const mcpConfigJson = computed(() => {
   if (mcpConfigMode.value === 'http') {
     const config = {
       mcpServers: {
-        'agent-chrome-mcp-http': {
+        'chrome-mcp': {
           type: 'streamableHttp',
           url: `http://127.0.0.1:${nativeServerPort.value}/mcp`,
         },
@@ -637,7 +637,7 @@ const mcpConfigJson = computed(() => {
 
   const config = {
     mcpServers: {
-      'agent-chrome-mcp': {
+      'chrome-mcp': {
         command: 'npx',
         args: ['-y', '--registry=https://registry.npmjs.org', 'agent-chrome-mcp@latest', 'stdio'],
       },

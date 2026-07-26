@@ -2,9 +2,9 @@
 
 **📖 Documentation**: [English](FEATURES.md) | [中文](FEATURES_zh.md)
 
-This file is the source of truth for the current Agent Chrome MCP feature list. Update it whenever a release adds, removes, or materially changes a user-facing capability.
+This file is the source of truth for the current Chrome MCP feature list. Update it whenever a release adds, removes, or materially changes a user-facing capability.
 
-Agent Chrome MCP is for browser-based work automation, not only coding. Target scenarios include research, data entry, operations dashboards, QA checks, content workflows, shopping/travel workflows, and coding-adjacent browser tasks.
+Chrome MCP is for browser-based work automation, not only coding. Target scenarios include research, data entry, operations dashboards, QA checks, content workflows, shopping/travel workflows, and coding-adjacent browser tasks.
 
 ## Setup And Distribution
 
@@ -18,7 +18,9 @@ Agent Chrome MCP is for browser-based work automation, not only coding. Target s
 ## Browser Control
 
 - List Chrome windows and tabs.
+- **MCP pin group** (Claude-style): labeled **"Chrome MCP"** tab group via `chrome_tabs_context`, `chrome_tabs_create`, and `chrome_tabs_adopt`.
 - Navigate pages and control active tabs.
+- **Background-first focus**: tools default to not activating tabs or focusing the Chrome window; pass `background: false` to foreground.
 - Click, type, scroll, and send keyboard commands.
 - Inject scripts and communicate with injected helpers.
 - Capture screenshots, including page and element-focused screenshots.

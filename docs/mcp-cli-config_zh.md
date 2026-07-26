@@ -2,13 +2,13 @@
 
 **📖 文档**: [English](mcp-cli-config.md) | [中文](mcp-cli-config_zh.md)
 
-本指南说明如何配置 Codex CLI 和 Claude Code 以连接 Agent Chrome MCP。
+本指南说明如何配置 Codex CLI 和 Claude Code 以连接 Chrome MCP。
 
 推荐优先使用 stdio 配置；HTTP 仅作为高级用法。完整安装流程见 [README_zh.md](../README_zh.md)。
 
 ## 概述
 
-Agent Chrome MCP 在 `http://127.0.0.1:12307/mcp` 暴露 MCP 接口（默认端口）。
+Chrome MCP 在 `http://127.0.0.1:12307/mcp` 暴露 MCP 接口（默认端口）。
 Codex CLI 和 Claude Code 都可以连接该端点来使用 Chrome 浏览器控制工具。
 
 ## Codex CLI 配置
@@ -20,7 +20,7 @@ Codex CLI 和 Claude Code 都可以连接该端点来使用 Chrome 浏览器控�
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "url": "http://127.0.0.1:12307/mcp"
     }
   }
@@ -44,7 +44,7 @@ export MCP_HTTP_PORT=12307
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "url": "http://127.0.0.1:12307/mcp"
     }
   }
@@ -58,7 +58,7 @@ export MCP_HTTP_PORT=12307
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -68,7 +68,7 @@ export MCP_HTTP_PORT=12307
 
 ## 验证连接
 
-配置完成后，CLI 工具应能看到并使用 Agent Chrome MCP 工具，例如：
+配置完成后，CLI 工具应能看到并使用 Chrome MCP 工具，例如：
 
 - `chrome_get_windows_and_tabs` - 获取浏览器窗口和标签页信息
 - `chrome_navigate` - 导航到 URL

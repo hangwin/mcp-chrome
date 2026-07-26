@@ -124,7 +124,7 @@ class ScreenshotTool extends BaseBrowserToolExecutor {
 
     // Resolve target tab (explicit or active)
     const explicit = await this.tryGetTab(args.tabId);
-    const tab = explicit || (await this.getActiveTabOrThrowInWindow(args.windowId));
+    let tab = explicit || (await this.getActiveTabOrThrowInWindow(args.windowId));
 
     // Check URL restrictions
     if (
@@ -147,9 +147,9 @@ class ScreenshotTool extends BaseBrowserToolExecutor {
     let pageDetails: ScreenshotPageDetails | undefined;
 
     try {
-      const background = args.background === true;
-      // CDP path: background=true with simple viewport capture (no fullPage, no selector)
-      const canUseCdpCapture = background && !fullPage && !selector;
+      const stayBackground = this.stayInBackground(args.background);
+      // CDP path: stay in background with simple viewport capture (no fullPage, no selector)
+      const canUseCdpCapture = stayBackground && !fullPage && !selector;
 
       // === Path 1: CDP viewport capture (no content script needed) ===
       if (canUseCdpCapture) {
@@ -187,6 +187,14 @@ class ScreenshotTool extends BaseBrowserToolExecutor {
 
       // === Path 2: Helper-assisted capture (requires content script) ===
       if (!finalImageDataUrl) {
+        // captureVisibleTab only sees the active tab in a window. Soft-activate
+        // the target tab without raising the Chrome window to the foreground.
+        if (tab.active !== true && typeof tab.id === 'number') {
+          await chrome.tabs.update(tab.id, { active: true });
+          // Re-read tab after activation
+          tab = await chrome.tabs.get(tab.id);
+        }
+
         // Always inject helper when we need pageDetails
         await this.injectContentScript(tab.id!, ['inject-scripts/screenshot-helper.js']);
         await new Promise((resolve) => setTimeout(resolve, SCREENSHOT_CONSTANTS.SCRIPT_INIT_DELAY));

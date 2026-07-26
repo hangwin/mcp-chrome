@@ -2,6 +2,7 @@ import { createErrorResponse, ToolResult } from '@/common/tool-handler';
 import { BaseBrowserToolExecutor } from '../base-browser';
 import { TOOL_NAMES } from 'agent-chrome-mcp-shared';
 import { captureFrameOnAction, isAutoCaptureActive } from './gif-recorder';
+import { pinTabToMcpGroupIfPresent } from '@/utils/mcp-tab-group';
 
 // Default window dimensions
 const DEFAULT_WINDOW_WIDTH = 1280;
@@ -15,7 +16,7 @@ interface NavigateToolParams {
   refresh?: boolean;
   tabId?: number;
   windowId?: number;
-  background?: boolean; // when true, do not activate tab or focus window
+  background?: boolean; // default true: do not activate tab or focus window; set false to foreground
 }
 
 /**
@@ -38,6 +39,17 @@ class NavigateTool extends BaseBrowserToolExecutor {
     }
   }
 
+  /** Best-effort: put newly opened tabs into the MCP pin group when it already exists. */
+  private async maybePinToGroup(tabId?: number): Promise<number | null> {
+    if (typeof tabId !== 'number') return null;
+    try {
+      return await pinTabToMcpGroupIfPresent(tabId);
+    } catch (e) {
+      console.warn('[NavigateTool] Failed to pin tab to MCP group:', e);
+      return null;
+    }
+  }
+
   async execute(args: NavigateToolParams): Promise<ToolResult> {
     const {
       newWindow = false,
@@ -49,6 +61,7 @@ class NavigateTool extends BaseBrowserToolExecutor {
       background,
       windowId,
     } = args;
+    const stayBackground = this.stayInBackground(background);
 
     console.log(
       `Attempting to ${refresh ? 'refresh current tab' : `open URL: ${url}`} with options:`,
@@ -103,10 +116,10 @@ class NavigateTool extends BaseBrowserToolExecutor {
           return createErrorResponse('No target tab found for history navigation');
         }
 
-        // Respect background flag for focus behavior
+        // Foreground only when background: false
         await this.ensureFocus(targetTab, {
-          activate: background !== true,
-          focusWindow: background !== true,
+          activate: !stayBackground,
+          focusWindow: !stayBackground,
         });
 
         if (url === 'forward') {
@@ -260,10 +273,10 @@ class NavigateTool extends BaseBrowserToolExecutor {
         if (explicitTab && typeof explicitTab.id === 'number') {
           await chrome.tabs.update(explicitTab.id, { url });
         }
-        // Optionally bring to foreground based on background flag
+        // Foreground only when background: false
         await this.ensureFocus(existingTab, {
-          activate: background !== true,
-          focusWindow: background !== true,
+          activate: !stayBackground,
+          focusWindow: !stayBackground,
         });
 
         console.log(`Activated existing Tab ID: ${existingTab.id}`);
@@ -301,7 +314,7 @@ class NavigateTool extends BaseBrowserToolExecutor {
           url: url,
           width: typeof width === 'number' ? width : DEFAULT_WINDOW_WIDTH,
           height: typeof height === 'number' ? height : DEFAULT_WINDOW_HEIGHT,
-          focused: background === true ? false : true,
+          focused: !stayBackground,
         });
 
         if (newWindow && newWindow.id !== undefined) {
@@ -309,8 +322,10 @@ class NavigateTool extends BaseBrowserToolExecutor {
 
           // Trigger auto-capture if the new window has a tab
           const firstTab = newWindow.tabs?.[0];
+          let groupId: number | null = null;
           if (firstTab?.id) {
             await this.triggerAutoCapture(firstTab.id, firstTab.url);
+            groupId = await this.maybePinToGroup(firstTab.id);
           }
 
           return {
@@ -321,6 +336,7 @@ class NavigateTool extends BaseBrowserToolExecutor {
                   success: true,
                   message: 'Opened URL in new window',
                   windowId: newWindow.id,
+                  groupId,
                   tabs: newWindow.tabs
                     ? newWindow.tabs.map((tab) => ({
                         tabId: tab.id,
@@ -350,9 +366,9 @@ class NavigateTool extends BaseBrowserToolExecutor {
           const newTab = await chrome.tabs.create({
             url: url,
             windowId: targetWindow.id,
-            active: background === true ? false : true,
+            active: !stayBackground,
           });
-          if (background !== true) {
+          if (!stayBackground) {
             await chrome.windows.update(targetWindow.id, { focused: true });
           }
 
@@ -361,8 +377,10 @@ class NavigateTool extends BaseBrowserToolExecutor {
           );
 
           // Trigger auto-capture on new tab
+          let groupId: number | null = null;
           if (newTab.id) {
             await this.triggerAutoCapture(newTab.id, newTab.url);
+            groupId = await this.maybePinToGroup(newTab.id);
           }
 
           return {
@@ -374,6 +392,7 @@ class NavigateTool extends BaseBrowserToolExecutor {
                   message: 'Opened URL in new tab in existing window',
                   tabId: newTab.id,
                   windowId: targetWindow.id,
+                  groupId,
                   url: newTab.url,
                 }),
               },
@@ -389,7 +408,7 @@ class NavigateTool extends BaseBrowserToolExecutor {
             url: url,
             width: DEFAULT_WINDOW_WIDTH,
             height: DEFAULT_WINDOW_HEIGHT,
-            focused: true,
+            focused: !stayBackground,
           });
 
           if (fallbackWindow && fallbackWindow.id !== undefined) {
@@ -397,8 +416,10 @@ class NavigateTool extends BaseBrowserToolExecutor {
 
             // Trigger auto-capture if fallback window has a tab
             const firstTab = fallbackWindow.tabs?.[0];
+            let groupId: number | null = null;
             if (firstTab?.id) {
               await this.triggerAutoCapture(firstTab.id, firstTab.url);
+              groupId = await this.maybePinToGroup(firstTab.id);
             }
 
             return {
@@ -409,6 +430,7 @@ class NavigateTool extends BaseBrowserToolExecutor {
                     success: true,
                     message: 'Opened URL in new window',
                     windowId: fallbackWindow.id,
+                    groupId,
                     tabs: fallbackWindow.tabs
                       ? fallbackWindow.tabs.map((tab) => ({
                           tabId: tab.id,

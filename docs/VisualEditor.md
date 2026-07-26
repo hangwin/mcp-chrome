@@ -3,7 +3,7 @@
 **📖 Documentation**: [English](VisualEditor.md) | [中文](VisualEditor_zh.md)
 
 **How to enable:**
-`Right Click > Agent Chrome MCP > Toggle Web Editing Mode`
+`Right Click > Chrome MCP > Toggle Web Editing Mode`
 **Shortcut:** `Cmd/Ctrl` + `Shift` + `O`
 
 ### Interactive Sizing & Layout Adjustment

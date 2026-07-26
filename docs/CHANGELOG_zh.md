@@ -7,6 +7,26 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [v1.0.35]
+
+### 新增
+
+- Claude 风格的 MCP 固定标签组工具：`chrome_tabs_context`、`chrome_tabs_create`、`chrome_tabs_adopt`（组名为 **"Chrome MCP"**）。
+- `get_windows_and_tabs` 现在返回每个标签是否属于 `mcpGroup`。
+- 增加端到端校验脚本 `scripts/e2e-tab-group.mjs`。
+
+### 变更
+
+- 产品展示名简化为 **Chrome MCP**（扩展 UI、文档、推荐 MCP 配置键 `chrome-mcp`）。npm 包名仍为 `agent-chrome-mcp`。
+- 浏览器工具默认后台运行（`background` 默认为 true），navigate/fetch/screenshot/console 不再抢占标签/窗口焦点，除非显式传入 `background: false`。
+- 导航新建标签在已有 MCP 固定组时会自动加入该组。
+- GIF 录制 / 自动捕获与 offscreen 编码器改进。
+- 将 native bridge、Chrome 扩展与 shared 包版本提升至 `1.0.35`。
+
+### 修复
+
+- 网络捕获在打开目标 URL 时不再强制激活标签页。
+
 ## [v1.0.34]
 
 ### 变更
@@ -45,7 +65,7 @@
 
 ### 新增
 
-- 发布重命名后的 Agent Chrome MCP bridge npm 包：
+- 发布重命名后的 Chrome MCP bridge npm 包：
   - `agent-chrome-mcp`
   - `agent-chrome-mcp-shared`
 - 新增 `agent-chrome-mcp stdio` 作为推荐的 Agent 入口。
@@ -53,7 +73,7 @@
 
 ### 变更
 
-- 将项目重命名/重新定位为 Agent Chrome MCP。
+- 将项目重命名/重新定位为 Chrome MCP。
 - 将默认 bridge 端口改为 `12307`，避免与旧安装冲突。
 - 更新 release 工作流以构建、测试、打包并发布 native bridge 和扩展。
 

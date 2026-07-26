@@ -811,7 +811,7 @@ class NetworkCaptureStartTool extends BaseBrowserToolExecutor {
         } else {
           // Create new tab
           console.log(`NetworkCaptureV2: Creating new tab with URL: ${targetUrl}`);
-          tabToOperateOn = await chrome.tabs.create({ url: targetUrl, active: true });
+          tabToOperateOn = await chrome.tabs.create({ url: targetUrl, active: false });
 
           // Wait for page to load
           await new Promise((resolve) => setTimeout(resolve, 1000));

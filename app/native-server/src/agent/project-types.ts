@@ -18,7 +18,7 @@ export interface CreateOrUpdateProjectInput {
    */
   useCcr?: boolean;
   /**
-   * Whether to enable the local Agent Chrome MCP server integration for this project.
+   * Whether to enable the local Chrome MCP server integration for this project.
    * Defaults to true when omitted.
    */
   enableChromeMcp?: boolean;

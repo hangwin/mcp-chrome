@@ -23,7 +23,8 @@ interface GifEncoderState {
 interface GifAddFrameMessage {
   target: MessageTarget;
   type: typeof OFFSCREEN_MESSAGE_TYPES.GIF_ADD_FRAME;
-  imageData: number[];
+  imageData?: number[];
+  imageDataUrl?: string;
   width: number;
   height: number;
   delay: number;
@@ -78,7 +79,7 @@ function addFrame(
   imageData: Uint8ClampedArray,
   width: number,
   height: number,
-  delay: number,
+  delayCs: number,
   maxColors: number = 256,
 ): void {
   // Initialize encoder on first frame
@@ -99,11 +100,35 @@ function addFrame(
   // Write frame to encoder
   state.encoder.writeFrame(indexedPixels, width, height, {
     palette,
-    delay,
+    delay: Math.max(10, Math.round(delayCs * 10)),
     dispose: 2, // Restore to background color
   });
 
   state.frameCount++;
+}
+
+async function addFrameFromDataUrl(
+  imageDataUrl: string,
+  width: number,
+  height: number,
+  delay: number,
+  maxColors: number = 256,
+): Promise<void> {
+  const response = await fetch(imageDataUrl);
+  const blob = await response.blob();
+  const bitmap = await createImageBitmap(blob);
+  const canvas = new OffscreenCanvas(width, height);
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    bitmap.close();
+    throw new Error('Failed to get offscreen canvas context');
+  }
+
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+
+  const imageData = ctx.getImageData(0, 0, width, height);
+  addFrame(imageData.data, width, height, delay, maxColors);
 }
 
 function finishEncoding(): Uint8Array {
@@ -146,7 +171,7 @@ function isGifMessage(message: unknown): message is GifMessage {
     OFFSCREEN_MESSAGE_TYPES.GIF_RESET,
   ];
 
-  return gifTypes.includes(msg.type as string);
+  return typeof msg.type === 'string' && gifTypes.includes(msg.type as GifMessage['type']);
 }
 
 export function handleGifMessage(
@@ -160,7 +185,31 @@ export function handleGifMessage(
   try {
     switch (message.type) {
       case OFFSCREEN_MESSAGE_TYPES.GIF_ADD_FRAME: {
-        const { imageData, width, height, delay, maxColors } = message;
+        const { imageData, imageDataUrl, width, height, delay, maxColors } = message;
+        if (typeof imageDataUrl === 'string' && imageDataUrl.length > 0) {
+          void addFrameFromDataUrl(imageDataUrl, width, height, delay, maxColors)
+            .then(() => {
+              sendResponse({
+                success: true,
+                frameCount: state.frameCount,
+              });
+            })
+            .catch((error) => {
+              const errorMessage = error instanceof Error ? error.message : String(error);
+              console.error('GIF encoder error:', errorMessage);
+              sendResponse({ success: false, error: errorMessage });
+            });
+          return true;
+        }
+
+        if (!Array.isArray(imageData)) {
+          sendResponse({
+            success: false,
+            error: 'GIF_ADD_FRAME requires imageData or imageDataUrl',
+          });
+          break;
+        }
+
         const clampedData = new Uint8ClampedArray(imageData);
         addFrame(clampedData, width, height, delay, maxColors);
         sendResponse({

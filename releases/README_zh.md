@@ -1,4 +1,4 @@
-# Agent Chrome MCP Release 安装
+# Chrome MCP Release 安装
 
 **📖 文档**: [English](README.md) | [中文](README_zh.md)
 
@@ -15,20 +15,20 @@ https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
 3. 启用开发者模式。
 4. 点击“加载已解压的扩展程序”。
 5. 选择包含 `manifest.json` 的解压目录。
-6. 打开 Agent Chrome MCP 扩展弹窗并点击**复制配置**。
+6. 打开 Chrome MCP 扩展弹窗并点击**复制配置**。
 
 ## 让 Agent 帮你安装
 
 把下面这段提示词发给 Agent：
 
 ```text
-请为当前 Agent 安装 Agent Chrome MCP。
+请为当前 Agent 安装 Chrome MCP。
 
 使用这个 MCP server 配置：
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -47,7 +47,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -66,7 +66,7 @@ npm install -g agent-chrome-mcp
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "agent-chrome-mcp",
       "args": ["stdio"]
     }

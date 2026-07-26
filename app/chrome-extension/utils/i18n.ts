@@ -6,7 +6,7 @@
 // Fallback messages for when Chrome APIs aren't available (English)
 const fallbackMessages: Record<string, string> = {
   // Extension metadata
-  extensionName: 'Agent Chrome MCP',
+  extensionName: 'Chrome MCP',
   extensionDescription: 'Exposes browser capabilities with your own chrome',
 
   // Section headers

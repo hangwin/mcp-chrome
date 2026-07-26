@@ -1,4 +1,4 @@
-# Agent Chrome MCP API Reference 📚
+# Chrome MCP API Reference 📚
 
 **📖 Documentation**: [English](TOOLS.md) | [中文](TOOLS_zh.md)
 
@@ -36,13 +36,47 @@ List all currently open browser windows and tabs.
           "tabId": 456,
           "url": "https://example.com",
           "title": "Example Page",
-          "active": true
+          "active": true,
+          "groupId": 88,
+          "mcpGroup": true
         }
       ]
     }
-  ]
+  ],
+  "mcpGroup": {
+    "groupId": 88,
+    "windowId": 123,
+    "title": "Chrome MCP",
+    "color": "blue"
+  }
 }
 ```
+
+### `chrome_tabs_context`
+
+Claude-style MCP pin group context. Lists tabs in the labeled **"Chrome MCP"** tab group. Call at session start.
+
+**Parameters**:
+
+- `createIfEmpty` (boolean, optional): Create a background window + blank tab in a new MCP group when none exists (default: false)
+- `background` (boolean, optional): Keep the new window in the background when creating (default: true)
+
+### `chrome_tabs_create`
+
+Create a new tab inside the MCP pin group (creates the group if missing).
+
+**Parameters**:
+
+- `url` (string, optional): URL to open (default: `about:blank`)
+- `background` (boolean, optional): Do not activate/focus (default: true)
+
+### `chrome_tabs_adopt`
+
+Move existing tab(s) into the MCP pin group (programmatic equivalent of dragging tabs into Claude's group).
+
+**Parameters**:
+
+- `tabIds` (number[], required): Tab IDs to adopt
 
 ### `chrome_navigate`
 
@@ -53,7 +87,7 @@ Navigate to a URL with optional viewport control.
 - `url` (string, optional): URL to navigate to (omit when `refresh=true`)
 - `newWindow` (boolean, optional): Create new window (default: false)
 - `tabId` (number, optional): Target an existing tab by ID (navigate/refresh that tab)
-- `background` (boolean, optional): Do not activate the tab or focus the window (default: false)
+- `background` (boolean, optional): Do not activate the tab or focus the window (default: true; set false to foreground)
 - `width` (number, optional): Viewport width in pixels (default: 1280)
 - `height` (number, optional): Viewport height in pixels (default: 720)
 
@@ -133,7 +167,7 @@ Take advanced screenshots with various options.
 - `name` (string, optional): Screenshot filename
 - `selector` (string, optional): CSS selector for element screenshot
 - `tabId` (number, optional): Target tab to capture (default: active tab)
-- `background` (boolean, optional): Attempt capture without bringing tab/window to foreground (viewport-only uses CDP)
+- `background` (boolean, optional): Attempt capture without bringing the window to the foreground (default: true; viewport capture uses CDP). Set false to foreground the tab/window.
 - `width` (number, optional): Width in pixels (default: 800)
 - `height` (number, optional): Height in pixels (default: 600)
 - `storeBase64` (boolean, optional): Return base64 data (default: false)
@@ -323,7 +357,7 @@ Extract HTML or text content from web pages.
 - `format` (string, optional): "html" or "text" (default: "text")
 - `selector` (string, optional): CSS selector for specific elements
 - `tabId` (number, optional): Specific tab ID (default: active tab)
-- `background` (boolean, optional): Do not activate tab/focus window while fetching (default: false)
+- `background` (boolean, optional): Do not activate tab/focus window while fetching (default: true; set false to foreground)
 
 **Example**:
 
@@ -348,7 +382,7 @@ Parameters:
 
 - `action` (string, required): `left_click` | `right_click` | `double_click` | `triple_click` | `left_click_drag` | `scroll` | `type` | `key` | `fill` | `hover` | `wait` | `screenshot`
 - `tabId` (number, optional): Target an existing tab by ID (default: active tab)
-- `background` (boolean, optional): Avoid focusing/activating tab/window for certain operations (best-effort)
+- `background` (boolean, optional): Avoid focusing/activating tab/window for certain operations (default: true; set false to foreground)
 - `ref` (string, optional): element ref from `chrome_read_page` (preferred). Used for click/scroll/type/key and as drag end when provided
 - `coordinates` (object, optional): `{ "x": 100, "y": 200 }` for click/scroll or drag end
 - `startRef` (string, optional): element ref for drag start

@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Agent Chrome MCP"
+    "message": "Chrome MCP"
   },
   "extensionDescription": {
     "message": "自身のChromeブラウザの機能を外部に公開します"

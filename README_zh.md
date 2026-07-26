@@ -1,4 +1,4 @@
-# Agent Chrome MCP 🚀
+# Chrome MCP 🚀
 
 [![许可证: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8+-blue.svg)](https://www.typescriptlang.org/)
@@ -12,15 +12,15 @@
 
 ---
 
-## 🎯 什么是 Agent Chrome MCP？
+## 🎯 什么是 Chrome MCP？
 
-Agent Chrome MCP 是一个基于 Chrome 插件的 **模型上下文协议 (MCP) 服务器**，它把你自己的 Chrome 浏览器暴露给 AI Agent。它不只面向编码场景，也面向日常浏览器工作自动化：资料调研、表单录入、运营后台、QA 检查、内容工作流、购物/旅行流程，以及编码相关任务。
+Chrome MCP 是一个基于 Chrome 插件的 **模型上下文协议 (MCP) 服务器**，它把你自己的 Chrome 浏览器暴露给 AI Agent。它不只面向编码场景，也面向日常浏览器工作自动化：资料调研、表单录入、运营后台、QA 检查、内容工作流、购物/旅行流程，以及编码相关任务。
 
-与传统的浏览器自动化工具（如 Playwright）不同，**Agent Chrome MCP** 直接使用你日常使用的 Chrome 浏览器，保留已有标签页、登录态、cookies、扩展和设置。任何支持 MCP 的 Agent 都可以操作你已经在用的浏览器，而不是另开一个自动化浏览器。
+与传统的浏览器自动化工具（如 Playwright）不同，**Chrome MCP** 直接使用你日常使用的 Chrome 浏览器，保留已有标签页、登录态、cookies、扩展和设置。任何支持 MCP 的 Agent 都可以操作你已经在用的浏览器，而不是另开一个自动化浏览器。
 
 ## 🤝 兼容热门 Agent
 
-Agent Chrome MCP 可接入任意支持 MCP 的 Agent，无需绑定特定厂商。安装 Chrome 扩展后，**让 Agent 帮你连接**即可。
+Chrome MCP 可接入任意支持 MCP 的 Agent，无需绑定特定厂商。安装 Chrome 扩展后，**让 Agent 帮你连接**即可。
 
 ### Cowork Agent
 
@@ -41,7 +41,7 @@ Agent Chrome MCP 可接入任意支持 MCP 的 Agent，无需绑定特定厂商�
 把下面这段提示词发给 Agent：
 
 ```text
-请为当前 Agent 连接 Agent Chrome MCP。
+请为当前 Agent 连接 Chrome MCP。
 
 要求：
 - 优先使用简单的 npx 配置。
@@ -51,7 +51,7 @@ Agent Chrome MCP 可接入任意支持 MCP 的 Agent，无需绑定特定厂商�
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -128,7 +128,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp#-快速开始
    - 启用"开发者模式"
    - 点击"加载已解压的扩展程序"
    - 选择包含 `manifest.json` 的解压目录
-   - 点击 Agent Chrome MCP 插件图标
+   - 点击 Chrome MCP 插件图标
    - 点击"复制配置"
      <img width="475" alt="截屏2025-06-09 15 52 06" src="https://github.com/user-attachments/assets/241e57b8-c55f-41a4-9188-0367293dc5bc" />
 
@@ -137,7 +137,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp#-快速开始
 把下面这段提示词发给 Agent：
 
 ```text
-请为当前 Agent 连接 Agent Chrome MCP。
+请为当前 Agent 连接 Chrome MCP。
 
 要求：
 - 优先使用简单的 npx 配置。
@@ -147,7 +147,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp#-快速开始
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -179,7 +179,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp#-快速开始
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -198,7 +198,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp#-快速开始
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -217,7 +217,7 @@ npm root -g
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "<absolute node path>",
       "args": ["<npm root -g>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js"],
       "env": {
@@ -234,7 +234,7 @@ npm root -g
 
 添加 HTTP 配置前：
 
-1. 在 Chrome 中加载 Agent Chrome MCP 扩展。
+1. 在 Chrome 中加载 Chrome MCP 扩展。
 2. 打开扩展弹窗。
 3. 点击**连接**。
 4. 确认弹窗显示本地桥接服务运行在端口 `12307`。
@@ -412,7 +412,7 @@ https://github.com/user-attachments/assets/83de4008-bb7e-494d-9b0f-98325cfea592
 
 ## 🚧 未来发展路线图
 
-我们对 Agent Chrome MCP 的未来发展有着激动人心的计划：
+我们对 Chrome MCP 的未来发展有着激动人心的计划：
 
 - [ ] 身份认证
 

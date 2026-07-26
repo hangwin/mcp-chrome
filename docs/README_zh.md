@@ -2,7 +2,7 @@
 
 **📖 Documentation**: [English](README.md) | [中文](README_zh.md)
 
-本目录包含 Agent Chrome MCP 的用户与贡献者文档。带 `_zh` 后缀的文件为中文版本。
+本目录包含 Chrome MCP 的用户与贡献者文档。带 `_zh` 后缀的文件为中文版本。
 
 ## 用户文档
 

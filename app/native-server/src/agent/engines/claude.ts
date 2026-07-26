@@ -506,7 +506,7 @@ export class ClaudeEngine implements AgentEngine {
           ? (optionsConfig as Record<string, unknown>)
           : undefined;
 
-      // Resolve project-scoped Agent Chrome MCP toggle (default: enabled)
+      // Resolve project-scoped Chrome MCP toggle (default: enabled)
       const enableChromeMcp = await (async (): Promise<boolean> => {
         if (!projectId) return true;
         try {
@@ -724,9 +724,10 @@ export class ClaudeEngine implements AgentEngine {
         }
       }
 
-      // Inject the local Agent Chrome MCP server based on project preference.
-      // This only controls the built-in "agent-chrome-mcp" entry; user-configured MCP servers remain untouched.
-      const CHROME_MCP_SERVER_NAME = 'agent-chrome-mcp';
+      // Inject the local Chrome MCP server based on project preference.
+      // This only controls the built-in "chrome-mcp" entry; user-configured MCP servers remain untouched.
+      const CHROME_MCP_SERVER_NAME = 'chrome-mcp';
+      const LEGACY_CHROME_MCP_SERVER_NAME = 'agent-chrome-mcp';
       if (enableChromeMcp) {
         const existingMcpServers =
           queryOptions.mcpServers &&
@@ -735,30 +736,35 @@ export class ClaudeEngine implements AgentEngine {
             ? (queryOptions.mcpServers as Record<string, unknown>)
             : {};
 
+        // Drop legacy key if present so we don't register the same server twice
+        const { [LEGACY_CHROME_MCP_SERVER_NAME]: _legacy, ...restServers } = existingMcpServers;
+
         queryOptions.mcpServers = {
-          ...existingMcpServers,
+          ...restServers,
           [CHROME_MCP_SERVER_NAME]: {
             type: 'http',
             url: getChromeMcpUrl(),
           },
         };
-        console.error(`[ClaudeEngine] Agent Chrome MCP server enabled: ${getChromeMcpUrl()}`);
+        console.error(`[ClaudeEngine] Chrome MCP server enabled: ${getChromeMcpUrl()}`);
       } else if (
         queryOptions.mcpServers &&
         typeof queryOptions.mcpServers === 'object' &&
         !Array.isArray(queryOptions.mcpServers)
       ) {
-        // If Agent Chrome MCP is disabled, remove it from existing mcpServers if present
+        // If Chrome MCP is disabled, remove current and legacy entries if present
         const existing = queryOptions.mcpServers as Record<string, unknown>;
-        if (CHROME_MCP_SERVER_NAME in existing) {
-          const { [CHROME_MCP_SERVER_NAME]: _removed, ...rest } = existing;
-          if (Object.keys(rest).length > 0) {
-            queryOptions.mcpServers = rest;
-          } else {
-            delete (queryOptions as Record<string, unknown>).mcpServers;
-          }
+        const {
+          [CHROME_MCP_SERVER_NAME]: _removed,
+          [LEGACY_CHROME_MCP_SERVER_NAME]: _legacyRemoved,
+          ...rest
+        } = existing;
+        if (Object.keys(rest).length > 0) {
+          queryOptions.mcpServers = rest;
+        } else {
+          delete (queryOptions as Record<string, unknown>).mcpServers;
         }
-        console.error('[ClaudeEngine] Agent Chrome MCP server disabled');
+        console.error('[ClaudeEngine] Chrome MCP server disabled');
       }
 
       // Add resume option if we have a valid Claude session ID

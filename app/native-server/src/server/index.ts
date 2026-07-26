@@ -344,7 +344,7 @@ export class Server {
     try {
       await this.fastify.listen({ port, host: SERVER_CONFIG.HOST });
 
-      // Set port environment variables after successful listen for Agent Chrome MCP URL resolution
+      // Set port environment variables after successful listen for Chrome MCP URL resolution
       process.env.CHROME_MCP_PORT = String(port);
       process.env.MCP_HTTP_PORT = String(port);
 

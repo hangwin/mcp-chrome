@@ -3,6 +3,9 @@ import { type Tool } from '@modelcontextprotocol/sdk/types.js';
 export const TOOL_NAMES = {
   BROWSER: {
     GET_WINDOWS_AND_TABS: 'get_windows_and_tabs',
+    TABS_CONTEXT: 'chrome_tabs_context',
+    TABS_CREATE: 'chrome_tabs_create',
+    TABS_ADOPT: 'chrome_tabs_adopt',
     SEARCH_TABS_CONTENT: 'search_tabs_content',
     NAVIGATE: 'chrome_navigate',
     SCREENSHOT: 'chrome_screenshot',
@@ -54,6 +57,63 @@ export const TOOL_SCHEMAS: Tool[] = [
       type: 'object',
       properties: {},
       required: [],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TABS_CONTEXT,
+    description:
+      'Get the Chrome MCP pin group (Claude-style tab group). Call at the start of a browser session to see group tab IDs. Pass createIfEmpty:true to create a labeled group in a new background window with a blank tab when none exists. Users can also drag tabs into the "Chrome MCP" group manually.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        createIfEmpty: {
+          type: 'boolean',
+          description:
+            'If true and no MCP group exists, create a new window with a blank tab pinned into the "Chrome MCP" group. Default: false',
+        },
+        background: {
+          type: 'boolean',
+          description:
+            'When creating a group, keep the new window in the background. Default: true (set false to focus the window)',
+        },
+      },
+      required: [],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TABS_CREATE,
+    description:
+      'Create a new tab inside the Chrome MCP pin group (creates the group if missing). Prefer this over chrome_navigate when starting agent work so tabs stay visually grouped.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        url: {
+          type: 'string',
+          description: 'Optional URL to open (default: about:blank)',
+        },
+        background: {
+          type: 'boolean',
+          description:
+            'Do not activate the tab or focus the window. Default: true (set false to foreground)',
+        },
+      },
+      required: [],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TABS_ADOPT,
+    description:
+      'Move existing tab(s) into the Chrome MCP pin group so the agent can work on them without the user manually dragging tabs. Creates the group if missing.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tabIds: {
+          type: 'array',
+          items: { type: 'number' },
+          description: 'Tab IDs to adopt into the MCP pin group',
+        },
+      },
+      required: ['tabIds'],
     },
   },
   // {
@@ -202,7 +262,7 @@ export const TOOL_SCHEMAS: Tool[] = [
         background: {
           type: 'boolean',
           description:
-            'Avoid focusing/activating tab/window for certain operations (best-effort). Default: false',
+            'Avoid focusing/activating tab/window for certain operations (best-effort). Default: true (set false to bring tab/window to foreground)',
         },
         action: {
           type: 'string',
@@ -423,7 +483,7 @@ export const TOOL_SCHEMAS: Tool[] = [
         background: {
           type: 'boolean',
           description:
-            'Perform the operation without stealing focus (do not activate the tab or focus the window). Default: false',
+            'Perform the operation without stealing focus (do not activate the tab or focus the window). Default: true (set false to bring tab/window to foreground)',
         },
         width: {
           type: 'number',
@@ -464,7 +524,7 @@ export const TOOL_SCHEMAS: Tool[] = [
         background: {
           type: 'boolean',
           description:
-            'Attempt capture without bringing tab/window to foreground. CDP-based capture is used for simple viewport captures. For element/full-page capture, the tab may still be made active in its window without focusing the window. Default: false',
+            'Attempt capture without bringing tab/window to foreground. Default: true. CDP-based capture is used for simple viewport captures. For element/full-page capture, the tab may still need to be visible in its window. Set false to bring the tab/window to foreground.',
         },
         width: { type: 'number', description: 'Width in pixels (default: 800)' },
         height: { type: 'number', description: 'Height in pixels (default: 600)' },
@@ -539,7 +599,8 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
         background: {
           type: 'boolean',
-          description: 'Do not activate tab/focus window while fetching (default: false)',
+          description:
+            'Do not activate tab/focus window while fetching. Default: true (set false to bring tab/window to foreground)',
         },
         htmlContent: {
           type: 'boolean',
@@ -795,7 +856,7 @@ export const TOOL_SCHEMAS: Tool[] = [
   //       background: {
   //         type: 'boolean',
   //         description:
-  //           'Do not activate tab/focus window during injection when true (default: false).',
+  //           'Do not activate tab/focus window during injection. Default: true (set false to foreground).',
   //       },
   //       type: {
   //         type: 'string',
@@ -1090,7 +1151,8 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
         background: {
           type: 'boolean',
-          description: 'Do not activate tab/focus window when capturing via CDP. Default: false',
+          description:
+            'Do not activate tab/focus window when capturing via CDP. Default: true (set false to bring tab/window to foreground)',
         },
         includeExceptions: {
           type: 'boolean',

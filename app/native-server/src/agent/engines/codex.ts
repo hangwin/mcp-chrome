@@ -83,7 +83,7 @@ export class CodexEngine implements AgentEngine {
       resolvedConfig.autoInstructions = CODEX_AUTO_INSTRUCTIONS;
     }
 
-    // Resolve project-scoped Agent Chrome MCP toggle (default: enabled)
+    // Resolve project-scoped Chrome MCP toggle (default: enabled)
     const enableChromeMcp = await (async (): Promise<boolean> => {
       if (!projectId) return true;
       try {
@@ -118,16 +118,16 @@ export class CodexEngine implements AgentEngine {
     // Add Codex configuration arguments
     args.push(...this.buildCodexConfigArgs(resolvedConfig));
 
-    // Inject local Agent Chrome MCP server via runtime config override (no global codex config mutation)
+    // Inject local Chrome MCP server via runtime config override (no global codex config mutation)
     // Use a unique server name to avoid collision with any existing global config
     if (enableChromeMcp) {
       const chromeMcpUrl = getChromeMcpUrl();
       // Set both url and type for complete HTTP MCP server configuration
       args.push('-c', `mcp_servers.chrome_mcp_http.url=${JSON.stringify(chromeMcpUrl)}`);
       args.push('-c', `mcp_servers.chrome_mcp_http.type="http"`);
-      console.error(`[CodexEngine] Agent Chrome MCP server enabled: ${chromeMcpUrl}`);
+      console.error(`[CodexEngine] Chrome MCP server enabled: ${chromeMcpUrl}`);
     } else {
-      console.error('[CodexEngine] Agent Chrome MCP server disabled');
+      console.error('[CodexEngine] Chrome MCP server disabled');
     }
 
     if (model && model.trim()) {

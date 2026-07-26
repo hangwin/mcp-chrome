@@ -74,7 +74,7 @@ interface ComputerParams {
   frameId?: number; // Target frame for selector/ref resolution
   tabId?: number; // target existing tab id
   windowId?: number;
-  background?: boolean; // avoid focusing/activating
+  background?: boolean; // default true: avoid focusing/activating; set false to foreground
 }
 
 // Minimal CDP helper encapsulated here to avoid scattering CDP code

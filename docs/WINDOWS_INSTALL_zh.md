@@ -2,7 +2,7 @@
 
 **📖 文档**: [中文](WINDOWS_INSTALL_zh.md)
 
-Agent Chrome MCP 在windows电脑的详细安装和配置步骤
+Chrome MCP 在windows电脑的详细安装和配置步骤
 
 ## 环境要求
 
@@ -22,7 +22,7 @@ Agent Chrome MCP 在windows电脑的详细安装和配置步骤
    - 启用"开发者模式"
    - 点击"加载已解压的扩展程序"
    - 选择包含 `manifest.json` 的解压目录
-   - 点击 Agent Chrome MCP 插件图标
+   - 点击 Chrome MCP 插件图标
    - 点击"复制配置"
      <img width="475" alt="截屏2025-06-09 15 52 06" src="https://github.com/user-attachments/assets/241e57b8-c55f-41a4-9188-0367293dc5bc" />
 
@@ -31,7 +31,7 @@ Agent Chrome MCP 在windows电脑的详细安装和配置步骤
 把下面这段提示词发给 Agent：
 
 ```text
-请为当前 Agent 连接 Agent Chrome MCP。
+请为当前 Agent 连接 Chrome MCP。
 
 要求：
 - 优先使用简单的 npx 配置。
@@ -41,7 +41,7 @@ Agent Chrome MCP 在windows电脑的详细安装和配置步骤
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -73,7 +73,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp#-快速开始
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -87,7 +87,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp#-快速开始
 
 添加 HTTP 配置前：
 
-1. 在 Chrome 中加载 Agent Chrome MCP 扩展。
+1. 在 Chrome 中加载 Chrome MCP 扩展。
 2. 打开扩展弹窗。
 3. 点击"连接"。
 4. 确认弹窗显示本地桥接服务运行在端口 `12307`。

@@ -1,10 +1,10 @@
-# Agent Chrome MCP
+# Chrome MCP
 
 **📖 文档**: [English](https://github.com/rudy2steiner/agent-chrome-mcp/blob/master/app/native-server/README.md) | [中文](https://github.com/rudy2steiner/agent-chrome-mcp/blob/master/app/native-server/README_zh.md)
 
 将你的 Chrome 浏览器作为 MCP 服务器，供工作自动化 Agent 和支持 MCP 的客户端使用。
 
-Agent Chrome MCP 让 Agent 检查并操作你已经在使用的 Chrome 浏览器，包括已有登录态、标签页、cookies 和扩展。适用于资料调研、表单录入、运营工作流、QA 检查、内容工作流和编码任务。
+Chrome MCP 让 Agent 检查并操作你已经在使用的 Chrome 浏览器，包括已有登录态、标签页、cookies 和扩展。适用于资料调研、表单录入、运营工作流、QA 检查、内容工作流和编码任务。
 
 ## 安装
 
@@ -25,13 +25,13 @@ Agent Chrome MCP 让 Agent 检查并操作你已经在使用的 Chrome 浏览器
 把下面这段提示词发给 Agent：
 
 ```text
-请为当前 Agent 安装 Agent Chrome MCP。
+请为当前 Agent 安装 Chrome MCP。
 
 使用这个 MCP server 配置：
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -43,7 +43,7 @@ Agent Chrome MCP 让 Agent 检查并操作你已经在使用的 Chrome 浏览器
 
 ### 3. 重启并连接
 
-重启 Agent。然后打开 Agent Chrome MCP 扩展弹窗并点击**连接**。
+重启 Agent。然后打开 Chrome MCP 扩展弹窗并点击**连接**。
 
 之后，Agent 应能列出并调用 Chrome 工具。
 
@@ -54,7 +54,7 @@ Agent Chrome MCP 让 Agent 检查并操作你已经在使用的 Chrome 浏览器
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -89,7 +89,7 @@ npm install -g agent-chrome-mcp
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "agent-chrome-mcp",
       "args": ["stdio"]
     }
@@ -106,7 +106,7 @@ npm install -g agent-chrome-mcp
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }

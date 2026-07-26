@@ -7,6 +7,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.35]
+
+### Added
+
+- Claude-style MCP pin group tools: `chrome_tabs_context`, `chrome_tabs_create`, and `chrome_tabs_adopt` (labeled **"Chrome MCP"** tab group).
+- `get_windows_and_tabs` now reports `mcpGroup` membership for each tab.
+- End-to-end helper script `scripts/e2e-tab-group.mjs` for pin-group verification.
+
+### Changed
+
+- Product display name simplified to **Chrome MCP** (extension UI, docs, and recommended MCP config key `chrome-mcp`). npm package remains `agent-chrome-mcp`.
+- Browser tools default to background operation (`background` defaults to true) so navigate/fetch/screenshot/console no longer steal tab/window focus unless `background: false`.
+- Navigate newly opened tabs join an existing MCP pin group when present.
+- GIF recorder / auto-capture and offscreen encoder improvements.
+- Bumped native bridge, Chrome extension, and shared package versions to `1.0.35`.
+
+### Fixed
+
+- Network capture no longer force-activates tabs when opening a target URL.
+
 ## [v1.0.34]
 
 ### Changed
@@ -45,7 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Published npm packages for the renamed Agent Chrome MCP bridge:
+- Published npm packages for the renamed Chrome MCP bridge:
   - `agent-chrome-mcp`
   - `agent-chrome-mcp-shared`
 - Added `agent-chrome-mcp stdio` as the recommended agent entry point.
@@ -53,7 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Renamed/repositioned the project as Agent Chrome MCP.
+- Renamed/repositioned the project as Chrome MCP.
 - Changed the default bridge port to `12307` to avoid conflicts with older installs.
 - Updated release workflow to build, test, package, and publish the native bridge and extension.
 

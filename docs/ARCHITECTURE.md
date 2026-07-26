@@ -1,8 +1,8 @@
-# Agent Chrome MCP Architecture 🏗️
+# Chrome MCP Architecture 🏗️
 
 **📖 Documentation**: [English](ARCHITECTURE.md) | [中文](ARCHITECTURE_zh.md)
 
-This document provides a detailed technical overview of the Agent Chrome MCP architecture, design decisions, and implementation details.
+This document provides a detailed technical overview of the Chrome MCP architecture, design decisions, and implementation details.
 
 ## 📋 Table of Contents
 
@@ -16,7 +16,7 @@ This document provides a detailed technical overview of the Agent Chrome MCP arc
 
 ## 🎯 Overview
 
-Agent Chrome MCP is a sophisticated browser automation platform that bridges AI assistants with Chrome browser capabilities through the Model Context Protocol (MCP). The architecture is designed for:
+Chrome MCP is a sophisticated browser automation platform that bridges AI assistants with Chrome browser capabilities through the Model Context Protocol (MCP). The architecture is designed for:
 
 - **High Performance**: SIMD-optimized AI operations and efficient native messaging
 - **Extensibility**: Modular tool system for easy feature additions
@@ -307,4 +307,4 @@ fn cosine_similarity_simd(&self, vec_a: &[f32], vec_b: &[f32]) -> f32 {
 3. **Authentication** for secure connections
 4. **Monitoring** for performance metrics
 
-This architecture enables Agent Chrome MCP to deliver high-performance browser automation with advanced AI capabilities while maintaining security and extensibility.
+This architecture enables Chrome MCP to deliver high-performance browser automation with advanced AI capabilities while maintaining security and extensibility.

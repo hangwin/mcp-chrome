@@ -89,6 +89,26 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function withTimeout<T>(
+  promise: Promise<T> | null,
+  timeoutMs: number,
+  message: string,
+): Promise<T | null> {
+  if (!promise) return Promise.resolve(null);
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(message)), timeoutMs);
+    promise
+      .then((value) => {
+        clearTimeout(timer);
+        resolve(value);
+      })
+      .catch((error) => {
+        clearTimeout(timer);
+        reject(error);
+      });
+  });
+}
+
 function normalizeActionMetadata(action: ActionMetadata, atMs: number): ActionMetadata {
   const normalized: ActionMetadata = {
     ...action,
@@ -138,7 +158,7 @@ async function sendToOffscreen<T extends { success: boolean; error?: string }>(
 // Frame Capture
 // ============================================================================
 
-async function captureFrameData(tabId: number, state: TabCaptureState): Promise<Uint8ClampedArray> {
+async function captureFrameData(tabId: number, state: TabCaptureState): Promise<string> {
   const width = state.config.width;
   const height = state.config.height;
   const ctx = state.ctx;
@@ -160,13 +180,8 @@ async function captureFrameData(tabId: number, state: TabCaptureState): Promise<
     'Page.captureScreenshot',
     {
       format: 'png',
-      clip: {
-        x: 0,
-        y: 0,
-        width: viewportWidth,
-        height: viewportHeight,
-        scale: 1,
-      },
+      captureBeyondViewport: false,
+      fromSurface: true,
     },
   );
 
@@ -193,7 +208,17 @@ async function captureFrameData(tabId: number, state: TabCaptureState): Promise<
     pruneActionEventsInPlace(state.actionEvents, nowMs, state.rendering);
   }
 
-  return ctx.getImageData(0, 0, width, height).data;
+  const blob = await ctx.canvas.convertToBlob({ type: 'image/png' });
+  return blobToDataUrl(blob);
+}
+
+function blobToDataUrl(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(new Error('Failed to read blob'));
+    reader.readAsDataURL(blob);
+  });
 }
 
 // ============================================================================
@@ -293,7 +318,7 @@ export async function stopAutoCapture(tabId: number): Promise<{
   try {
     // Wait for any pending capture
     if (state.pendingCapture) {
-      await state.pendingCapture;
+      await withTimeout(state.pendingCapture, 5000, 'Timed out waiting for pending GIF capture');
     }
 
     const frameCount = state.frameCount;
@@ -311,14 +336,18 @@ export async function stopAutoCapture(tabId: number): Promise<{
     }
 
     // Finalize GIF
-    const response = await sendToOffscreen<{
-      success: boolean;
-      gifData?: number[];
-      byteLength?: number;
-      error?: string;
-    }>(OFFSCREEN_MESSAGE_TYPES.GIF_FINISH, {});
+    const response = await withTimeout(
+      sendToOffscreen<{
+        success: boolean;
+        gifData?: number[];
+        byteLength?: number;
+        error?: string;
+      }>(OFFSCREEN_MESSAGE_TYPES.GIF_FINISH, {}),
+      20000,
+      'Timed out finishing GIF encoding',
+    );
 
-    if (!response.gifData || response.gifData.length === 0) {
+    if (!response || !response.gifData || response.gifData.length === 0) {
       return {
         success: false,
         error: 'Failed to encode GIF',
@@ -450,13 +479,13 @@ export async function captureFrameOnAction(
       if (activeState.frameCount >= activeState.config.maxFrames) return;
 
       try {
-        const frameData = await captureFrameData(tabId, activeState);
+        const frameDataUrl = await captureFrameData(tabId, activeState);
 
         // Use animation delay for intermediate frames, regular delay for final frame
         const delayCs = i < plan.frames - 1 ? plan.delayCs : activeState.config.frameDelayCs;
 
         await sendToOffscreen(OFFSCREEN_MESSAGE_TYPES.GIF_ADD_FRAME, {
-          imageData: Array.from(frameData),
+          imageDataUrl: frameDataUrl,
           width: activeState.config.width,
           height: activeState.config.height,
           delay: delayCs,

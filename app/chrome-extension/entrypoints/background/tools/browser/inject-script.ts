@@ -26,6 +26,7 @@ class InjectScriptTool extends BaseBrowserToolExecutor {
   async execute(args: InjectScriptParam & ScriptConfig): Promise<ToolResult> {
     try {
       const { url, type, jsScript, tabId, windowId, background } = args;
+      const stayBackground = this.stayInBackground(background);
       let tab: chrome.tabs.Tab | undefined;
 
       if (!type || !jsScript) {
@@ -56,7 +57,7 @@ class InjectScriptTool extends BaseBrowserToolExecutor {
           console.log(`No existing tab found with URL: ${url}, creating new tab`);
           tab = await chrome.tabs.create({
             url,
-            active: background === true ? false : true,
+            active: !stayBackground,
             windowId,
           });
 
@@ -80,8 +81,8 @@ class InjectScriptTool extends BaseBrowserToolExecutor {
         return createErrorResponse('Tab has no ID');
       }
 
-      // Optionally bring tab/window to foreground based on background flag
-      if (background !== true) {
+      // Foreground only when background: false
+      if (!stayBackground) {
         await chrome.tabs.update(tab.id, { active: true });
         await chrome.windows.update(tab.windowId, { focused: true });
       }

@@ -147,7 +147,7 @@ class ConsoleTool extends BaseBrowserToolExecutor {
       url,
       tabId,
       windowId,
-      background = false,
+      background,
       includeExceptions = true,
       maxMessages = DEFAULT_MAX_MESSAGES,
       mode = 'snapshot',
@@ -158,6 +158,7 @@ class ConsoleTool extends BaseBrowserToolExecutor {
       onlyErrors = false,
       limit,
     } = args;
+    const stayBackground = this.stayInBackground(background);
 
     let targetTab: chrome.tabs.Tab;
     let targetTabId: number | undefined;
@@ -179,7 +180,7 @@ class ConsoleTool extends BaseBrowserToolExecutor {
         targetTab = t;
       } else if (url) {
         // Navigate to the specified URL
-        targetTab = await this.navigateToUrl(url, background === true, windowId);
+        targetTab = await this.navigateToUrl(url, stayBackground, windowId);
       } else {
         // Use current active tab
         const [activeTab] =
@@ -310,7 +311,7 @@ class ConsoleTool extends BaseBrowserToolExecutor {
 
   private async navigateToUrl(
     url: string,
-    background = false,
+    stayBackground = true,
     windowId?: number,
   ): Promise<chrome.tabs.Tab> {
     // Check if URL is already open
@@ -318,7 +319,7 @@ class ConsoleTool extends BaseBrowserToolExecutor {
 
     if (existingTabs.length > 0 && existingTabs[0]?.id) {
       const tab = existingTabs[0];
-      if (!background) {
+      if (!stayBackground) {
         // Activate the existing tab
         await chrome.tabs.update(tab.id!, { active: true });
         await chrome.windows.update(tab.windowId, { focused: true });
@@ -326,7 +327,7 @@ class ConsoleTool extends BaseBrowserToolExecutor {
       return tab;
     } else {
       // Create new tab with the URL
-      const createInfo: chrome.tabs.CreateProperties = { url, active: background ? false : true };
+      const createInfo: chrome.tabs.CreateProperties = { url, active: !stayBackground };
       if (typeof windowId === 'number') createInfo.windowId = windowId;
       const newTab = await chrome.tabs.create(createInfo);
       // Wait for tab to be ready

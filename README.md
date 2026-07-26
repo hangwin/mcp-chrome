@@ -1,4 +1,4 @@
-# Agent Chrome MCP 🚀
+# Chrome MCP 🚀
 
 [![Stars](https://img.shields.io/github/stars/rudy2steiner/agent-chrome-mcp)](https://img.shields.io/github/stars/rudy2steiner/agent-chrome-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -14,15 +14,15 @@
 
 ---
 
-## 🎯 What is Agent Chrome MCP?
+## 🎯 What is Chrome MCP?
 
-Agent Chrome MCP is a Chrome extension-based **Model Context Protocol (MCP) server** that exposes your own Chrome browser to AI agents. It is built for everyday browser work automation: research, data entry, operations tasks, QA checks, content workflows, shopping or travel workflows, and coding-adjacent tasks.
+Chrome MCP is a Chrome extension-based **Model Context Protocol (MCP) server** that exposes your own Chrome browser to AI agents. It is built for everyday browser work automation: research, data entry, operations tasks, QA checks, content workflows, shopping or travel workflows, and coding-adjacent tasks.
 
-Unlike traditional browser automation tools (like Playwright), **Agent Chrome MCP** directly uses your daily Chrome browser, preserving your existing tabs, login sessions, cookies, extensions, and settings. Any MCP-capable agent can operate the browser you already use instead of a separate automation browser.
+Unlike traditional browser automation tools (like Playwright), **Chrome MCP** directly uses your daily Chrome browser, preserving your existing tabs, login sessions, cookies, extensions, and settings. Any MCP-capable agent can operate the browser you already use instead of a separate automation browser.
 
 ## 🤝 Works with Trending Agents
 
-Agent Chrome MCP works with any MCP-capable agent—no vendor lock-in. Install the Chrome extension, then **ask your agent to connect it** with the prompt below.
+Chrome MCP works with any MCP-capable agent—no vendor lock-in. Install the Chrome extension, then **ask your agent to connect it** with the prompt below.
 
 ### Cowork agents
 
@@ -43,7 +43,7 @@ Agent Chrome MCP works with any MCP-capable agent—no vendor lock-in. Install t
 Copy this prompt into your agent:
 
 ```text
-Connect Agent Chrome MCP to this agent.
+Connect Chrome MCP to this agent.
 
 Requirements:
 - Use the simple npx config first.
@@ -53,7 +53,7 @@ Primary MCP server config:
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -130,7 +130,7 @@ The recommended setup starts with `npx` because it is the easiest path for most 
    - Enable "Developer mode"
    - Click "Load unpacked"
    - Select the unzipped folder that contains `manifest.json`
-   - Click the Agent Chrome MCP extension icon
+   - Click the Chrome MCP extension icon
    - Click "Copy Configuration"
      <img width="475" alt="Screenshot 2025-06-09 15 52 06" src="https://github.com/user-attachments/assets/241e57b8-c55f-41a4-9188-0367293dc5bc" />
 
@@ -139,7 +139,7 @@ The recommended setup starts with `npx` because it is the easiest path for most 
 Copy this prompt into your agent:
 
 ```text
-Connect Agent Chrome MCP to this agent.
+Connect Chrome MCP to this agent.
 
 Requirements:
 - Use the simple npx config first.
@@ -149,7 +149,7 @@ Primary MCP server config:
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -181,7 +181,7 @@ If you prefer to edit the config yourself, add this to your agent MCP settings:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -195,12 +195,12 @@ Then restart the agent and click "Connect" in the extension popup.
 
 #### Using STDIO Connection (Recommended)
 
-Add Agent Chrome MCP as a normal stdio MCP server. The stdio entry point performs a best-effort Native Messaging registration on startup, so users do not need to know or copy the Chrome extension ID.
+Add Chrome MCP as a normal stdio MCP server. The stdio entry point performs a best-effort Native Messaging registration on startup, so users do not need to know or copy the Chrome extension ID.
 
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -219,7 +219,7 @@ npm root -g
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "<absolute node path>",
       "args": ["<npm root -g>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js"],
       "env": {
@@ -236,7 +236,7 @@ Use Streamable HTTP only when your MCP client supports HTTP MCP servers directly
 
 Before adding the HTTP config:
 
-1. Load the Agent Chrome MCP extension in Chrome.
+1. Load the Chrome MCP extension in Chrome.
 2. Open the extension popup.
 3. Click **Connect**.
 4. Confirm the popup shows the local bridge running on port `12307`.
@@ -420,7 +420,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](docs/CONTRIBUTING.md) for
 
 ## 🚧 Future Roadmap
 
-We have exciting plans for the future development of Agent Chrome MCP:
+We have exciting plans for the future development of Chrome MCP:
 
 - [ ] Authentication
 - [ ] Recording and Playback

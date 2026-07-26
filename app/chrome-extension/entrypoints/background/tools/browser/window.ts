@@ -1,23 +1,29 @@
 import { createErrorResponse, ToolResult } from '@/common/tool-handler';
 import { BaseBrowserToolExecutor } from '../base-browser';
 import { TOOL_NAMES } from 'agent-chrome-mcp-shared';
+import { findMcpTabGroup, MCP_TAB_GROUP_TITLE } from '@/utils/mcp-tab-group';
 
 class WindowTool extends BaseBrowserToolExecutor {
   name = TOOL_NAMES.BROWSER.GET_WINDOWS_AND_TABS;
   async execute(): Promise<ToolResult> {
     try {
       const windows = await chrome.windows.getAll({ populate: true });
+      const mcpGroup = await findMcpTabGroup();
       let tabCount = 0;
 
       const structuredWindows = windows.map((window) => {
         const tabs =
           window.tabs?.map((tab) => {
             tabCount++;
+            const inMcpGroup =
+              mcpGroup != null && typeof tab.groupId === 'number' && tab.groupId === mcpGroup.id;
             return {
               tabId: tab.id || 0,
               url: tab.url || '',
               title: tab.title || '',
               active: tab.active || false,
+              groupId: typeof tab.groupId === 'number' && tab.groupId >= 0 ? tab.groupId : null,
+              mcpGroup: inMcpGroup,
             };
           }) || [];
 
@@ -30,6 +36,14 @@ class WindowTool extends BaseBrowserToolExecutor {
       const result = {
         windowCount: windows.length,
         tabCount: tabCount,
+        mcpGroup: mcpGroup
+          ? {
+              groupId: mcpGroup.id,
+              windowId: mcpGroup.windowId,
+              title: mcpGroup.title || MCP_TAB_GROUP_TITLE,
+              color: mcpGroup.color,
+            }
+          : null,
         windows: structuredWindows,
       };
 

@@ -1,8 +1,8 @@
-# Agent Chrome MCP 架构设计 🏗️
+# Chrome MCP 架构设计 🏗️
 
 **📖 文档**: [English](ARCHITECTURE.md) | [中文](ARCHITECTURE_zh.md)
 
-本文档提供 Agent Chrome MCP 架构、设计决策和实现细节的详细技术概述。
+本文档提供 Chrome MCP 架构、设计决策和实现细节的详细技术概述。
 
 ## 📋 目录
 
@@ -16,7 +16,7 @@
 
 ## 🎯 概述
 
-Agent Chrome MCP 是一个复杂的浏览器自动化平台，通过模型上下文协议 (MCP) 将 AI 助手与 Chrome 浏览器功能连接起来。架构设计目标：
+Chrome MCP 是一个复杂的浏览器自动化平台，通过模型上下文协议 (MCP) 将 AI 助手与 Chrome 浏览器功能连接起来。架构设计目标：
 
 - **高性能**：SIMD 优化的 AI 操作和高效的原生消息传递
 - **可扩展性**：模块化工具系统，便于添加新功能
@@ -306,4 +306,4 @@ fn cosine_similarity_simd(&self, vec_a: &[f32], vec_b: &[f32]) -> f32 {
 3. **身份验证** 用于安全连接
 4. **监控** 用于性能指标
 
-此架构使 Agent Chrome MCP 能够在保持安全性和可扩展性的同时，提供高性能的浏览器自动化和先进的 AI 功能。
+此架构使 Chrome MCP 能够在保持安全性和可扩展性的同时，提供高性能的浏览器自动化和先进的 AI 功能。

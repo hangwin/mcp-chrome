@@ -10,7 +10,7 @@ import IconsResolver from 'unplugin-icons/resolver';
 config({ path: resolve(process.cwd(), '.env') });
 config({ path: resolve(process.cwd(), '.env.local') });
 
-// Stable public key for the local "Agent Chrome MCP" extension identity.
+// Stable public key for the local "Chrome MCP" extension identity.
 // This makes unpacked installs use a fixed extension ID instead of the path-derived
 // ID, so the native host can register against a predictable origin.
 const DEFAULT_CHROME_MCP_EXTENSION_KEY =
@@ -84,6 +84,7 @@ export default defineConfig({
     permissions: [
       'nativeMessaging',
       'tabs',
+      'tabGroups',
       'activeTab',
       'scripting',
       'contextMenus',
@@ -107,7 +108,7 @@ export default defineConfig({
     },
     action: {
       default_popup: 'popup.html',
-      default_title: 'Agent Chrome MCP',
+      default_title: 'Chrome MCP',
     },
     // Chrome Side Panel entry for workflow management
     // Ref: https://developer.chrome.com/docs/extensions/reference/api/sidePanel

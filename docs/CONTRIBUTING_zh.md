@@ -2,7 +2,7 @@
 
 **📖 文档**: [English](CONTRIBUTING.md) | [中文](CONTRIBUTING_zh.md)
 
-感谢您对 Agent Chrome MCP 项目的贡献兴趣！本文档为贡献者提供指南和信息。
+感谢您对 Chrome MCP 项目的贡献兴趣！本文档为贡献者提供指南和信息。
 
 ## 🎯 如何贡献
 
@@ -219,7 +219,7 @@ pnpm build
 
 ## 📄 许可证
 
-通过为 Agent Chrome MCP 做贡献，您同意您的贡献将在 MIT 许可证下获得许可。
+通过为 Chrome MCP 做贡献，您同意您的贡献将在 MIT 许可证下获得许可。
 
 ## 🎯 贡献者指南
 
@@ -262,4 +262,4 @@ pnpm build
 - **贡献者徽章**：GitHub 个人资料上的贡献者徽章
 - **社区认可**：在社区讨论中的特别感谢
 
-感谢您考虑为 Agent Chrome MCP 做贡献！您的参与使这个项目变得更好。
+感谢您考虑为 Chrome MCP 做贡献！您的参与使这个项目变得更好。

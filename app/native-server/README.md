@@ -1,10 +1,10 @@
-# Agent Chrome MCP
+# Chrome MCP
 
 **📖 Documentation**: [English](https://github.com/rudy2steiner/agent-chrome-mcp/blob/master/app/native-server/README.md) | [中文](https://github.com/rudy2steiner/agent-chrome-mcp/blob/master/app/native-server/README_zh.md)
 
 Use your own Chrome browser as an MCP server for work automation agents and MCP-compatible clients.
 
-Agent Chrome MCP lets an agent inspect and operate the Chrome browser you already use, including your existing login sessions, tabs, cookies, and extensions. It is useful for research, data entry, operations workflows, QA checks, content workflows, and coding tasks.
+Chrome MCP lets an agent inspect and operate the Chrome browser you already use, including your existing login sessions, tabs, cookies, and extensions. It is useful for research, data entry, operations workflows, QA checks, content workflows, and coding tasks.
 
 ## Install
 
@@ -32,7 +32,7 @@ Most users should let their agent configure this package with the `npx` MCP conf
 Copy this prompt into your agent:
 
 ```text
-Connect Agent Chrome MCP to this agent.
+Connect Chrome MCP to this agent.
 
 Requirements:
 - Use the simple npx config first.
@@ -42,7 +42,7 @@ Primary MCP server config:
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -65,7 +65,7 @@ After updating the MCP config, tell me where you saved it and which config style
 
 ### 3. Restart And Connect
 
-Restart your agent. Then open the Agent Chrome MCP extension popup and click Connect.
+Restart your agent. Then open the Chrome MCP extension popup and click Connect.
 
 After that, your agent should be able to list and call Chrome tools.
 
@@ -76,7 +76,7 @@ If you prefer to edit the MCP config yourself, add this to your agent MCP settin
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -111,7 +111,7 @@ npm root -g
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "<absolute node path>",
       "args": ["<npm root -g>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js"],
       "env": {
@@ -128,7 +128,7 @@ Use Streamable HTTP only when your MCP client supports HTTP MCP servers directly
 
 Before adding the HTTP config:
 
-1. Load the Agent Chrome MCP extension in Chrome.
+1. Load the Chrome MCP extension in Chrome.
 2. Open the extension popup.
 3. Click Connect.
 4. Confirm the popup shows the local bridge running on port `12307`.
@@ -213,4 +213,4 @@ MIT
 
 ## Acknowledgements
 
-Special thanks to the original [hangwin/mcp-chrome](https://github.com/hangwin/mcp-chrome) project and its author, **hangye**, whose work laid the foundation for Agent Chrome MCP.
+Special thanks to the original [hangwin/mcp-chrome](https://github.com/hangwin/mcp-chrome) project and its author, **hangye**, whose work laid the foundation for Chrome MCP.

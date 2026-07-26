@@ -1,4 +1,4 @@
-name: Build and Release Agent Chrome MCP
+name: Build and Release Chrome MCP
 
 on:
   push:
@@ -141,7 +141,7 @@ jobs:
           cat > release-artifacts/agent-chrome-mcp-mcp-config.json <<'JSON'
           {
             "mcpServers": {
-              "agent-chrome-mcp": {
+              "chrome-mcp": {
                 "command": "npx",
                 "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
               }
@@ -162,94 +162,12 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.release_tag.outputs.tag }}
-          name: Agent Chrome MCP ${{ steps.release_tag.outputs.tag }}
+          name: Chrome MCP ${{ steps.release_tag.outputs.tag }}
           generate_release_notes: true
           files: |
             release-artifacts/agent-chrome-mcp-extension.zip
             release-artifacts/agent-chrome-mcp-mcp-config.json
           body: |
-            ## Install
-
-            1. Download `agent-chrome-mcp-extension.zip` from this release and unzip it.
-            2. Open `chrome://extensions/` in Chrome.
-            3. Enable Developer mode.
-            4. Click Load unpacked and select the unzipped folder that contains `manifest.json`.
-            5. Ask your agent to connect Agent Chrome MCP with this prompt:
-
-            ```text
-            Connect Agent Chrome MCP to this agent.
-
-            Requirements:
-            - Use the simple npx config first.
-            - If this agent cannot start MCP stdio through npx, falls back to the direct Node.js config below.
-
-            Primary MCP server config:
-
-            {
-              "mcpServers": {
-                "agent-chrome-mcp": {
-                  "command": "npx",
-                  "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
-                }
-              }
-            }
-
-            If prerequisites, extension loading, or fallback setup are missing, follow the manual install guide first:
-            https://github.com/rudy2steiner/agent-chrome-mcp#-quick-start
-
-            Fallback if npx hangs or the agent cannot list MCP tools after the manual guide:
-            1. Run npm install -g --registry=https://registry.npmjs.org agent-chrome-mcp@latest
-            2. Resolve node path with: node -p "process.execPath"
-            3. Resolve global npm root with: npm root -g
-            4. Configure command as the absolute node path and args as:
-               <global npm root>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js
-            5. Add env CHROME_MCP_SKIP_AUTO_REGISTER=1.
-            ```
-
-            6. Use this config shape, then restart the agent:
-
-            ```json
-            {
-              "mcpServers": {
-                "agent-chrome-mcp": {
-                  "command": "npx",
-                  "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
-                }
-              }
-            }
-            ```
-
-            7. After the agent restarts, open the extension popup and click Connect.
-
-            Direct Node.js fallback if npx hangs:
-
-            ```json
-            {
-              "mcpServers": {
-                "agent-chrome-mcp": {
-                  "command": "<absolute node path>",
-                  "args": ["<npm root -g>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js"],
-                  "env": {
-                    "CHROME_MCP_SKIP_AUTO_REGISTER": "1"
-                  }
-                }
-              }
-            }
-            ```
-
-            Advanced Streamable HTTP config after the extension starts the local bridge:
-
-            ```json
-            {
-              "mcpServers": {
-                "agent-chrome-mcp-http": {
-                  "type": "streamableHttp",
-                  "url": "http://127.0.0.1:12307/mcp"
-                }
-              }
-            }
-            ```
-
-            If your client expects kebab-case, use `"type": "streamable-http"`.
-
-            Do not open `http://127.0.0.1:12307/mcp` directly in a browser tab; add it as an MCP server in your agent.
+            Assets: extension zip + `agent-chrome-mcp-mcp-config.json`.
+            Install: https://github.com/rudy2steiner/agent-chrome-mcp#-quick-start
+            Changelog: https://github.com/rudy2steiner/agent-chrome-mcp/blob/master/docs/CHANGELOG.md

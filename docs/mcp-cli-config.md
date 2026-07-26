@@ -2,13 +2,13 @@
 
 **📖 Documentation**: [English](mcp-cli-config.md) | [中文](mcp-cli-config_zh.md)
 
-This guide explains how to configure Codex CLI and Claude Code to connect to the Agent Chrome MCP.
+This guide explains how to configure Codex CLI and Claude Code to connect to the Chrome MCP.
 
 Prefer stdio MCP config for everyday use. HTTP is an advanced option. See [README.md](../README.md) for the recommended install flow.
 
 ## Overview
 
-The Agent Chrome MCP exposes its MCP interface at `http://127.0.0.1:12307/mcp` (default port).
+The Chrome MCP exposes its MCP interface at `http://127.0.0.1:12307/mcp` (default port).
 Both Codex CLI and Claude Code can connect to this endpoint to use Chrome browser control tools.
 
 ## Codex CLI Configuration
@@ -20,7 +20,7 @@ Add the following to your `~/.codex/config.json`:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "url": "http://127.0.0.1:12307/mcp"
     }
   }
@@ -44,7 +44,7 @@ Add the following to your `~/.claude/claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "url": "http://127.0.0.1:12307/mcp"
     }
   }
@@ -58,7 +58,7 @@ If you prefer stdio-based MCP communication:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -68,7 +68,7 @@ If you prefer stdio-based MCP communication:
 
 ## Verifying Connection
 
-After configuration, the CLI tools should be able to see and use Agent Chrome MCP tools such as:
+After configuration, the CLI tools should be able to see and use Chrome MCP tools such as:
 
 - `chrome_get_windows_and_tabs` - Get browser window and tab information
 - `chrome_navigate` - Navigate to a URL

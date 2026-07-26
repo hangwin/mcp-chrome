@@ -9,7 +9,7 @@ interface WebFetcherToolParams {
   url?: string; // optional URL to fetch content from (if not provided, uses active tab)
   selector?: string; // optional CSS selector to get content from a specific element
   tabId?: number; // target existing tab id
-  background?: boolean; // do not activate/focus
+  background?: boolean; // default true: do not activate/focus; set false to foreground
   windowId?: number; // target window id to pick active tab or create tab
 }
 
@@ -26,7 +26,7 @@ class WebFetcherTool extends BaseBrowserToolExecutor {
     const url = args.url;
     const selector = args.selector;
     const explicitTabId = args.tabId;
-    const background = args.background === true;
+    const stayBackground = this.stayInBackground(args.background);
     const windowId = args.windowId;
 
     console.log(`Starting web fetcher with options:`, {
@@ -62,7 +62,7 @@ class WebFetcherTool extends BaseBrowserToolExecutor {
         } else {
           // Create new tab with the URL
           console.log(`No existing tab found with URL: ${url}, creating new tab`);
-          tab = await chrome.tabs.create({ url, active: background ? false : true });
+          tab = await chrome.tabs.create({ url, active: !stayBackground });
 
           // Wait for page to load
           console.log('Waiting for page to load...');
@@ -84,8 +84,8 @@ class WebFetcherTool extends BaseBrowserToolExecutor {
         return createErrorResponse('Tab has no ID');
       }
 
-      // Optionally bring tab/window to foreground
-      if (!background) {
+      // Foreground only when background: false
+      if (!stayBackground) {
         await chrome.tabs.update(tab.id, { active: true });
         await chrome.windows.update(tab.windowId, { focused: true });
       }

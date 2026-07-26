@@ -75,7 +75,7 @@
 - **日期**: 2025-09-02
 - **描述**: 内网环境下，无法自动下载hugeface上的模型，网络不通
 
-#### #183 how to save the HTML displayed in the Chrome browser using Agent Chrome MCP
+#### #183 how to save the HTML displayed in the Chrome browser using Chrome MCP
 
 - **状态**: OPEN
 - **作者**: sansanai
@@ -360,7 +360,7 @@
 - **作者**: Lehtien
 - **日期**: 2025-07-04
 
-#### #60 Claude code Agent Chrome MCP服务器启动时输出包含emoji的console.log语句
+#### #60 Claude code Chrome MCP服务器启动时输出包含emoji的console.log语句
 
 - **状态**: CLOSED
 - **作者**: gabyic
@@ -387,7 +387,7 @@
 - **日期**: 2025-08-31
 - **描述**: 已手动注册mcp-chrome-bridge，12306端口没有进程监听
 
-#### #174 Browser in Docker + Agent Chrome MCP: troubleshooting
+#### #174 Browser in Docker + Chrome MCP: troubleshooting
 
 - **状态**: OPEN
 - **作者**: f3l1x
@@ -640,7 +640,7 @@
 - **作者**: hechengdu
 - **日期**: 2025-08-03
 
-#### #134 Cursor无法连接Agent Chrome MCP
+#### #134 Cursor无法连接Chrome MCP
 
 - **状态**: OPEN
 - **作者**: shengcruz

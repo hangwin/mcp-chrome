@@ -2,7 +2,7 @@
 
 **📖 Documentation**: [English](README.md) | [中文](README_zh.md)
 
-This directory contains user and contributor documentation for Agent Chrome MCP. Files with the `_zh` suffix are Chinese versions.
+This directory contains user and contributor documentation for Chrome MCP. Files with the `_zh` suffix are Chinese versions.
 
 ## User Docs
 

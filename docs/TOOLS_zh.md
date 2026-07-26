@@ -1,4 +1,4 @@
-# Agent Chrome MCP API 参考 📚
+# Chrome MCP API 参考 📚
 
 **📖 文档**: [English](TOOLS.md) | [中文](TOOLS_zh.md)
 
@@ -44,6 +44,32 @@
 }
 ```
 
+### `chrome_tabs_context`
+
+Claude 风格的 MCP 固定标签组上下文。列出名为 **"Chrome MCP"** 的标签组中的标签。会话开始时先调用。
+
+**参数**：
+
+- `createIfEmpty` (布尔值，可选)：若不存在则在后台新建窗口+空白标签并组成 MCP 组（默认：false）
+- `background` (布尔值，可选)：创建时保持窗口在后台（默认：true）
+
+### `chrome_tabs_create`
+
+在 MCP 固定组中新建标签（若不存在则创建组）。
+
+**参数**：
+
+- `url` (字符串，可选)：打开的 URL（默认：`about:blank`）
+- `background` (布尔值，可选)：不激活/不抢焦点（默认：true）
+
+### `chrome_tabs_adopt`
+
+将已有标签移入 MCP 固定组（等同于手动拖入 Claude 分组）。
+
+**参数**：
+
+- `tabIds` (数字数组，必需)：要纳入的标签 ID
+
 ### `chrome_navigate`
 
 导航到指定 URL，可选择控制视口。
@@ -52,6 +78,7 @@
 
 - `url` (字符串，必需)：要导航到的 URL
 - `newWindow` (布尔值，可选)：创建新窗口（默认：false）
+- `background` (布尔值，可选)：不激活标签页、不抢占窗口焦点（默认：true；设为 false 时切到前台）
 - `width` (数字，可选)：视口宽度（像素，默认：1280）
 - `height` (数字，可选)：视口高度（像素，默认：720）
 
@@ -132,6 +159,7 @@
 - `selector` (字符串，可选)：元素截图的 CSS 选择器
 - `width` (数字，可选)：宽度（像素，默认：800）
 - `height` (数字，可选)：高度（像素，默认：600）
+- `background` (布尔值，可选)：尽量不抢占窗口焦点（默认：true；视口截图走 CDP）
 - `storeBase64` (布尔值，可选)：返回 base64 数据（默认：false）
 - `fullPage` (布尔值，可选)：捕获整个页面（默认：true）
 

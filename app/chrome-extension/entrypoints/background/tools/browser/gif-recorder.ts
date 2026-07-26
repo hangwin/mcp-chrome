@@ -215,7 +215,7 @@ async function captureFrame(
   width: number,
   height: number,
   ctx: OffscreenCanvasRenderingContext2D,
-): Promise<Uint8ClampedArray> {
+): Promise<string> {
   // Get viewport metrics
   const metrics: { layoutViewport?: { clientWidth: number; clientHeight: number } } =
     await cdpSessionManager.sendCommand(tabId, 'Page.getLayoutMetrics', {});
@@ -229,13 +229,8 @@ async function captureFrame(
     'Page.captureScreenshot',
     {
       format: 'png',
-      clip: {
-        x: 0,
-        y: 0,
-        width: viewportWidth,
-        height: viewportHeight,
-        scale: 1,
-      },
+      captureBeyondViewport: false,
+      fromSurface: true,
     },
   );
 
@@ -246,15 +241,15 @@ async function captureFrame(
   ctx.drawImage(imageBitmap, 0, 0, width, height);
   imageBitmap.close();
 
-  const imageData = ctx.getImageData(0, 0, width, height);
-  return imageData.data;
+  const blob = await ctx.canvas.convertToBlob({ type: 'image/png' });
+  return blobToDataUrl(blob);
 }
 
 async function captureAndEncodeFrame(state: RecordingState): Promise<void> {
-  const frameData = await captureFrame(state.tabId, state.width, state.height, state.ctx);
+  const frameDataUrl = await captureFrame(state.tabId, state.width, state.height, state.ctx);
 
   await sendToOffscreen(OFFSCREEN_MESSAGE_TYPES.GIF_ADD_FRAME, {
-    imageData: Array.from(frameData),
+    imageDataUrl: frameDataUrl,
     width: state.width,
     height: state.height,
     delay: state.frameDelayCs,
@@ -379,14 +374,11 @@ async function startRecording(
 
     recordingState = state;
 
-    // Capture first frame eagerly so start() fails fast if capture/encoding is broken
-    await captureAndEncodeFrame(state);
-
     state.captureTimer = setTimeout(() => {
       void captureTick(state).catch((error) => {
         console.error('GIF recorder tick error:', error);
       });
-    }, frameIntervalMs);
+    }, 0);
 
     return {
       success: true,
@@ -436,22 +428,37 @@ async function stopRecording(): Promise<GifResult> {
     state.isRecording = false;
 
     try {
-      await state.captureInProgress;
+      await withTimeout(
+        state.captureInProgress,
+        5000,
+        'Timed out waiting for active frame capture',
+      );
     } catch {
       // ignore
     }
 
     // Best-effort final frame capture to preserve end state
     try {
-      const frameData = await captureFrame(state.tabId, state.width, state.height, state.ctx);
-      await sendToOffscreen(OFFSCREEN_MESSAGE_TYPES.GIF_ADD_FRAME, {
-        imageData: Array.from(frameData),
-        width: state.width,
-        height: state.height,
-        delay: state.frameDelayCs,
-        maxColors: state.maxColors,
-      });
-      state.frameCount += 1;
+      await withTimeout(
+        (async () => {
+          const frameDataUrl = await captureFrame(
+            state.tabId,
+            state.width,
+            state.height,
+            state.ctx,
+          );
+          await sendToOffscreen(OFFSCREEN_MESSAGE_TYPES.GIF_ADD_FRAME, {
+            imageDataUrl: frameDataUrl,
+            width: state.width,
+            height: state.height,
+            delay: state.frameDelayCs,
+            maxColors: state.maxColors,
+          });
+          state.frameCount += 1;
+        })(),
+        8000,
+        'Timed out capturing final frame',
+      );
     } catch (error) {
       console.warn('GIF recorder: Final frame capture error (non-fatal):', error);
     }
@@ -477,13 +484,17 @@ async function stopRecording(): Promise<GifResult> {
         };
       }
 
-      const response = await sendToOffscreen<{
-        success: boolean;
-        gifData?: number[];
-        byteLength?: number;
-      }>(OFFSCREEN_MESSAGE_TYPES.GIF_FINISH, {});
+      const response = await withTimeout(
+        sendToOffscreen<{
+          success: boolean;
+          gifData?: number[];
+          byteLength?: number;
+        }>(OFFSCREEN_MESSAGE_TYPES.GIF_FINISH, {}),
+        20000,
+        'Timed out finishing GIF encoding',
+      );
 
-      if (!response.gifData || response.gifData.length === 0) {
+      if (!response || !response.gifData || response.gifData.length === 0) {
         return {
           success: false,
           action: 'stop' as const,
@@ -598,6 +609,31 @@ function blobToDataUrl(blob: Blob): Promise<string> {
     reader.onload = () => resolve(reader.result as string);
     reader.onerror = () => reject(new Error('Failed to read blob'));
     reader.readAsDataURL(blob);
+  });
+}
+
+function gifBytesToBlob(bytes: Uint8Array): Blob {
+  const arrayBuffer = new Uint8Array(bytes).buffer;
+  return new Blob([arrayBuffer], { type: 'image/gif' });
+}
+
+function withTimeout<T>(
+  promise: Promise<T> | null,
+  timeoutMs: number,
+  message: string,
+): Promise<T | null> {
+  if (!promise) return Promise.resolve(null);
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(message)), timeoutMs);
+    promise
+      .then((value) => {
+        clearTimeout(timer);
+        resolve(value);
+      })
+      .catch((error) => {
+        clearTimeout(timer);
+        reject(error);
+      });
   });
 }
 
@@ -825,7 +861,7 @@ class GifRecorderTool extends BaseBrowserToolExecutor {
             };
 
             // Save GIF file
-            const blob = new Blob([stopResult.gifData], { type: 'image/gif' });
+            const blob = gifBytesToBlob(stopResult.gifData);
             const dataUrl = await blobToDataUrl(blob);
 
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -915,24 +951,21 @@ class GifRecorderTool extends BaseBrowserToolExecutor {
 
           // Stop fixed-FPS recording if active or stopping
           if (recordingState) {
-            // Cancel timer and cleanup without waiting for finish
-            if (recordingState.captureTimer) {
-              clearTimeout(recordingState.captureTimer);
-              recordingState.captureTimer = null;
-            }
-            try {
-              await recordingState.captureInProgress;
-            } catch {
-              // ignore
-            }
-            try {
-              await cdpSessionManager.detach(recordingState.tabId, CDP_SESSION_KEY);
-            } catch {
-              // ignore
-            }
-            const wasRecording = recordingState.isRecording || recordingState.isStopping;
+            const state = recordingState;
+            const wasRecording = state.isRecording || state.isStopping;
             recordingState = null;
             stopPromise = null; // Clear any pending stop promise
+
+            // Cancel timer and cleanup without waiting for finish
+            if (state.captureTimer) {
+              clearTimeout(state.captureTimer);
+              state.captureTimer = null;
+            }
+            try {
+              await cdpSessionManager.detach(state.tabId, CDP_SESSION_KEY);
+            } catch {
+              // ignore
+            }
             if (wasRecording) {
               clearedFixedFps = true;
             }
@@ -980,7 +1013,7 @@ class GifRecorderTool extends BaseBrowserToolExecutor {
 
           if (download) {
             // Download mode
-            const blob = new Blob([lastRecordedGif.gifData], { type: 'image/gif' });
+            const blob = gifBytesToBlob(lastRecordedGif.gifData);
             const dataUrl = await blobToDataUrl(blob);
 
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');

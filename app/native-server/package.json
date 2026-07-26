@@ -1,6 +1,6 @@
 {
   "name": "agent-chrome-mcp",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "description": "MCP stdio bridge for controlling your own Chrome browser with AI agents",
   "main": "dist/index.js",
   "bin": {

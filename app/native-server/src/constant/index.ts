@@ -53,7 +53,7 @@ export const ERROR_MESSAGES = {
 } as const;
 
 // ============================================================
-// Agent Chrome MCP Configuration
+// Chrome MCP Configuration
 // ============================================================
 
 /**
@@ -64,7 +64,7 @@ export const CHROME_MCP_PORT_ENV = 'CHROME_MCP_PORT';
 export const MCP_HTTP_PORT_ENV = 'MCP_HTTP_PORT';
 
 /**
- * Get the actual port the Agent Chrome MCP server is listening on.
+ * Get the actual port the Chrome MCP server is listening on.
  * Priority: CHROME_MCP_PORT env > MCP_HTTP_PORT env > NATIVE_SERVER_PORT default
  */
 export function getChromeMcpPort(): number {
@@ -74,7 +74,7 @@ export function getChromeMcpPort(): number {
 }
 
 /**
- * Get the full URL to the local Agent Chrome MCP HTTP endpoint.
+ * Get the full URL to the local Chrome MCP HTTP endpoint.
  * This URL is used by Claude/Codex agents to connect to the MCP server.
  */
 export function getChromeMcpUrl(): string {

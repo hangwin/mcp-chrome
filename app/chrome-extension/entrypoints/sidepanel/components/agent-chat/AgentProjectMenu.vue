@@ -174,12 +174,12 @@
       </label>
     </div>
 
-    <!-- Agent Chrome MCP Option - only shown when Claude or Codex CLI is selected -->
+    <!-- Chrome MCP Option - only shown when Claude or Codex CLI is selected -->
     <div v-if="showChromeMcpOption" class="px-3 py-2 flex items-center gap-2">
       <span class="text-xs w-12" :style="{ color: 'var(--ac-text-muted, #6e6e6e)' }"> MCP </span>
       <label
         class="flex items-center gap-2 cursor-pointer"
-        title="Enable local Agent Chrome MCP server integration"
+        title="Enable local Chrome MCP server integration"
       >
         <input
           type="checkbox"
@@ -191,7 +191,7 @@
           @change="handleChromeMcpChange"
         />
         <span class="text-xs" :style="{ color: 'var(--ac-text, #1a1a1a)' }">
-          Enable Agent Chrome MCP
+          Enable Chrome MCP
         </span>
       </label>
     </div>
@@ -305,7 +305,7 @@ const showCcrOption = computed(() => {
   return props.selectedCli === 'claude';
 });
 
-// Show Agent Chrome MCP option when Claude, Codex, or Auto (empty) CLI is selected
+// Show Chrome MCP option when Claude, Codex, or Auto (empty) CLI is selected
 // Auto typically defaults to Claude, and users should be able to manage this project-level setting
 const showChromeMcpOption = computed(() => {
   return !props.selectedCli || props.selectedCli === 'claude' || props.selectedCli === 'codex';

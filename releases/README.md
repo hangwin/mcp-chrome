@@ -1,4 +1,4 @@
-# Agent Chrome MCP Release Install
+# Chrome MCP Release Install
 
 **📖 Documentation**: [English](README.md) | [中文](README_zh.md)
 
@@ -22,14 +22,14 @@ https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
 3. Enable Developer mode.
 4. Click Load unpacked.
 5. Select the unzipped folder that contains `manifest.json`.
-6. Open the Agent Chrome MCP extension popup and click Copy Configuration.
+6. Open the Chrome MCP extension popup and click Copy Configuration.
 
 ## Ask Your Agent To Connect It
 
 Copy this prompt into your agent:
 
 ```text
-Connect Agent Chrome MCP to this agent.
+Connect Chrome MCP to this agent.
 
 Requirements:
 - Use the simple npx config first.
@@ -39,7 +39,7 @@ Primary MCP server config:
 
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -69,7 +69,7 @@ If you prefer to edit the config yourself, add this to your agent MCP settings:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "npx",
       "args": ["-y", "--registry=https://registry.npmjs.org", "agent-chrome-mcp@latest", "stdio"]
     }
@@ -90,7 +90,7 @@ npm root -g
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp": {
+    "chrome-mcp": {
       "command": "<absolute node path>",
       "args": ["<npm root -g>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js"],
       "env": {
@@ -142,4 +142,4 @@ Do not open `http://127.0.0.1:12307/mcp` directly in a browser tab; that can sho
 
 ## Acknowledgements
 
-Special thanks to the original [hangwin/mcp-chrome](https://github.com/hangwin/mcp-chrome) project and its author, **hangye**, whose work laid the foundation for Agent Chrome MCP.
+Special thanks to the original [hangwin/mcp-chrome](https://github.com/hangwin/mcp-chrome) project and its author, **hangye**, whose work laid the foundation for Chrome MCP.

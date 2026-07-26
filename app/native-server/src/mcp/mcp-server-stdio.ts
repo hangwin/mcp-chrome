@@ -85,7 +85,7 @@ async function ensureNativeMessagingRegistration(): Promise<void> {
     writeNodePathFile(path.join(__dirname, '..'));
     await tryRegisterUserLevelHost();
   } catch (error) {
-    console.error('Agent Chrome MCP auto-registration skipped:', error);
+    console.error('Chrome MCP auto-registration skipped:', error);
   } finally {
     console.log = originalLog;
   }
@@ -139,6 +139,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error('Fatal error Agent Chrome MCP main():', error);
+  console.error('Fatal error Chrome MCP main():', error);
   process.exit(1);
 });

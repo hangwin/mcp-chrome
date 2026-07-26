@@ -33,7 +33,7 @@ export const projects = sqliteTable(
      */
     useCcr: text('use_ccr'),
     /**
-     * Whether to enable the local Agent Chrome MCP server integration for this project.
+     * Whether to enable the local Chrome MCP server integration for this project.
      * Stored as '1' (true) or '0' (false). Default: '1' (enabled).
      */
     enableChromeMcp: text('enable_chrome_mcp').notNull().default('1'),

@@ -16,7 +16,7 @@ import { runReport } from './scripts/report';
 
 program
   .version(require('../package.json').version)
-  .description('Agent Chrome MCP - Local service for communicating with Chrome extension');
+  .description('Chrome MCP - Local service for communicating with Chrome extension');
 
 program
   .command('stdio')

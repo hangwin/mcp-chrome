@@ -133,8 +133,17 @@ export abstract class BaseBrowserToolExecutor implements ToolExecutor {
   }
 
   /**
-   * Optionally focus window and/or activate tab. Defaults preserve current behavior
-   * when caller sets activate/focus flags explicitly.
+   * Whether tool calls should avoid activating the tab / focusing the window.
+   * Default is true: do not steal focus unless the caller explicitly sets
+   * `background: false` (Claude-in-Chrome style).
+   */
+  protected stayInBackground(background?: boolean): boolean {
+    return background !== false;
+  }
+
+  /**
+   * Optionally focus window and/or activate tab. Both are opt-in
+   * (`activate` / `focusWindow` must be explicitly true).
    */
   protected async ensureFocus(
     tab: chrome.tabs.Tab,

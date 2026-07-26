@@ -151,7 +151,7 @@ export interface AgentProject {
    */
   useCcr?: boolean;
   /**
-   * Whether to enable Agent Chrome MCP integration for this project.
+   * Whether to enable Chrome MCP integration for this project.
    * Default: true
    */
   enableChromeMcp?: boolean;
