@@ -30,8 +30,8 @@
 1. **Fork 并克隆仓库**
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/agent-chrome-mcp-extension.git
-cd agent-chrome-mcp-extension
+git clone https://github.com/YOUR_USERNAME/chrome-mcp-extension.git
+cd chrome-mcp-extension
 ```
 
 2. **安装依赖**
@@ -54,7 +54,7 @@ npm run dev
 ## 🏗️ 项目结构
 
 ```
-agent-chrome-mcp-extension/
+chrome-mcp-extension/
 ├── app/
 │   ├── chrome-extension/     # Chrome 扩展 (WXT + Vue 3)
 │   │   ├── entrypoints/      # 后台脚本、弹窗、内容脚本

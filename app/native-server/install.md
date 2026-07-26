@@ -116,7 +116,7 @@ sudo agent-chrome-mcp register
 
 ```
 manifest.json
-├─ name: "com.agentchromemcp.nativehost"
+├─ name: "com.chromemcp.nativehost"
 ├─ description: "Node.js Host for Browser Bridge Extension"
 ├─ path: "/path/to/run_host.sh"       ← 启动脚本路径
 ├─ type: "stdio"                      ← 通信类型

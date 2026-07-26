@@ -586,7 +586,7 @@
 - **日期**: 2025-09-02
 - **描述**: Error: TransformStream is not defined
 
-#### #185 Kiro 提示 "Enabled MCP Server agent-chrome-mcp-extension must specify a command"
+#### #185 Kiro 提示 "Enabled MCP Server chrome-mcp-extension must specify a command"
 
 - **状态**: OPEN
 - **作者**: Chris-C1108

@@ -24,7 +24,7 @@
         class="btn-secondary !px-2 !py-1 text-[11px] whitespace-nowrap"
         type="button"
         :disabled="isPicking"
-        title="Use default directory (~/.agent-chrome-mcp-agent/workspaces/...)"
+        title="Use default directory (~/.chrome-mcp-agent/workspaces/...)"
         @click="$emit('use-default')"
       >
         Default

@@ -30,8 +30,8 @@ We welcome contributions in many forms:
 1. **Fork and clone the repository**
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/agent-chrome-mcp-extension.git
-cd agent-chrome-mcp-extension
+git clone https://github.com/YOUR_USERNAME/chrome-mcp-extension.git
+cd chrome-mcp-extension
 ```
 
 2. **Install dependencies**
@@ -54,7 +54,7 @@ npm run dev
 ## 🏗️ Project Structure
 
 ```
-agent-chrome-mcp-extension/
+chrome-mcp-extension/
 ├── app/
 │   ├── chrome-extension/     # Chrome extension (WXT + Vue 3)
 │   │   ├── entrypoints/      # Background scripts, popup, content scripts

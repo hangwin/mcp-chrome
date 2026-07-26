@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Product display name simplified to **Chrome MCP** (extension UI, docs, and recommended MCP config key `chrome-mcp`). npm package remains `agent-chrome-mcp`.
+- Repo/docs/assets aligned to `chrome-mcp` (GitHub URLs, release zip `chrome-mcp-extension.zip`, HTTP config key `chrome-mcp-http`). npm package names unchanged.
+- Native Messaging host renamed to `com.chromemcp.nativehost` (re-run `agent-chrome-mcp register` after upgrade).
 - Browser tools default to background operation (`background` defaults to true) so navigate/fetch/screenshot/console no longer steal tab/window focus unless `background: false`.
 - Navigate newly opened tabs join an existing MCP pin group when present.
 - GIF recorder / auto-capture and offscreen encoder improvements.

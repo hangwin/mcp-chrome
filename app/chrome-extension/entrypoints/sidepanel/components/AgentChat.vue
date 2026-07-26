@@ -115,7 +115,7 @@
       @model:update="model = $event"
       @reasoning-effort:update="reasoningEffort = $event"
       @ccr:update="useCcr = $event"
-      @agent-chrome-mcp:update="enableChromeMcp = $event"
+      @chrome-mcp:update="enableChromeMcp = $event"
       @save="handleSaveSettings"
     />
 

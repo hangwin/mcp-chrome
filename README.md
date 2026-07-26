@@ -1,10 +1,10 @@
 # Chrome MCP 🚀
 
-[![Stars](https://img.shields.io/github/stars/rudy2steiner/agent-chrome-mcp)](https://img.shields.io/github/stars/rudy2steiner/agent-chrome-mcp)
+[![Stars](https://img.shields.io/github/stars/rudy2steiner/chrome-mcp)](https://img.shields.io/github/stars/rudy2steiner/chrome-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8+-blue.svg)](https://www.typescriptlang.org/)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green.svg)](https://developer.chrome.com/docs/extensions/)
-[![Release](https://img.shields.io/github/v/release/rudy2steiner/agent-chrome-mcp.svg)](https://img.shields.io/github/v/release/rudy2steiner/agent-chrome-mcp.svg)
+[![Release](https://img.shields.io/github/v/release/rudy2steiner/chrome-mcp.svg)](https://img.shields.io/github/v/release/rudy2steiner/chrome-mcp.svg)
 
 > 🌟 **Turn your Chrome browser into an agent-powered work automation tool** - Let AI operate your own browser for research, operations, QA, data entry, content workflows, and coding tasks.
 
@@ -61,7 +61,7 @@ Primary MCP server config:
 }
 
 If prerequisites, extension loading, or fallback setup are missing, follow the manual install guide first:
-https://github.com/rudy2steiner/agent-chrome-mcp#-quick-start
+https://github.com/rudy2steiner/chrome-mcp#-quick-start
 
 Fallback if npx hangs or the agent cannot list MCP tools after the manual guide:
 1. Run npm install -g --registry=https://registry.npmjs.org agent-chrome-mcp@latest
@@ -71,7 +71,7 @@ Fallback if npx hangs or the agent cannot list MCP tools after the manual guide:
    <global npm root>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js
 5. Add env CHROME_MCP_SKIP_AUTO_REGISTER=1.
 
-After updating the MCP config, tell me where you saved it and which config style you used. Remind me to restart the agent, confirm the Chrome extension is loaded from https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest if needed, and click Connect in the extension popup.
+After updating the MCP config, tell me where you saved it and which config style you used. Remind me to restart the agent, confirm the Chrome extension is loaded from https://github.com/rudy2steiner/chrome-mcp/releases/latest if needed, and click Connect in the extension popup.
 ```
 
 Restart the agent, then open the extension popup and click **Connect**. See [Quick Start](#-quick-start) for extension installation steps.
@@ -122,7 +122,7 @@ The recommended setup starts with `npx` because it is the easiest path for most 
 ### Installation Steps
 
 1. **Download the latest release**
-   - Download `agent-chrome-mcp-extension.zip` from https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
+   - Download `chrome-mcp-extension.zip` from https://github.com/rudy2steiner/chrome-mcp/releases/latest
    - Unzip it.
 
 2. **Load the Chrome extension**
@@ -157,7 +157,7 @@ Primary MCP server config:
 }
 
 If prerequisites, extension loading, or fallback setup are missing, follow the manual install guide first:
-https://github.com/rudy2steiner/agent-chrome-mcp#-quick-start
+https://github.com/rudy2steiner/chrome-mcp#-quick-start
 
 Fallback if npx hangs or the agent cannot list MCP tools after the manual guide:
 1. Run npm install -g --registry=https://registry.npmjs.org agent-chrome-mcp@latest
@@ -167,7 +167,7 @@ Fallback if npx hangs or the agent cannot list MCP tools after the manual guide:
    <global npm root>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js
 5. Add env CHROME_MCP_SKIP_AUTO_REGISTER=1.
 
-After updating the MCP config, tell me where you saved it and which config style you used. Remind me to restart the agent, confirm the Chrome extension is loaded from https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest if needed, and click Connect in the extension popup.
+After updating the MCP config, tell me where you saved it and which config style you used. Remind me to restart the agent, confirm the Chrome extension is loaded from https://github.com/rudy2steiner/chrome-mcp/releases/latest if needed, and click Connect in the extension popup.
 ```
 
 4. **Restart and connect**
@@ -246,7 +246,7 @@ Then add this MCP server to your client:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp-http": {
+    "chrome-mcp-http": {
       "type": "streamableHttp",
       "url": "http://127.0.0.1:12307/mcp"
     }
@@ -259,7 +259,7 @@ Some clients use the kebab-case type name instead:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp-http": {
+    "chrome-mcp-http": {
       "type": "streamable-http",
       "url": "http://127.0.0.1:12307/mcp"
     }

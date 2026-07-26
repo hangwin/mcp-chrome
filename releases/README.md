@@ -4,9 +4,9 @@
 
 ## Download
 
-Download the latest `agent-chrome-mcp-extension.zip` from:
+Download the latest `chrome-mcp-extension.zip` from:
 
-https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
+https://github.com/rudy2steiner/chrome-mcp/releases/latest
 
 ## Install
 
@@ -17,7 +17,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
 - Node.js `20+`
 - npm and npx available in your terminal; npx is bundled with npm in normal Node.js installs
 
-1. Unzip `agent-chrome-mcp-extension.zip`.
+1. Unzip `chrome-mcp-extension.zip`.
 2. Open Chrome and go to `chrome://extensions/`.
 3. Enable Developer mode.
 4. Click Load unpacked.
@@ -47,7 +47,7 @@ Primary MCP server config:
 }
 
 If prerequisites, extension loading, or fallback setup are missing, follow the manual install guide first:
-https://github.com/rudy2steiner/agent-chrome-mcp#-quick-start
+https://github.com/rudy2steiner/chrome-mcp#-quick-start
 
 Fallback if npx hangs or the agent cannot list MCP tools after the manual guide:
 1. Run npm install -g --registry=https://registry.npmjs.org agent-chrome-mcp@latest
@@ -57,7 +57,7 @@ Fallback if npx hangs or the agent cannot list MCP tools after the manual guide:
    <global npm root>/agent-chrome-mcp/dist/mcp/mcp-server-stdio.js
 5. Add env CHROME_MCP_SKIP_AUTO_REGISTER=1.
 
-After updating the MCP config, tell me where you saved it and which config style you used. Remind me to restart the agent, confirm the Chrome extension is loaded from https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest if needed, and click Connect in the extension popup.
+After updating the MCP config, tell me where you saved it and which config style you used. Remind me to restart the agent, confirm the Chrome extension is loaded from https://github.com/rudy2steiner/chrome-mcp/releases/latest if needed, and click Connect in the extension popup.
 ```
 
 Then restart the agent and click Connect in the extension popup.
@@ -117,7 +117,7 @@ Then add this MCP server to your client:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp-http": {
+    "chrome-mcp-http": {
       "type": "streamableHttp",
       "url": "http://127.0.0.1:12307/mcp"
     }
@@ -130,7 +130,7 @@ If your client expects kebab-case, use:
 ```json
 {
   "mcpServers": {
-    "agent-chrome-mcp-http": {
+    "chrome-mcp-http": {
       "type": "streamable-http",
       "url": "http://127.0.0.1:12307/mcp"
     }

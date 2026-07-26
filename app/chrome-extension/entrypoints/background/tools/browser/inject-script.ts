@@ -224,7 +224,7 @@ async function handleCleanup(tabId: number) {
   if (!injectedTabs.has(tabId)) return;
   // Send cleanup signal. The bridge will forward it to the MAIN world.
   chrome.tabs
-    .sendMessage(tabId, { type: 'agent-chrome-mcp:cleanup' })
+    .sendMessage(tabId, { type: 'chrome-mcp:cleanup' })
     .catch((err) =>
       console.warn(`Could not send cleanup message to tab ${tabId}. It might have been closed.`),
     );

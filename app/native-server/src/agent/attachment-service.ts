@@ -7,7 +7,7 @@
  * - Cleaning up attachments by project or all
  *
  * Storage structure:
- *   ~/.agent-chrome-mcp-agent/attachments/{projectId}/{messageId}-{index}-{uuid}.{ext}
+ *   ~/.chrome-mcp-agent/attachments/{projectId}/{messageId}-{index}-{uuid}.{ext}
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';

@@ -12,7 +12,7 @@ export class FileHandler {
 
   constructor() {
     // Create a temp directory for file operations
-    this.tempDir = path.join(os.tmpdir(), 'agent-chrome-mcp-uploads');
+    this.tempDir = path.join(os.tmpdir(), 'chrome-mcp-uploads');
     if (!fs.existsSync(this.tempDir)) {
       fs.mkdirSync(this.tempDir, { recursive: true });
     }

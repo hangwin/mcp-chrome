@@ -45,7 +45,7 @@ export class AgentToolBridge {
     this.transport = new StreamableHTTPClientTransport(new URL(url));
     this.client = new Client(
       {
-        name: 'agent-chrome-mcp-agent-bridge',
+        name: 'chrome-mcp-agent-bridge',
         version: '1.0.0',
       },
       {},

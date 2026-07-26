@@ -5,9 +5,9 @@
   if (window.__INJECT_SCRIPT_TOOL_UNIVERSAL_BRIDGE_LOADED__) return;
   window.__INJECT_SCRIPT_TOOL_UNIVERSAL_BRIDGE_LOADED__ = true;
   const EVENT_NAME = {
-    RESPONSE: 'agent-chrome-mcp:response',
-    CLEANUP: 'agent-chrome-mcp:cleanup',
-    EXECUTE: 'agent-chrome-mcp:execute',
+    RESPONSE: 'chrome-mcp:response',
+    CLEANUP: 'chrome-mcp:cleanup',
+    EXECUTE: 'chrome-mcp:execute',
   };
   const pendingRequests = new Map();
 

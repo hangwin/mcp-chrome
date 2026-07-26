@@ -1,5 +1,5 @@
 {
-  "name": "agent-chrome-mcp-extension",
+  "name": "chrome-mcp-extension",
   "description": "a chrome extension to use your own chrome as a mcp server",
   "author": "rudy2steiner",
   "contributors": [

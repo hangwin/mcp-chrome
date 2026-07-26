@@ -4,13 +4,13 @@
 
 ## 下载
 
-从以下地址下载最新版 `agent-chrome-mcp-extension.zip`：
+从以下地址下载最新版 `chrome-mcp-extension.zip`：
 
-https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
+https://github.com/rudy2steiner/chrome-mcp/releases/latest
 
 ## 安装
 
-1. 解压 `agent-chrome-mcp-extension.zip`。
+1. 解压 `chrome-mcp-extension.zip`。
 2. 打开 Chrome 并访问 `chrome://extensions/`。
 3. 启用开发者模式。
 4. 点击“加载已解压的扩展程序”。
@@ -35,7 +35,7 @@ https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
   }
 }
 
-把它添加到当前 Agent 的 MCP 设置里。不要使用全局 npm install。更新配置后告诉我保存到了哪里，并提醒我重启 Agent。也提醒我从 https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest 安装 Chrome 扩展，并在扩展弹窗里点击"连接"。
+把它添加到当前 Agent 的 MCP 设置里。不要使用全局 npm install。更新配置后告诉我保存到了哪里，并提醒我重启 Agent。也提醒我从 https://github.com/rudy2steiner/chrome-mcp/releases/latest 安装 Chrome 扩展，并在扩展弹窗里点击"连接"。
 ```
 
 然后重启 Agent，并在扩展弹窗中点击**连接**。

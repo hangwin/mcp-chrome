@@ -18,6 +18,8 @@
 ### 变更
 
 - 产品展示名简化为 **Chrome MCP**（扩展 UI、文档、推荐 MCP 配置键 `chrome-mcp`）。npm 包名仍为 `agent-chrome-mcp`。
+- 仓库/文档/发布资产统一为 `chrome-mcp`（GitHub URL、扩展 zip `chrome-mcp-extension.zip`、HTTP 配置键 `chrome-mcp-http`）。npm 包名不变。
+- Native Messaging host 改名为 `com.chromemcp.nativehost`（升级后请重新执行 `agent-chrome-mcp register`）。
 - 浏览器工具默认后台运行（`background` 默认为 true），navigate/fetch/screenshot/console 不再抢占标签/窗口焦点，除非显式传入 `background: false`。
 - 导航新建标签在已有 MCP 固定组时会自动加入该组。
 - GIF 录制 / 自动捕获与 offscreen 编码器改进。

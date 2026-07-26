@@ -4,7 +4,7 @@
 
 // // 设置日志文件路径
 // const LOG_DIR = path.join(
-//   '/Users/hang/code/ai/agent-chrome-mcp-extension/app/native-server/dist/',
+//   '/Users/hang/code/ai/chrome-mcp-extension/app/native-server/dist/',
 //   '.debug-log',
 // ); // 使用不同目录区分
 // const LOG_FILE = path.join(

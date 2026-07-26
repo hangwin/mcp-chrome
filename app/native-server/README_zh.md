@@ -1,6 +1,6 @@
 # Chrome MCP
 
-**📖 文档**: [English](https://github.com/rudy2steiner/agent-chrome-mcp/blob/master/app/native-server/README.md) | [中文](https://github.com/rudy2steiner/agent-chrome-mcp/blob/master/app/native-server/README_zh.md)
+**📖 文档**: [English](https://github.com/rudy2steiner/chrome-mcp/blob/master/app/native-server/README.md) | [中文](https://github.com/rudy2steiner/chrome-mcp/blob/master/app/native-server/README_zh.md)
 
 将你的 Chrome 浏览器作为 MCP 服务器，供工作自动化 Agent 和支持 MCP 的客户端使用。
 
@@ -12,8 +12,8 @@ Chrome MCP 让 Agent 检查并操作你已经在使用的 Chrome 浏览器，包
 
 ### 1. 安装 Chrome 扩展
 
-1. 从以下地址下载最新版 `agent-chrome-mcp-extension.zip`：
-   https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest
+1. 从以下地址下载最新版 `chrome-mcp-extension.zip`：
+   https://github.com/rudy2steiner/chrome-mcp/releases/latest
 2. 解压 zip 文件。
 3. 打开 Chrome 并访问 `chrome://extensions/`。
 4. 启用开发者模式。
@@ -38,7 +38,7 @@ Chrome MCP 让 Agent 检查并操作你已经在使用的 Chrome 浏览器，包
   }
 }
 
-把它添加到当前 Agent 的 MCP 设置里。不要使用全局 npm install。更新配置后告诉我保存到了哪里，并提醒我重启 Agent。也提醒我从 https://github.com/rudy2steiner/agent-chrome-mcp/releases/latest 安装 Chrome 扩展，并在扩展弹窗里点击"连接"。
+把它添加到当前 Agent 的 MCP 设置里。不要使用全局 npm install。更新配置后告诉我保存到了哪里，并提醒我重启 Agent。也提醒我从 https://github.com/rudy2steiner/chrome-mcp/releases/latest 安装 Chrome 扩展，并在扩展弹窗里点击"连接"。
 ```
 
 ### 3. 重启并连接

@@ -57,14 +57,14 @@ Windows path: C:\Users\xxx\AppData\Roaming\Google\Chrome\NativeMessagingHosts
 
 Mac path: /Users/xxx/Library/Application\ Support/Google/Chrome/NativeMessagingHosts
 
-If the npm package is installed correctly, a file named `com.agentchromemcp.nativehost.json` should be generated in this directory
+If the npm package is installed correctly, a file named `com.chromemcp.nativehost.json` should be generated in this directory
 
 3. **Check logs**
    Logs are now stored in user-writable directories:
 
-- **macOS**: `~/Library/Logs/agent-chrome-mcp/`
-- **Windows**: `%LOCALAPPDATA%\agent-chrome-mcp\logs\`
-- **Linux**: `~/.local/state/agent-chrome-mcp/logs/`
+- **macOS**: `~/Library/Logs/chrome-mcp/`
+- **Windows**: `%LOCALAPPDATA%\chrome-mcp\logs\`
+- **Linux**: `~/.local/state/chrome-mcp/logs/`
 
 <img width="804" alt="Screenshot 2025-06-11 15 09 41" src="https://github.com/user-attachments/assets/ce7b7c94-7c84-409a-8210-c9317823aae1" />
 
@@ -92,6 +92,6 @@ Or run `agent-chrome-mcp doctor --fix` to write the current Node path.
 
 Wrapper logs are now stored in user-writable locations:
 
-- **macOS**: `~/Library/Logs/agent-chrome-mcp/`
-- **Windows**: `%LOCALAPPDATA%\agent-chrome-mcp\logs\`
-- **Linux**: `~/.local/state/agent-chrome-mcp/logs/`
+- **macOS**: `~/Library/Logs/chrome-mcp/`
+- **Windows**: `%LOCALAPPDATA%\chrome-mcp\logs\`
+- **Linux**: `~/.local/state/chrome-mcp/logs/`

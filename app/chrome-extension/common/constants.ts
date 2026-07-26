@@ -5,7 +5,7 @@
 
 // Native Host Configuration
 export const NATIVE_HOST = {
-  NAME: 'com.agentchromemcp.nativehost',
+  NAME: 'com.chromemcp.nativehost',
   LEGACY_DEFAULT_PORT: 12306,
   DEFAULT_PORT: 12307,
 } as const;

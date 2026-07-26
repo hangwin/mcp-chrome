@@ -1,5 +1,5 @@
 {
-  "name": "agent-chrome-mcp-monorepo",
+  "name": "chrome-mcp-monorepo",
   "version": "1.0.0",
   "private": true,
   "author": "rudy2steiner",
@@ -10,13 +10,13 @@
   "scripts": {
     "build:shared": "pnpm --filter agent-chrome-mcp-shared build",
     "build:native": "pnpm --filter agent-chrome-mcp build",
-    "build:extension": "pnpm --filter agent-chrome-mcp-extension build",
+    "build:extension": "pnpm --filter chrome-mcp-extension build",
     "build:wasm": "pnpm --filter @chrome-mcp/wasm-simd build && pnpm run copy:wasm",
     "build": "pnpm -r --filter='!@chrome-mcp/wasm-simd' build",
     "copy:wasm": "cp ./packages/wasm-simd/pkg/simd_math.js ./packages/wasm-simd/pkg/simd_math_bg.wasm ./app/chrome-extension/workers/",
     "dev:shared": "pnpm --filter agent-chrome-mcp-shared dev",
     "dev:native": "pnpm --filter agent-chrome-mcp dev",
-    "dev:extension": "pnpm --filter agent-chrome-mcp-extension dev",
+    "dev:extension": "pnpm --filter chrome-mcp-extension dev",
     "dev": "pnpm --filter agent-chrome-mcp-shared build && pnpm -r --parallel dev",
     "lint": "pnpm -r lint",
     "lint:fix": "pnpm -r lint:fix",

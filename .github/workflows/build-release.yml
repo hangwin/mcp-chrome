@@ -38,7 +38,7 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Prepare Chrome extension
-        run: pnpm --filter agent-chrome-mcp-extension exec wxt prepare
+        run: pnpm --filter chrome-mcp-extension exec wxt prepare
 
       - name: Build shared package
         run: pnpm --filter agent-chrome-mcp-shared build
@@ -47,16 +47,16 @@ jobs:
         run: pnpm --filter agent-chrome-mcp test:ci
 
       - name: Test Chrome extension
-        run: pnpm --filter agent-chrome-mcp-extension test
+        run: pnpm --filter chrome-mcp-extension test
 
       - name: Build native bridge
         run: pnpm --filter agent-chrome-mcp build
 
       - name: Build Chrome extension
-        run: pnpm --filter agent-chrome-mcp-extension build
+        run: pnpm --filter chrome-mcp-extension build
 
       - name: Zip Chrome extension
-        run: pnpm --filter agent-chrome-mcp-extension zip
+        run: pnpm --filter chrome-mcp-extension zip
 
       - name: Check npm package availability
         id: npm_packages
@@ -137,8 +137,8 @@ jobs:
             echo "No extension zip found in app/chrome-extension/.output" >&2
             exit 1
           fi
-          cp "${EXTENSION_ZIP}" release-artifacts/agent-chrome-mcp-extension.zip
-          cat > release-artifacts/agent-chrome-mcp-mcp-config.json <<'JSON'
+          cp "${EXTENSION_ZIP}" release-artifacts/chrome-mcp-extension.zip
+          cat > release-artifacts/chrome-mcp-mcp-config.json <<'JSON'
           {
             "mcpServers": {
               "chrome-mcp": {
@@ -162,12 +162,11 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.release_tag.outputs.tag }}
-          name: Chrome MCP ${{ steps.release_tag.outputs.tag }}
+          name: ${{ steps.release_tag.outputs.tag }}
           generate_release_notes: true
           files: |
-            release-artifacts/agent-chrome-mcp-extension.zip
-            release-artifacts/agent-chrome-mcp-mcp-config.json
+            release-artifacts/chrome-mcp-extension.zip
+            release-artifacts/chrome-mcp-mcp-config.json
           body: |
-            Assets: extension zip + `agent-chrome-mcp-mcp-config.json`.
-            Install: https://github.com/rudy2steiner/agent-chrome-mcp#-quick-start
-            Changelog: https://github.com/rudy2steiner/agent-chrome-mcp/blob/master/docs/CHANGELOG.md
+            Changelog: https://github.com/rudy2steiner/chrome-mcp/blob/master/docs/CHANGELOG.md
+            Quick Start: https://github.com/rudy2steiner/chrome-mcp#-quick-start

@@ -47,7 +47,7 @@ agent-chrome-mcp doctor
 
 核心排查流程
 
-1. npm包全局安装后，确认清单文件com.agentchromemcp.nativehost.json的位置，里面有一个**path**字段，指向的是一个启动脚本:
+1. npm包全局安装后，确认清单文件com.chromemcp.nativehost.json的位置，里面有一个**path**字段，指向的是一个启动脚本:
 
 1.1 **检查agent-chrome-mcp是否安装成功**，确保是**全局安装**的
 
@@ -63,11 +63,11 @@ windows路径：C:\Users\xxx\AppData\Roaming\Google\Chrome\NativeMessagingHosts
 
 mac路径： /Users/xxx/Library/Application\ Support/Google/Chrome/NativeMessagingHosts
 
-如果npm包安装正常的话，这个目录下会生成一个`com.agentchromemcp.nativehost.json`
+如果npm包安装正常的话，这个目录下会生成一个`com.chromemcp.nativehost.json`
 
 ```json
 {
-  "name": "com.agentchromemcp.nativehost",
+  "name": "com.chromemcp.nativehost",
   "description": "Node.js Host for Browser Bridge Extension",
   "path": "/Users/xxx/Library/pnpm/global/5/.pnpm/agent-chrome-mcp@1.0.23/node_modules/agent-chrome-mcp/dist/run_host.sh",
   "type": "stdio",
@@ -81,9 +81,9 @@ mac路径： /Users/xxx/Library/Application\ Support/Google/Chrome/NativeMessagi
 
 日志现在存储在用户可写目录：
 
-- **macOS**: `~/Library/Logs/agent-chrome-mcp/`
-- **Windows**: `%LOCALAPPDATA%\agent-chrome-mcp\logs\`（例如 `C:\Users\xxx\AppData\Local\agent-chrome-mcp\logs\`）
-- **Linux**: `~/.local/state/agent-chrome-mcp/logs/`
+- **macOS**: `~/Library/Logs/chrome-mcp/`
+- **Windows**: `%LOCALAPPDATA%\chrome-mcp\logs\`（例如 `C:\Users\xxx\AppData\Local\chrome-mcp\logs\`）
+- **Linux**: `~/.local/state/chrome-mcp/logs/`
 
 <img width="804" alt="截屏2025-06-11 15 09 41" src="https://github.com/user-attachments/assets/ce7b7c94-7c84-409a-8210-c9317823aae1" />
 
@@ -109,9 +109,9 @@ export CHROME_MCP_NODE_PATH=/path/to/your/node
 
 包装器日志现在存储在用户可写的位置：
 
-- **macOS**: `~/Library/Logs/agent-chrome-mcp/`
-- **Windows**: `%LOCALAPPDATA%\agent-chrome-mcp\logs\`
-- **Linux**: `~/.local/state/agent-chrome-mcp/logs/`
+- **macOS**: `~/Library/Logs/chrome-mcp/`
+- **Windows**: `%LOCALAPPDATA%\chrome-mcp\logs\`
+- **Linux**: `~/.local/state/chrome-mcp/logs/`
 
 #### 工具执行超时
 

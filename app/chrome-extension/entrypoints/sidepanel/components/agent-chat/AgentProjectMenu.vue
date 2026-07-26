@@ -251,7 +251,7 @@ const emit = defineEmits<{
   'model:update': [model: string];
   'reasoning-effort:update': [effort: CodexReasoningEffort];
   'ccr:update': [useCcr: boolean];
-  'agent-chrome-mcp:update': [enableChromeMcp: boolean];
+  'chrome-mcp:update': [enableChromeMcp: boolean];
   save: [];
 }>();
 
@@ -338,7 +338,7 @@ function handleCcrChange(event: Event): void {
 }
 
 function handleChromeMcpChange(event: Event): void {
-  emit('agent-chrome-mcp:update', (event.target as HTMLInputElement).checked);
+  emit('chrome-mcp:update', (event.target as HTMLInputElement).checked);
 }
 
 function handleModelChange(event: Event): void {
