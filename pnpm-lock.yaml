@@ -157,8 +157,8 @@ importers:
         specifier: '2'
         version: 2.6.13
       better-sqlite3:
-        specifier: ^11.6.0
-        version: 11.10.0
+        specifier: ^12.1.0
+        version: 12.11.1
       chalk:
         specifier: ^5.4.1
         version: 5.6.2
@@ -173,7 +173,7 @@ importers:
         version: 13.1.0
       drizzle-orm:
         specifier: ^0.38.2
-        version: 0.38.4(@types/better-sqlite3@7.6.13)(better-sqlite3@11.10.0)
+        version: 0.38.4(@types/better-sqlite3@7.6.13)(better-sqlite3@12.11.1)
       fastify:
         specifier: ^5.3.2
         version: 5.6.2
@@ -3707,8 +3707,9 @@ packages:
     hasBin: true
     dev: true
 
-  /better-sqlite3@11.10.0:
-    resolution: {integrity: sha512-EwhOpyXiOEL/lKzHz9AW1msWFNzGc/z+LzeB3/jnFJpxu+th2yqvzsSWas1v9jgs9+xiXJcD5A8CJxAG2TaghQ==}
+  /better-sqlite3@12.11.1:
+    resolution: {integrity: sha512-dq9AtApgg5PGFtBzPFSBl3HZQjHok5gaQCM6zh2Yk0aSmDCs1CbnVI8/HgASQkNKsWFpseIO9beg5xxpYhbIfA==}
+    engines: {node: 20.x || 22.x || 23.x || 24.x || 25.x || 26.x}
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -4625,7 +4626,7 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /drizzle-orm@0.38.4(@types/better-sqlite3@7.6.13)(better-sqlite3@11.10.0):
+  /drizzle-orm@0.38.4(@types/better-sqlite3@7.6.13)(better-sqlite3@12.11.1):
     resolution: {integrity: sha512-s7/5BpLKO+WJRHspvpqTydxFob8i1vo2rEx4pY6TGY7QSMuUfWUuzaY0DIpXCkgHOo37BaFC+SJQb99dDUXT3Q==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -4718,7 +4719,7 @@ packages:
         optional: true
     dependencies:
       '@types/better-sqlite3': 7.6.13
-      better-sqlite3: 11.10.0
+      better-sqlite3: 12.11.1
     dev: false
 
   /dunder-proto@1.0.1:
