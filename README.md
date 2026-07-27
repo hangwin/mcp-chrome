@@ -1,5 +1,7 @@
 # Chrome MCP Server 🚀
 
+[![MCP Toplist](https://mcptoplist.com/badge/glama%2Fhangwin%2Fmcp-chrome.svg)](https://mcptoplist.com/server/glama%2Fhangwin%2Fmcp-chrome)
+
 [![Stars](https://img.shields.io/github/stars/hangwin/mcp-chrome)](https://img.shields.io/github/stars/hangwin/mcp-chrome)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8+-blue.svg)](https://www.typescriptlang.org/)
