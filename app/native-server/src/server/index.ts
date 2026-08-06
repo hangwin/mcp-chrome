@@ -241,13 +241,17 @@ export class Server {
         return;
       }
 
+      reply.hijack();
       try {
         await transport.handleRequest(request.raw, reply.raw, request.body);
       } catch (error) {
-        if (!reply.sent) {
-          reply
-            .code(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-            .send({ error: ERROR_MESSAGES.MCP_REQUEST_PROCESSING_ERROR });
+        if (!reply.raw.headersSent) {
+          reply.raw.writeHead(HTTP_STATUS.INTERNAL_SERVER_ERROR, {
+            'Content-Type': 'application/json',
+          });
+          reply.raw.end(
+            JSON.stringify({ error: ERROR_MESSAGES.MCP_REQUEST_PROCESSING_ERROR }),
+          );
         }
       }
     });
@@ -264,6 +268,7 @@ export class Server {
         return;
       }
 
+      reply.hijack();
       reply.raw.setHeader('Content-Type', 'text/event-stream');
       reply.raw.setHeader('Cache-Control', 'no-cache');
       reply.raw.setHeader('Connection', 'keep-alive');
@@ -271,9 +276,6 @@ export class Server {
 
       try {
         await transport.handleRequest(request.raw, reply.raw);
-        if (!reply.sent) {
-          reply.hijack();
-        }
       } catch (error) {
         if (!reply.raw.writableEnded) {
           reply.raw.end();
@@ -297,16 +299,20 @@ export class Server {
         return;
       }
 
+      reply.hijack();
       try {
         await transport.handleRequest(request.raw, reply.raw);
-        if (!reply.sent) {
-          reply.code(HTTP_STATUS.NO_CONTENT).send();
+        if (!reply.raw.writableEnded) {
+          reply.raw.end();
         }
       } catch (error) {
-        if (!reply.sent) {
-          reply
-            .code(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-            .send({ error: ERROR_MESSAGES.MCP_SESSION_DELETION_ERROR });
+        if (!reply.raw.headersSent) {
+          reply.raw.writeHead(HTTP_STATUS.INTERNAL_SERVER_ERROR, {
+            'Content-Type': 'application/json',
+          });
+          reply.raw.end(
+            JSON.stringify({ error: ERROR_MESSAGES.MCP_SESSION_DELETION_ERROR }),
+          );
         }
       }
     });
