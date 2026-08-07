@@ -252,6 +252,10 @@ export class Server {
           reply.raw.end(
             JSON.stringify({ error: ERROR_MESSAGES.MCP_REQUEST_PROCESSING_ERROR }),
           );
+        } else if (!reply.raw.writableEnded) {
+          // Headers already written by the SDK — nothing meaningful can be sent,
+          // but the hijacked response must still be closed or the request hangs.
+          reply.raw.end();
         }
       }
     });
@@ -313,6 +317,8 @@ export class Server {
           reply.raw.end(
             JSON.stringify({ error: ERROR_MESSAGES.MCP_SESSION_DELETION_ERROR }),
           );
+        } else if (!reply.raw.writableEnded) {
+          reply.raw.end();
         }
       }
     });
