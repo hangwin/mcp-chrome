@@ -34,13 +34,18 @@ List all currently open browser windows and tabs.
           "tabId": 456,
           "url": "https://example.com",
           "title": "Example Page",
-          "active": true
+          "active": true,
+          "groupId": 789,
+          "groupTitle": "Work",
+          "groupColor": "blue"
         }
       ]
     }
   ]
 }
 ```
+
+Tabs that belong to a tab group include `groupId`, `groupTitle` and `groupColor`; ungrouped tabs omit these fields.
 
 ### `chrome_navigate`
 
@@ -99,6 +104,128 @@ Switch to a specific browser tab.
 {
   "tabId": 456,
   "windowId": 123
+}
+```
+
+### `chrome_list_tab_groups`
+
+List tab groups, optionally including their member tabs.
+
+**Parameters**:
+
+- `windowId` (number, optional): Only list groups in this window
+- `title` (string, optional): Only list groups with exactly this title
+- `color` (string, optional): Filter by color (`grey`, `blue`, `red`, `yellow`, `green`, `pink`, `purple`, `cyan`, `orange`)
+- `collapsed` (boolean, optional): Filter by collapsed state
+- `includeTabs` (boolean, optional): Include each group's member tabs in the result (default: true)
+
+**Example**:
+
+```json
+{
+  "windowId": 123,
+  "includeTabs": true
+}
+```
+
+### `chrome_create_tab_group`
+
+Create a tab group from existing tabs, or create a new group seeded with a blank tab.
+
+**Parameters**:
+
+- `tabIds` (array, optional): Existing tab IDs to put into the new group (must be in the same window)
+- `windowId` (number, optional): Window for the new group. Required when `tabIds` is omitted; a blank seed tab is created as the first member of the group
+- `title` (string, optional): Title of the new group
+- `color` (string, optional): Color of the new group
+- `collapsed` (boolean, optional): Whether the group starts collapsed
+
+**Example**:
+
+```json
+{
+  "tabIds": [456, 789],
+  "title": "Research",
+  "color": "green"
+}
+```
+
+### `chrome_update_tab_group`
+
+Rename a tab group, change its color, or collapse/expand it.
+
+**Parameters**:
+
+- `groupId` (number, required): The ID of the tab group to update
+- `title` (string, optional): New title
+- `color` (string, optional): New color
+- `collapsed` (boolean, optional): Collapse/expand the group
+
+**Example**:
+
+```json
+{
+  "groupId": 789,
+  "title": "Deep Work",
+  "color": "purple"
+}
+```
+
+### `chrome_delete_tab_group`
+
+Delete a tab group. By default the tabs are ungrouped but stay open; set `closeTabs` to true to close all tabs in the group instead.
+
+**Parameters**:
+
+- `groupId` (number, required): The ID of the tab group to delete
+- `closeTabs` (boolean, optional): Close all tabs in the group instead of ungrouping them (default: false)
+
+**Example**:
+
+```json
+{
+  "groupId": 789,
+  "closeTabs": false
+}
+```
+
+### `chrome_move_tab_group`
+
+Move a whole tab group: reorder it within its window or move it to another window.
+
+**Parameters**:
+
+- `groupId` (number, required): The ID of the tab group to move
+- `index` (number, optional): Tab index to move the group to within the target window (`-1` for the end)
+- `windowId` (number, optional): Move the group to this window
+
+**Example**:
+
+```json
+{
+  "groupId": 789,
+  "windowId": 123,
+  "index": -1
+}
+```
+
+### `chrome_tabs_group_membership`
+
+Add tabs to an existing tab group, or remove (ungroup) tabs from their groups.
+
+**Parameters**:
+
+- `action` (string, required): `"add"` puts the tabs into the given group; `"remove"` ungroups the tabs
+- `tabIds` (array, required): Tab IDs. For `"add"`, all tabs must already be in the same window as the target group
+- `groupId` (number, optional/required): Target group ID. Required when `action` is `"add"`
+
+**Example**:
+
+```json
+{
+  "action": "add",
+  "tabIds": [101, 102],
+  "groupId": 789
 }
 ```
 
