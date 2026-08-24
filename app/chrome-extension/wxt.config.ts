@@ -40,6 +40,7 @@ export default defineConfig({
     permissions: [
       'nativeMessaging',
       'tabs',
+      'tabGroups',
       'activeTab',
       'scripting',
       'contextMenus',

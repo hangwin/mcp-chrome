@@ -34,13 +34,18 @@
           "tabId": 456,
           "url": "https://example.com",
           "title": "示例页面",
-          "active": true
+          "active": true,
+          "groupId": 789,
+          "groupTitle": "工作",
+          "groupColor": "blue"
         }
       ]
     }
   ]
 }
 ```
+
+属于标签组的标签页会包含 `groupId`、`groupTitle` 和 `groupColor` 字段；未分组的标签页则不包含这些字段。
 
 ### `chrome_navigate`
 
@@ -97,6 +102,128 @@
 {
   "tabId": 456,
   "windowId": 123
+}
+```
+
+### `chrome_list_tab_groups`
+
+列出标签组，可选择包含组内的标签页。
+
+**参数**：
+
+- `windowId` (数字，可选)：仅列出该窗口中的标签组
+- `title` (字符串，可选)：仅列出具有该标题的标签组
+- `color` (字符串，可选)：按颜色筛选（`grey`、`blue`、`red`、`yellow`、`green`、`pink`、`purple`、`cyan`、`orange`）
+- `collapsed` (布尔值，可选)：按折叠状态筛选
+- `includeTabs` (布尔值，可选)：在结果中包含每个组的成员标签页（默认：true）
+
+**示例**：
+
+```json
+{
+  "windowId": 123,
+  "includeTabs": true
+}
+```
+
+### `chrome_create_tab_group`
+
+从现有标签页创建标签组，或创建一个以空白标签页作为首个成员的新标签组。
+
+**参数**：
+
+- `tabIds` (数组，可选)：要放入新标签组的现有标签页 ID（必须位于同一窗口）
+- `windowId` (数字，可选)：新标签组所在的窗口。省略 `tabIds` 时必需；此时会创建一个空白种子标签页作为该组的第一个成员
+- `title` (字符串，可选)：新标签组的标题
+- `color` (字符串，可选)：新标签组的颜色
+- `collapsed` (布尔值，可选)：新标签组是否初始折叠
+
+**示例**：
+
+```json
+{
+  "tabIds": [456, 789],
+  "title": "调研",
+  "color": "green"
+}
+```
+
+### `chrome_update_tab_group`
+
+重命名标签组、更改其颜色或折叠/展开它。
+
+**参数**：
+
+- `groupId` (数字，必需)：要更新的标签组 ID
+- `title` (字符串，可选)：新标题
+- `color` (字符串，可选)：新颜色
+- `collapsed` (布尔值，可选)：折叠/展开标签组
+
+**示例**：
+
+```json
+{
+  "groupId": 789,
+  "title": "深度工作",
+  "color": "purple"
+}
+```
+
+### `chrome_delete_tab_group`
+
+删除标签组。默认情况下组内标签页会被移出分组但保持打开；将 `closeTabs` 设为 true 则关闭组内所有标签页。
+
+**参数**：
+
+- `groupId` (数字，必需)：要删除的标签组 ID
+- `closeTabs` (布尔值，可选)：关闭组内所有标签页而不是将其移出分组（默认：false）
+
+**示例**：
+
+```json
+{
+  "groupId": 789,
+  "closeTabs": false
+}
+```
+
+### `chrome_move_tab_group`
+
+移动整个标签组：在其所在窗口内重新排序，或移动到其他窗口。
+
+**参数**：
+
+- `groupId` (数字，必需)：要移动的标签组 ID
+- `index` (数字，可选)：目标窗口内的标签页索引（`-1` 表示末尾）
+- `windowId` (数字，可选)：将标签组移动到该窗口
+
+**示例**：
+
+```json
+{
+  "groupId": 789,
+  "windowId": 123,
+  "index": -1
+}
+```
+
+### `chrome_tabs_group_membership`
+
+将标签页添加到现有标签组，或将标签页从所属标签组中移除。
+
+**参数**：
+
+- `action` (字符串，必需)：`"add"` 将标签页加入指定标签组；`"remove"` 将标签页移出分组
+- `tabIds` (数组，必需)：标签页 ID。使用 `"add"` 时，所有标签页必须已位于目标标签组所在的窗口中
+- `groupId` (数字，可选/必需)：目标标签组 ID。当 `action` 为 `"add"` 时必需
+
+**示例**：
+
+```json
+{
+  "action": "add",
+  "tabIds": [101, 102],
+  "groupId": 789
 }
 ```
 

@@ -8,6 +8,12 @@ export const TOOL_NAMES = {
     SCREENSHOT: 'chrome_screenshot',
     CLOSE_TABS: 'chrome_close_tabs',
     SWITCH_TAB: 'chrome_switch_tab',
+    TAB_GROUPS_LIST: 'chrome_list_tab_groups',
+    TAB_GROUP_CREATE: 'chrome_create_tab_group',
+    TAB_GROUP_UPDATE: 'chrome_update_tab_group',
+    TAB_GROUP_DELETE: 'chrome_delete_tab_group',
+    TAB_GROUP_MOVE: 'chrome_move_tab_group',
+    TABS_GROUP_MEMBERSHIP: 'chrome_tabs_group_membership',
     WEB_FETCHER: 'chrome_get_web_content',
     CLICK: 'chrome_click_element',
     FILL: 'chrome_fill_or_select',
@@ -521,6 +527,169 @@ export const TOOL_SCHEMAS: Tool[] = [
         },
       },
       required: ['tabId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUPS_LIST,
+    description: 'List tab groups in the browser, optionally including their member tabs',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        windowId: {
+          type: 'number',
+          description: 'Only list groups in this window. If omitted, lists groups in all windows.',
+        },
+        title: {
+          type: 'string',
+          description: 'Only list groups with exactly this title.',
+        },
+        color: {
+          type: 'string',
+          enum: ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'],
+          description: 'Only list groups with this color.',
+        },
+        collapsed: {
+          type: 'boolean',
+          description: 'Only list groups matching this collapsed state.',
+        },
+        includeTabs: {
+          type: 'boolean',
+          description:
+            'Include the member tabs (tabId, url, title, active) of each group in the result (default: true).',
+        },
+      },
+      required: [],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_CREATE,
+    description:
+      'Create a tab group from existing tabs, or create a new group seeded with a blank tab. Optionally set title, color and collapsed state.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tabIds: {
+          type: 'array',
+          items: { type: 'number' },
+          description:
+            'Array of existing tab IDs to put into the new group. All tabs must be in the same window.',
+        },
+        windowId: {
+          type: 'number',
+          description:
+            'Window where the group is created. Required when tabIds is omitted (a blank seed tab will be created as the first member of the group). Ignored when tabIds is provided.',
+        },
+        title: {
+          type: 'string',
+          description: 'Title of the new group.',
+        },
+        color: {
+          type: 'string',
+          enum: ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'],
+          description: 'Color of the new group.',
+        },
+        collapsed: {
+          type: 'boolean',
+          description: 'Whether the group should start collapsed (default: false).',
+        },
+      },
+      required: [],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_UPDATE,
+    description: 'Update a tab group: rename it, change its color, or collapse/expand it',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        groupId: {
+          type: 'number',
+          description: 'The ID of the tab group to update.',
+        },
+        title: {
+          type: 'string',
+          description: 'New title for the group.',
+        },
+        color: {
+          type: 'string',
+          enum: ['grey', 'blue', 'red', 'yellow', 'green', 'pink', 'purple', 'cyan', 'orange'],
+          description: 'New color for the group.',
+        },
+        collapsed: {
+          type: 'boolean',
+          description: 'Whether the group should be collapsed.',
+        },
+      },
+      required: ['groupId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_DELETE,
+    description:
+      'Delete a tab group. By default the tabs are ungrouped but stay open; set closeTabs to true to close all tabs in the group instead.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        groupId: {
+          type: 'number',
+          description: 'The ID of the tab group to delete.',
+        },
+        closeTabs: {
+          type: 'boolean',
+          description:
+            'Close all tabs in the group instead of ungrouping them (default: false = keep tabs open).',
+        },
+      },
+      required: ['groupId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TAB_GROUP_MOVE,
+    description:
+      'Move a whole tab group: reorder it within its window or move it to another window',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        groupId: {
+          type: 'number',
+          description: 'The ID of the tab group to move.',
+        },
+        index: {
+          type: 'number',
+          description:
+            'Tab index to move the group to within the target window. Use -1 for the end.',
+        },
+        windowId: {
+          type: 'number',
+          description: 'Move the group to this window. If omitted, the group stays in its window.',
+        },
+      },
+      required: ['groupId'],
+    },
+  },
+  {
+    name: TOOL_NAMES.BROWSER.TABS_GROUP_MEMBERSHIP,
+    description: 'Add tabs to an existing tab group, or remove (ungroup) tabs from their groups',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        action: {
+          type: 'string',
+          enum: ['add', 'remove'],
+          description: "'add' puts the tabs into the given group; 'remove' ungroups the tabs.",
+        },
+        tabIds: {
+          type: 'array',
+          items: { type: 'number' },
+          description:
+            "Array of tab IDs. For 'add', all tabs must already be in the same window as the target group.",
+        },
+        groupId: {
+          type: 'number',
+          description: "Target group ID. Required when action is 'add'.",
+        },
+      },
+      required: ['action', 'tabIds'],
     },
   },
   {
