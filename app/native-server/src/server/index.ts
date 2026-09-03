@@ -22,7 +22,7 @@ import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { randomUUID } from 'node:crypto';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
-import { getMcpServer } from '../mcp/mcp-server';
+import { createMcpServer } from '../mcp/mcp-server';
 import { AgentStreamManager } from '../agent/stream-manager';
 import { AgentChatService } from '../agent/chat-service';
 import { CodexEngine } from '../agent/engines/codex';
@@ -181,7 +181,10 @@ export class Server {
           this.transportsMap.delete(transport.sessionId);
         });
 
-        const server = getMcpServer();
+        const server = createMcpServer();
+        transport.onclose = () => {
+          void server.close();
+        };
         await server.connect(transport);
 
         reply.raw.write(':\n\n');
@@ -230,12 +233,14 @@ export class Server {
           },
         });
 
+        const sessionServer = createMcpServer();
         transport.onclose = () => {
           if (transport?.sessionId && this.transportsMap.get(transport.sessionId)) {
             this.transportsMap.delete(transport.sessionId);
           }
+          void sessionServer.close();
         };
-        await getMcpServer().connect(transport);
+        await sessionServer.connect(transport);
       } else {
         reply.code(HTTP_STATUS.BAD_REQUEST).send({ error: ERROR_MESSAGES.INVALID_MCP_REQUEST });
         return;
@@ -264,16 +269,13 @@ export class Server {
         return;
       }
 
-      reply.raw.setHeader('Content-Type', 'text/event-stream');
-      reply.raw.setHeader('Cache-Control', 'no-cache');
-      reply.raw.setHeader('Connection', 'keep-alive');
-      reply.raw.flushHeaders();
+      // Hand the socket to the transport before anything is written to it.
+      // Pre-flushing SSE headers here makes the SDK's own writeHead() throw
+      // ERR_HTTP_HEADERS_SENT, which kills the stream on every connect.
+      reply.hijack();
 
       try {
         await transport.handleRequest(request.raw, reply.raw);
-        if (!reply.sent) {
-          reply.hijack();
-        }
       } catch (error) {
         if (!reply.raw.writableEnded) {
           reply.raw.end();
