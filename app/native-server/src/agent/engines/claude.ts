@@ -5,6 +5,7 @@ import type { AgentMessage, RealtimeEvent } from '../types';
 import { detectCcr, validateCcrConfig } from '../ccr-detector';
 import { getProject } from '../project-service';
 import { getChromeMcpUrl } from '../../constant';
+import { configureWebSearch } from '../web-search';
 
 // Images are provided to Claude Code via local file paths referenced in the prompt text.
 // Claude Code CLI reads images from local paths, so we write base64 images to temp files and reference them.
@@ -760,6 +761,8 @@ export class ClaudeEngine implements AgentEngine {
         }
         console.error('[ClaudeEngine] Chrome MCP server disabled');
       }
+
+      configureWebSearch(queryOptions, optionsRecord);
 
       // Add resume option if we have a valid Claude session ID
       if (resumeClaudeSessionId) {

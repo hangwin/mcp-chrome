@@ -10,6 +10,7 @@ import { randomUUID } from 'node:crypto';
 import { eq, desc, and, asc } from 'drizzle-orm';
 import { getDb, sessions, messages, type SessionRow } from './db';
 import type { EngineName } from './engines/types';
+import { initialSessionOptions, type WebSearchProvider } from './web-search';
 
 // ============================================================
 // Types
@@ -31,6 +32,8 @@ export type ToolsConfig = string[] | { type: 'preset'; preset: 'claude_code' };
  * Session options configuration (stored as JSON).
  */
 export interface SessionOptionsConfig {
+  /** Claude web search choice. Absent on legacy sessions to preserve their settings. */
+  webSearchProvider?: WebSearchProvider;
   settingSources?: string[];
   allowedTools?: string[];
   disallowedTools?: string[];
@@ -219,7 +222,7 @@ export async function createSession(
     permissionMode: resolvedPermissionMode,
     allowDangerouslySkipPermissions: resolvedAllowDangerouslySkipPermissions ? '1' : null,
     systemPromptConfig: stringifyJson(options.systemPromptConfig),
-    optionsConfig: stringifyJson(options.optionsConfig),
+    optionsConfig: stringifyJson(initialSessionOptions(engineName, options.optionsConfig)),
     managementInfo: null,
     createdAt: now,
     updatedAt: now,
