@@ -185,6 +185,8 @@ export type AgentToolsConfig = string[] | { type: 'preset'; preset: 'claude_code
  * Session options configuration.
  */
 export interface AgentSessionOptionsConfig {
+  /** Claude web search choice. Missing preserves legacy engine settings. */
+  webSearchProvider?: 'parallel' | 'builtin' | 'disabled';
   settingSources?: string[];
   allowedTools?: string[];
   disallowedTools?: string[];

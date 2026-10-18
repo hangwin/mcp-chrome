@@ -144,6 +144,35 @@
             </p>
           </div>
 
+          <div v-if="isClaudeEngine" class="space-y-2">
+            <label
+              class="text-[10px] font-bold uppercase tracking-wider"
+              for="web-search-provider"
+              :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }"
+            >
+              Web search
+            </label>
+            <select
+              id="web-search-provider"
+              v-model="localWebSearchProvider"
+              class="w-full px-2 py-1.5 text-xs"
+              :style="{
+                backgroundColor: 'var(--ac-surface, #ffffff)',
+                border: 'var(--ac-border-width, 1px) solid var(--ac-border, #e5e5e5)',
+                borderRadius: 'var(--ac-radius-button, 8px)',
+                color: 'var(--ac-text, #1a1a1a)',
+              }"
+            >
+              <option value="parallel">Parallel (free, no search API key)</option>
+              <option value="builtin">Claude / configured tools</option>
+              <option value="disabled">Disable built-in web search</option>
+            </select>
+            <p class="text-[10px]" :style="{ color: 'var(--ac-text-subtle, #a8a29e)' }">
+              Parallel receives search queries and page URLs when its tools are used. Custom tools
+              and session permissions still apply.
+            </p>
+          </div>
+
           <!-- Permission Mode (Claude only) -->
           <div v-if="isClaudeEngine" class="space-y-2">
             <label
@@ -406,6 +435,7 @@ export interface SessionSettings {
 // Local state
 const localModel = ref('');
 const localPermissionMode = ref('');
+const localWebSearchProvider = ref<'parallel' | 'builtin' | 'disabled'>('builtin');
 const localReasoningEffort = ref<CodexReasoningEffort>('medium');
 const localUseCustomPrompt = ref(false);
 const localCustomPrompt = ref('');
@@ -443,6 +473,7 @@ watch(
     if (session) {
       localModel.value = session.model || '';
       localPermissionMode.value = session.permissionMode || '';
+      localWebSearchProvider.value = session.optionsConfig?.webSearchProvider ?? 'builtin';
 
       // Initialize reasoning effort from session's codex config
       const codexConfig = session.optionsConfig?.codexConfig;
@@ -533,6 +564,11 @@ function handleSave(): void {
         ...existingCodexConfig,
         reasoningEffort: normalizedReasoningEffort.value,
       },
+    };
+  } else if (isClaudeEngine.value) {
+    optionsConfig = {
+      ...props.session?.optionsConfig,
+      webSearchProvider: localWebSearchProvider.value,
     };
   }
 

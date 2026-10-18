@@ -24,6 +24,9 @@ Chrome MCP Server is a Chrome extension-based **Model Context Protocol (MCP) ser
 
 ## ✨ Core Features
 
+Claude AgentChat supports [free web search and page fetching](docs/agent-web-search.md)
+with Parallel Search MCP, with no Parallel account or API key.
+
 - 😁 **Chatbot/Model Agnostic**: Let any LLM or chatbot client or agent you prefer automate your browser
 - ⭐️ **Use Your Original Browser**: Seamlessly integrate with your existing browser environment (your configurations, login states, etc.)
 - 💻 **Fully Local**: Pure local MCP server ensuring user privacy
