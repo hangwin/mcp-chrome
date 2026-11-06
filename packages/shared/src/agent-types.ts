@@ -80,7 +80,7 @@ export interface AgentAttachment {
   dataBase64: string;
 }
 
-export type AgentCliPreference = 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm';
+export type AgentCliPreference = 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm' | 'opencode';
 
 export interface AgentActRequest {
   instruction: string;
