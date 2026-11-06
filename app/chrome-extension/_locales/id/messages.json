@@ -1,0 +1,618 @@
+{
+  "extensionName": {
+    "message": "chrome-mcp-server",
+    "description": "Nama ekstensi"
+  },
+  "extensionDescription": {
+    "message": "Mengekspos kemampuan browser menggunakan Chrome Anda sendiri",
+    "description": "Deskripsi ekstensi"
+  },
+  "nativeServerConfigLabel": {
+    "message": "Konfigurasi Native Server",
+    "description": "Judul bagian utama untuk pengaturan native server"
+  },
+  "semanticEngineLabel": {
+    "message": "Mesin Semantik",
+    "description": "Judul bagian utama untuk mesin semantik"
+  },
+  "embeddingModelLabel": {
+    "message": "Model Embedding",
+    "description": "Judul bagian utama untuk pemilihan model"
+  },
+  "indexDataManagementLabel": {
+    "message": "Manajemen Data Indeks",
+    "description": "Judul bagian utama untuk manajemen data"
+  },
+  "modelCacheManagementLabel": {
+    "message": "Manajemen Cache Model",
+    "description": "Judul bagian utama untuk manajemen cache"
+  },
+  "statusLabel": {
+    "message": "Status",
+    "description": "Label status umum"
+  },
+  "runningStatusLabel": {
+    "message": "Status Berjalan",
+    "description": "Label status server berjalan"
+  },
+  "connectionStatusLabel": {
+    "message": "Status Koneksi",
+    "description": "Label status koneksi"
+  },
+  "lastUpdatedLabel": {
+    "message": "Terakhir Diperbarui:",
+    "description": "Label stempel waktu terakhir diperbarui"
+  },
+  "connectButton": {
+    "message": "Sambungkan",
+    "description": "Teks tombol sambungkan"
+  },
+  "disconnectButton": {
+    "message": "Putuskan",
+    "description": "Teks tombol putuskan"
+  },
+  "connectingStatus": {
+    "message": "Menyambungkan...",
+    "description": "Pesan status menyambungkan"
+  },
+  "connectedStatus": {
+    "message": "Tersambung",
+    "description": "Pesan status tersambung"
+  },
+  "disconnectedStatus": {
+    "message": "Terputus",
+    "description": "Pesan status terputus"
+  },
+  "detectingStatus": {
+    "message": "Mendeteksi...",
+    "description": "Pesan status mendeteksi"
+  },
+  "serviceRunningStatus": {
+    "message": "Layanan Berjalan (Port: $PORT$)",
+    "description": "Layanan berjalan dengan nomor port",
+    "placeholders": {
+      "port": {
+        "content": "$1",
+        "example": "12306"
+      }
+    }
+  },
+  "serviceNotConnectedStatus": {
+    "message": "Layanan Tidak Tersambung",
+    "description": "Status layanan tidak tersambung"
+  },
+  "connectedServiceNotStartedStatus": {
+    "message": "Tersambung, Layanan Belum Dimulai",
+    "description": "Status tersambung tetapi layanan belum dimulai"
+  },
+  "mcpServerConfigLabel": {
+    "message": "Konfigurasi Server MCP",
+    "description": "Label bagian konfigurasi server MCP"
+  },
+  "connectionPortLabel": {
+    "message": "Port Koneksi",
+    "description": "Label input port koneksi"
+  },
+  "refreshStatusButton": {
+    "message": "Segarkan Status",
+    "description": "Tooltip tombol segarkan status"
+  },
+  "copyConfigButton": {
+    "message": "Salin Konfigurasi",
+    "description": "Teks tombol salin konfigurasi"
+  },
+  "retryButton": {
+    "message": "Coba Lagi",
+    "description": "Teks tombol coba lagi"
+  },
+  "cancelButton": {
+    "message": "Batal",
+    "description": "Teks tombol batal"
+  },
+  "confirmButton": {
+    "message": "Konfirmasi",
+    "description": "Teks tombol konfirmasi"
+  },
+  "saveButton": {
+    "message": "Simpan",
+    "description": "Teks tombol simpan"
+  },
+  "closeButton": {
+    "message": "Tutup",
+    "description": "Teks tombol tutup"
+  },
+  "resetButton": {
+    "message": "Atur Ulang",
+    "description": "Teks tombol atur ulang"
+  },
+  "initializingStatus": {
+    "message": "Menginisialisasi...",
+    "description": "Pesan progres menginisialisasi"
+  },
+  "processingStatus": {
+    "message": "Memproses...",
+    "description": "Pesan progres memproses"
+  },
+  "loadingStatus": {
+    "message": "Memuat...",
+    "description": "Pesan progres memuat"
+  },
+  "clearingStatus": {
+    "message": "Menghapus...",
+    "description": "Pesan progres menghapus"
+  },
+  "cleaningStatus": {
+    "message": "Membersihkan...",
+    "description": "Pesan progres membersihkan"
+  },
+  "downloadingStatus": {
+    "message": "Mengunduh...",
+    "description": "Pesan progres mengunduh"
+  },
+  "semanticEngineReadyStatus": {
+    "message": "Mesin Semantik Siap",
+    "description": "Status mesin semantik siap"
+  },
+  "semanticEngineInitializingStatus": {
+    "message": "Menginisialisasi Mesin Semantik...",
+    "description": "Status mesin semantik sedang diinisialisasi"
+  },
+  "semanticEngineInitFailedStatus": {
+    "message": "Inisialisasi Mesin Semantik Gagal",
+    "description": "Status inisialisasi mesin semantik gagal"
+  },
+  "semanticEngineNotInitStatus": {
+    "message": "Mesin Semantik Belum Diinisialisasi",
+    "description": "Status mesin semantik belum diinisialisasi"
+  },
+  "initSemanticEngineButton": {
+    "message": "Inisialisasi Mesin Semantik",
+    "description": "Teks tombol inisialisasi mesin semantik"
+  },
+  "reinitializeButton": {
+    "message": "Inisialisasi Ulang",
+    "description": "Teks tombol inisialisasi ulang"
+  },
+  "downloadingModelStatus": {
+    "message": "Mengunduh Model... $PROGRESS$%",
+    "description": "Progres unduhan model dengan persentase",
+    "placeholders": {
+      "progress": {
+        "content": "$1",
+        "example": "50"
+      }
+    }
+  },
+  "switchingModelStatus": {
+    "message": "Mengganti Model...",
+    "description": "Pesan progres pergantian model"
+  },
+  "modelLoadedStatus": {
+    "message": "Model Dimuat",
+    "description": "Status model berhasil dimuat"
+  },
+  "modelFailedStatus": {
+    "message": "Model Gagal Dimuat",
+    "description": "Status model gagal dimuat"
+  },
+  "lightweightModelDescription": {
+    "message": "Model Multibahasa Ringan",
+    "description": "Deskripsi untuk opsi model ringan"
+  },
+  "betterThanSmallDescription": {
+    "message": "Sedikit lebih besar dari e5-small, tetapi performa lebih baik",
+    "description": "Deskripsi untuk opsi model menengah"
+  },
+  "multilingualModelDescription": {
+    "message": "Model Semantik Multibahasa",
+    "description": "Deskripsi untuk opsi model multibahasa"
+  },
+  "fastPerformance": {
+    "message": "Cepat",
+    "description": "Indikator performa cepat"
+  },
+  "balancedPerformance": {
+    "message": "Seimbang",
+    "description": "Indikator performa seimbang"
+  },
+  "accuratePerformance": {
+    "message": "Akurat",
+    "description": "Indikator performa akurat"
+  },
+  "networkErrorMessage": {
+    "message": "Kesalahan koneksi jaringan, periksa jaringan lalu coba lagi",
+    "description": "Pesan kesalahan koneksi jaringan"
+  },
+  "modelCorruptedErrorMessage": {
+    "message": "Berkas model rusak atau tidak lengkap, silakan unduh ulang",
+    "description": "Pesan kesalahan model rusak"
+  },
+  "unknownErrorMessage": {
+    "message": "Kesalahan tidak dikenal, periksa apakah jaringan Anda dapat mengakses HuggingFace",
+    "description": "Pesan kesalahan cadangan tidak dikenal"
+  },
+  "permissionDeniedErrorMessage": {
+    "message": "Izin ditolak",
+    "description": "Pesan kesalahan izin ditolak"
+  },
+  "timeoutErrorMessage": {
+    "message": "Operasi kehabisan waktu",
+    "description": "Pesan kesalahan kehabisan waktu"
+  },
+  "indexedPagesLabel": {
+    "message": "Halaman Terindeks",
+    "description": "Label jumlah halaman terindeks"
+  },
+  "indexSizeLabel": {
+    "message": "Ukuran Indeks",
+    "description": "Label ukuran indeks"
+  },
+  "activeTabsLabel": {
+    "message": "Tab Aktif",
+    "description": "Label jumlah tab aktif"
+  },
+  "vectorDocumentsLabel": {
+    "message": "Dokumen Vektor",
+    "description": "Label jumlah dokumen vektor"
+  },
+  "cacheSizeLabel": {
+    "message": "Ukuran Cache",
+    "description": "Label ukuran cache"
+  },
+  "cacheEntriesLabel": {
+    "message": "Entri Cache",
+    "description": "Label jumlah entri cache"
+  },
+  "clearAllDataButton": {
+    "message": "Hapus Semua Data",
+    "description": "Teks tombol hapus semua data"
+  },
+  "clearAllCacheButton": {
+    "message": "Hapus Semua Cache",
+    "description": "Teks tombol hapus semua cache"
+  },
+  "cleanExpiredCacheButton": {
+    "message": "Bersihkan Cache Kedaluwarsa",
+    "description": "Teks tombol bersihkan cache kedaluwarsa"
+  },
+  "exportDataButton": {
+    "message": "Ekspor Data",
+    "description": "Teks tombol ekspor data"
+  },
+  "importDataButton": {
+    "message": "Impor Data",
+    "description": "Teks tombol impor data"
+  },
+  "confirmClearDataTitle": {
+    "message": "Konfirmasi Hapus Data",
+    "description": "Judul dialog konfirmasi hapus data"
+  },
+  "settingsTitle": {
+    "message": "Pengaturan",
+    "description": "Judul dialog pengaturan"
+  },
+  "aboutTitle": {
+    "message": "Tentang",
+    "description": "Judul dialog tentang"
+  },
+  "helpTitle": {
+    "message": "Bantuan",
+    "description": "Judul dialog bantuan"
+  },
+  "clearDataWarningMessage": {
+    "message": "Operasi ini akan menghapus semua konten halaman web terindeks dan data vektor, termasuk:",
+    "description": "Pesan peringatan hapus data"
+  },
+  "clearDataList1": {
+    "message": "Semua indeks konten teks halaman web",
+    "description": "Item pertama pada daftar hapus data"
+  },
+  "clearDataList2": {
+    "message": "Data embedding vektor",
+    "description": "Item kedua pada daftar hapus data"
+  },
+  "clearDataList3": {
+    "message": "Riwayat pencarian dan cache",
+    "description": "Item ketiga pada daftar hapus data"
+  },
+  "clearDataIrreversibleWarning": {
+    "message": "Operasi ini tidak dapat dibatalkan! Setelah dihapus, Anda perlu menjelajahi halaman web lagi untuk membangun ulang indeks.",
+    "description": "Peringatan operasi tidak dapat dibatalkan"
+  },
+  "confirmClearButton": {
+    "message": "Konfirmasi Hapus",
+    "description": "Tombol konfirmasi tindakan hapus"
+  },
+  "cacheDetailsLabel": {
+    "message": "Detail Cache",
+    "description": "Label bagian detail cache"
+  },
+  "noCacheDataMessage": {
+    "message": "Tidak ada data cache",
+    "description": "Pesan tidak ada data cache"
+  },
+  "loadingCacheInfoStatus": {
+    "message": "Memuat informasi cache...",
+    "description": "Status memuat informasi cache"
+  },
+  "processingCacheStatus": {
+    "message": "Memproses cache...",
+    "description": "Status memproses cache"
+  },
+  "expiredLabel": {
+    "message": "Kedaluwarsa",
+    "description": "Label item kedaluwarsa"
+  },
+  "bookmarksBarLabel": {
+    "message": "Bilah Markah",
+    "description": "Nama folder bilah markah"
+  },
+  "newTabLabel": {
+    "message": "Tab Baru",
+    "description": "Label tab baru"
+  },
+  "currentPageLabel": {
+    "message": "Halaman Saat Ini",
+    "description": "Label halaman saat ini"
+  },
+  "menuLabel": {
+    "message": "Menu",
+    "description": "Label aksesibilitas menu"
+  },
+  "navigationLabel": {
+    "message": "Navigasi",
+    "description": "Label aksesibilitas navigasi"
+  },
+  "mainContentLabel": {
+    "message": "Konten Utama",
+    "description": "Label aksesibilitas konten utama"
+  },
+  "languageSelectorLabel": {
+    "message": "Bahasa",
+    "description": "Label pemilih bahasa"
+  },
+  "themeLabel": {
+    "message": "Tema",
+    "description": "Label pemilih tema"
+  },
+  "lightTheme": {
+    "message": "Terang",
+    "description": "Opsi tema terang"
+  },
+  "darkTheme": {
+    "message": "Gelap",
+    "description": "Opsi tema gelap"
+  },
+  "autoTheme": {
+    "message": "Otomatis",
+    "description": "Opsi tema otomatis"
+  },
+  "advancedSettingsLabel": {
+    "message": "Pengaturan Lanjutan",
+    "description": "Label bagian pengaturan lanjutan"
+  },
+  "debugModeLabel": {
+    "message": "Mode Debug",
+    "description": "Label sakelar mode debug"
+  },
+  "verboseLoggingLabel": {
+    "message": "Pencatatan Verbose",
+    "description": "Label sakelar pencatatan verbose"
+  },
+  "successNotification": {
+    "message": "Operasi berhasil diselesaikan",
+    "description": "Notifikasi keberhasilan umum"
+  },
+  "warningNotification": {
+    "message": "Peringatan: Harap tinjau sebelum melanjutkan",
+    "description": "Notifikasi peringatan umum"
+  },
+  "infoNotification": {
+    "message": "Informasi",
+    "description": "Notifikasi informasi umum"
+  },
+  "configCopiedNotification": {
+    "message": "Konfigurasi disalin ke clipboard",
+    "description": "Pesan keberhasilan konfigurasi disalin"
+  },
+  "dataClearedNotification": {
+    "message": "Data berhasil dihapus",
+    "description": "Pesan keberhasilan data dihapus"
+  },
+  "bytesUnit": {
+    "message": "byte",
+    "description": "Satuan byte"
+  },
+  "kilobytesUnit": {
+    "message": "KB",
+    "description": "Satuan kilobyte"
+  },
+  "megabytesUnit": {
+    "message": "MB",
+    "description": "Satuan megabyte"
+  },
+  "gigabytesUnit": {
+    "message": "GB",
+    "description": "Satuan gigabyte"
+  },
+  "itemsUnit": {
+    "message": "item",
+    "description": "Satuan jumlah item"
+  },
+  "pagesUnit": {
+    "message": "halaman",
+    "description": "Satuan jumlah halaman"
+  },
+  "userscriptsManagerTitle": {
+    "message": "Pengelola Userscript",
+    "description": "Judul halaman opsi"
+  },
+  "emergencySwitchLabel": {
+    "message": "Sakelar Darurat",
+    "description": "Sakelar nonaktif global"
+  },
+  "createRunSectionTitle": {
+    "message": "Buat / Jalankan",
+    "description": "Judul bagian buat & jalankan"
+  },
+  "nameLabel": {
+    "message": "Nama",
+    "description": "Label input nama"
+  },
+  "runAtLabel": {
+    "message": "Jalankan Pada",
+    "description": "Label pilihan runAt"
+  },
+  "runAtAuto": {
+    "message": "auto",
+    "description": "runAt auto"
+  },
+  "runAtDocumentStart": {
+    "message": "document_start",
+    "description": "runAt document_start"
+  },
+  "runAtDocumentEnd": {
+    "message": "document_end",
+    "description": "runAt document_end"
+  },
+  "runAtDocumentIdle": {
+    "message": "document_idle",
+    "description": "runAt document_idle"
+  },
+  "worldLabel": {
+    "message": "World",
+    "description": "Label pilihan world"
+  },
+  "worldAuto": {
+    "message": "auto",
+    "description": "world auto"
+  },
+  "worldIsolated": {
+    "message": "ISOLATED",
+    "description": "world ISOLATED"
+  },
+  "worldMain": {
+    "message": "MAIN",
+    "description": "world MAIN"
+  },
+  "modeLabel": {
+    "message": "Mode",
+    "description": "Label pilihan mode"
+  },
+  "modeAuto": {
+    "message": "auto",
+    "description": "mode auto"
+  },
+  "modePersistent": {
+    "message": "persistent",
+    "description": "mode persistent"
+  },
+  "modeCss": {
+    "message": "css",
+    "description": "mode css"
+  },
+  "modeOnce": {
+    "message": "once",
+    "description": "mode once"
+  },
+  "allFramesLabel": {
+    "message": "Semua Frame",
+    "description": "Kotak centang allFrames"
+  },
+  "persistLabel": {
+    "message": "Pertahankan",
+    "description": "Kotak centang persist"
+  },
+  "dnrFallbackLabel": {
+    "message": "Fallback DNR",
+    "description": "Kotak centang fallback DNR"
+  },
+  "matchesInputLabel": {
+    "message": "Matches (dipisah koma)",
+    "description": "Input matches"
+  },
+  "excludesInputLabel": {
+    "message": "Excludes (dipisah koma)",
+    "description": "Input excludes"
+  },
+  "tagsInputLabel": {
+    "message": "Tag (dipisah koma)",
+    "description": "Input tag"
+  },
+  "scriptLabel": {
+    "message": "Skrip",
+    "description": "Label area teks skrip"
+  },
+  "applyButton": {
+    "message": "Terapkan",
+    "description": "Tombol terapkan"
+  },
+  "runOnceButton": {
+    "message": "Jalankan Sekali (CDP)",
+    "description": "Tombol jalankan sekali"
+  },
+  "listSectionTitle": {
+    "message": "Daftar",
+    "description": "Judul bagian daftar"
+  },
+  "queryLabel": {
+    "message": "Kueri",
+    "description": "Label input kueri"
+  },
+  "statusAll": {
+    "message": "semua",
+    "description": "status semua"
+  },
+  "statusEnabled": {
+    "message": "aktif",
+    "description": "status aktif"
+  },
+  "statusDisabled": {
+    "message": "nonaktif",
+    "description": "status nonaktif"
+  },
+  "domainLabel": {
+    "message": "Domain",
+    "description": "Label filter domain"
+  },
+  "exportAllButton": {
+    "message": "Ekspor Semua",
+    "description": "Tombol ekspor"
+  },
+  "tableHeaderName": {
+    "message": "Nama",
+    "description": "Header tabel nama"
+  },
+  "tableHeaderWorld": {
+    "message": "World",
+    "description": "Header tabel world"
+  },
+  "tableHeaderRunAt": {
+    "message": "Jalankan Pada",
+    "description": "Header tabel runAt"
+  },
+  "tableHeaderUpdated": {
+    "message": "Diperbarui",
+    "description": "Header tabel diperbarui"
+  },
+  "deleteButton": {
+    "message": "Hapus",
+    "description": "Tombol hapus"
+  },
+  "placeholderOptional": {
+    "message": "opsional",
+    "description": "Placeholder opsional umum"
+  },
+  "placeholderMatchesExample": {
+    "message": "mis. https://*.example.com/*",
+    "description": "Placeholder contoh matches"
+  },
+  "placeholderScriptHint": {
+    "message": "Tempel JS/CSS/TM di sini",
+    "description": "Placeholder area teks skrip"
+  },
+  "placeholderDomainHint": {
+    "message": "example.com",
+    "description": "Placeholder filter domain"
+  }
+}
