@@ -22,11 +22,12 @@ import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { randomUUID } from 'node:crypto';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
-import { getMcpServer } from '../mcp/mcp-server';
+import { createMcpServer } from '../mcp/mcp-server';
 import { AgentStreamManager } from '../agent/stream-manager';
 import { AgentChatService } from '../agent/chat-service';
 import { CodexEngine } from '../agent/engines/codex';
 import { ClaudeEngine } from '../agent/engines/claude';
+import { OpenCodeEngine } from '../agent/engines/opencode';
 import { closeDb } from '../agent/db';
 import { registerAgentRoutes } from './routes';
 
@@ -55,7 +56,7 @@ export class Server {
     this.fastify = Fastify({ logger: SERVER_CONFIG.LOGGER_ENABLED });
     this.agentStreamManager = new AgentStreamManager();
     this.agentChatService = new AgentChatService({
-      engines: [new CodexEngine(), new ClaudeEngine()],
+      engines: [new CodexEngine(), new ClaudeEngine(), new OpenCodeEngine()],
       streamManager: this.agentStreamManager,
     });
     this.setupPlugins();
@@ -181,7 +182,7 @@ export class Server {
           this.transportsMap.delete(transport.sessionId);
         });
 
-        const server = getMcpServer();
+        const server = createMcpServer();
         await server.connect(transport);
 
         reply.raw.write(':\n\n');
@@ -235,7 +236,7 @@ export class Server {
             this.transportsMap.delete(transport.sessionId);
           }
         };
-        await getMcpServer().connect(transport);
+        await createMcpServer().connect(transport);
       } else {
         reply.code(HTTP_STATUS.BAD_REQUEST).send({ error: ERROR_MESSAGES.INVALID_MCP_REQUEST });
         return;

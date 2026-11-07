@@ -20,7 +20,7 @@ export interface ModelDefinition {
   supportedReasoningEfforts?: readonly CodexReasoningEffort[];
 }
 
-export type AgentCliType = 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm';
+export type AgentCliType = 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm' | 'opencode';
 
 // ============================================================
 // Claude Models
@@ -214,6 +214,25 @@ export const GLM_MODELS: ModelDefinition[] = [
 
 export const GLM_DEFAULT_MODEL = 'glm-4.6';
 
+/**
+ * OpenCode resolves its provider/model from the user's own opencode config, so
+ * the model list is intentionally minimal. The sentinel "default" tells the
+ * OpenCode engine to omit `--model` and use the user's configured default. The
+ * remaining entries are common examples of the `provider/model` format; users
+ * can run any provider/model defined in their opencode config.
+ */
+export const OPENCODE_MODELS: ModelDefinition[] = [
+  {
+    id: 'default',
+    name: 'Default (opencode config)',
+    description: 'Use the default model configured in your opencode config',
+  },
+  { id: 'netra/deepseek/deepseek-v4.1-flash', name: 'DeepSeek V4.1 Flash (netra)' },
+  { id: 'netra/deepseek/deepseek-v4-flash-0731', name: 'DeepSeek V4 Flash 0731 (netra)' },
+  { id: 'zai/glm-5.3', name: 'GLM-5.3 (zai)' },
+];
+export const OPENCODE_DEFAULT_MODEL = 'default';
+
 // ============================================================
 // Aggregated Definitions
 // ============================================================
@@ -224,6 +243,7 @@ export const CLI_MODEL_DEFINITIONS: Record<AgentCliType, ModelDefinition[]> = {
   cursor: CURSOR_MODELS,
   qwen: QWEN_MODELS,
   glm: GLM_MODELS,
+  opencode: OPENCODE_MODELS,
 };
 
 export const CLI_DEFAULT_MODELS: Record<AgentCliType, string> = {
@@ -232,6 +252,7 @@ export const CLI_DEFAULT_MODELS: Record<AgentCliType, string> = {
   cursor: CURSOR_DEFAULT_MODEL,
   qwen: QWEN_DEFAULT_MODEL,
   glm: GLM_DEFAULT_MODEL,
+  opencode: OPENCODE_DEFAULT_MODEL,
 };
 
 // ============================================================

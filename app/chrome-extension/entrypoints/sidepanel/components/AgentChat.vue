@@ -402,6 +402,8 @@ const engineDisplayName = computed(() => {
       return 'Qwen';
     case 'glm':
       return 'GLM';
+    case 'opencode':
+      return 'OpenCode';
     default:
       return 'Agent';
   }
@@ -660,7 +662,7 @@ async function handleNewSession(): Promise<void> {
   clearRequestState();
 
   const engineName =
-    (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm') || 'claude';
+    (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm' | 'opencode') || 'claude';
 
   // Include codex config if using codex engine
   const optionsConfig =
@@ -833,7 +835,7 @@ async function handleProjectSelect(projectId: string): Promise<void> {
   // Load sessions for the new project
   await sessions.ensureDefaultSession(
     projectId,
-    (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm') || 'claude',
+    (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm' | 'opencode') || 'claude',
   );
 
   // Guard again after ensureDefaultSession
@@ -866,7 +868,7 @@ async function handleNewProject(): Promise<void> {
 
         // Ensure a default session exists for the new project
         const engineName =
-          (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm') || 'claude';
+          (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm' | 'opencode') || 'claude';
         await sessions.ensureDefaultSession(project.id, engineName);
 
         // Reconnect SSE and load session history
@@ -908,7 +910,7 @@ async function handleSaveSettings(): Promise<void> {
     // If CLI changed, create a new empty session with the new CLI
     const cliChanged = previousCli !== selectedCli.value;
     if (cliChanged && selectedCli.value) {
-      const engineName = selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm';
+      const engineName = selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm' | 'opencode';
 
       // Include codex config if using codex engine
       const optionsConfig =
@@ -1020,7 +1022,7 @@ async function handleNewSessionAndNavigate(): Promise<void> {
   clearRequestState();
 
   const engineName =
-    (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm') || 'claude';
+    (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm' | 'opencode') || 'claude';
   const optionsConfig =
     engineName === 'codex'
       ? {
@@ -1349,7 +1351,7 @@ onMounted(async () => {
       // Note: This won't fetch sessions again since we already did above
       await sessions.ensureDefaultSession(
         projects.selectedProjectId.value,
-        (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm') || 'claude',
+        (selectedCli.value as 'claude' | 'codex' | 'cursor' | 'qwen' | 'glm' | 'opencode') || 'claude',
       );
 
       // Only open SSE and load history if we're in chat view with a valid session
