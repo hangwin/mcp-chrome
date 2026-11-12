@@ -332,6 +332,34 @@
 }
 ```
 
+### `chrome_console`
+
+捕获浏览器标签页的控制台输出（以及未捕获的异常）。
+
+**参数**：
+
+- `tabId` (数字，可选)：目标标签页（默认：活动标签页）
+- `url` (字符串，可选)：导航到该 URL 并捕获其控制台
+- `mode` (字符串，可选)：`snapshot`（默认，等待约 2 秒）或 `buffer`（每个标签页的持久缓冲区，立即读取）
+- `includeExceptions` (布尔值，可选)：是否包含未捕获的异常（默认：true）
+- `levels` (字符串数组，可选)：只返回这些级别的日志，例如 `["error", "warning"]`。`warn` 等同于 `warning`。异常不受级别过滤影响，请使用 `includeExceptions`。
+- `onlyErrors` (布尔值，可选)：只返回 `error`/`assert` 级别的日志
+- `pattern` (字符串，可选)：对日志/异常文本进行正则过滤，支持 `/pattern/flags` 语法
+- `since` (数字，可选)：只返回在该时间（Unix 毫秒时间戳）及之后产生的日志和异常，例如上一次调用返回的 `captureEndTime`
+- `limit` / `maxMessages` (数字，可选)：最多返回的日志条数（默认：100），过滤在截断之前进行
+- `clear` / `clearAfterRead` (布尔值，可选)：仅 buffer 模式；读取前/后清空缓冲区
+
+**示例**（只查看上次读取之后的新错误和警告）：
+
+```json
+{
+  "mode": "buffer",
+  "levels": ["error", "warning"],
+  "since": 1736400000000,
+  "limit": 20
+}
+```
+
 ## 🎯 交互操作
 
 ### `chrome_click_element`

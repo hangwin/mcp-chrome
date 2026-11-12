@@ -1,4 +1,5 @@
 import { cdpSessionManager } from '@/utils/cdp-session-manager';
+import { exceptionMatchesFilters, messageMatchesFilters } from './console-filters';
 
 /**
  * ConsoleBuffer - 持久化的控制台日志缓冲管理器
@@ -45,6 +46,10 @@ interface TabConsoleBufferState {
 export interface ConsoleBufferReadOptions {
   pattern?: RegExp;
   onlyErrors?: boolean;
+  /** Only return messages whose normalized level is in this set */
+  levels?: ReadonlySet<string>;
+  /** Only return messages/exceptions with timestamp >= since (epoch ms) */
+  since?: number;
   limit?: number;
   includeExceptions?: boolean;
 }
@@ -74,16 +79,6 @@ function extractHostname(url?: string): string {
   } catch {
     return '';
   }
-}
-
-function isErrorLevel(level?: string): boolean {
-  const normalized = (level || '').toLowerCase();
-  return normalized === 'error' || normalized === 'assert';
-}
-
-function matchesPattern(pattern: RegExp, text: string): boolean {
-  pattern.lastIndex = 0;
-  return pattern.test(text);
 }
 
 function formatConsoleArgs(args: unknown[]): string {
@@ -213,19 +208,14 @@ class ConsoleBuffer {
     const state = this.buffers.get(tabId);
     if (!state) return null;
 
-    const { pattern, onlyErrors = false, limit, includeExceptions = true } = options;
+    const { pattern, onlyErrors = false, levels, since, limit, includeExceptions = true } = options;
+    const filters = { pattern, onlyErrors, levels, since };
 
     const totalBufferedMessages = state.messages.length;
     const totalBufferedExceptions = state.exceptions.length;
 
     // 过滤消息
-    let messages = state.messages;
-    if (onlyErrors) {
-      messages = messages.filter((m) => isErrorLevel(m.level));
-    }
-    if (pattern) {
-      messages = messages.filter((m) => matchesPattern(pattern, m.text || ''));
-    }
+    let messages = state.messages.filter((m) => messageMatchesFilters(m, filters));
 
     // 按时间排序
     messages = [...messages].sort((a, b) => a.timestamp - b.timestamp);
@@ -243,10 +233,7 @@ class ConsoleBuffer {
     // 过滤异常
     let exceptions: BufferedConsoleException[] = [];
     if (includeExceptions) {
-      exceptions = state.exceptions;
-      if (pattern) {
-        exceptions = exceptions.filter((e) => matchesPattern(pattern, e.text || ''));
-      }
+      exceptions = state.exceptions.filter((e) => exceptionMatchesFilters(e, filters));
       exceptions = [...exceptions].sort((a, b) => a.timestamp - b.timestamp);
     }
 
@@ -398,7 +385,7 @@ class ConsoleBuffer {
       const exceptionDetails = p.exceptionDetails as Record<string, unknown>;
       const exception = exceptionDetails.exception as Record<string, unknown> | undefined;
       state.exceptions.push({
-        timestamp: Date.now(),
+        timestamp: safeTimestamp(p.timestamp),
         text:
           safeString(exceptionDetails.text) ||
           safeString(exception?.description) ||

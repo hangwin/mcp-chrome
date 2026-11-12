@@ -3,6 +3,14 @@ import { BaseBrowserToolExecutor } from '../base-browser';
 import { TOOL_NAMES } from 'chrome-mcp-shared';
 import { cdpSessionManager } from '@/utils/cdp-session-manager';
 import { consoleBuffer, BufferedConsoleMessage, BufferedConsoleException } from './console-buffer';
+import {
+  ConsoleFilterOptions,
+  exceptionMatchesFilters,
+  messageMatchesFilters,
+  parseLevelFilter,
+  parseRegexPattern,
+  parseSince,
+} from './console-filters';
 
 const DEFAULT_MAX_MESSAGES = 100;
 
@@ -22,6 +30,8 @@ interface ConsoleToolParams {
   clearAfterRead?: boolean; // 读取后清空（mcp-tools.js 风格）
   pattern?: string;
   onlyErrors?: boolean;
+  levels?: string | string[];
+  since?: number;
   limit?: number;
 }
 
@@ -71,58 +81,6 @@ function normalizeLimit(value: unknown, fallback: number): number {
   return Math.max(0, n);
 }
 
-function parseRegexPattern(pattern?: string): RegExp | undefined {
-  if (typeof pattern !== 'string') return undefined;
-  const trimmed = pattern.trim();
-  if (!trimmed) return undefined;
-  // 支持 /pattern/flags 语法
-  const match = trimmed.match(/^\/(.+)\/([gimsuy]*)$/);
-  try {
-    return match ? new RegExp(match[1], match[2]) : new RegExp(trimmed);
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : String(e);
-    throw new Error(`Invalid regex pattern: ${msg}`);
-  }
-}
-
-function matchesPattern(pattern: RegExp, text: string): boolean {
-  pattern.lastIndex = 0;
-  return pattern.test(text);
-}
-
-function isErrorLevel(level?: string): boolean {
-  const normalized = (level || '').toLowerCase();
-  return normalized === 'error' || normalized === 'assert';
-}
-
-function applyResultFilters(
-  result: ConsoleResult,
-  options: { pattern?: RegExp; onlyErrors?: boolean; includeExceptions: boolean },
-): ConsoleResult {
-  const { pattern, onlyErrors = false, includeExceptions } = options;
-
-  let messages = result.messages;
-  if (onlyErrors) {
-    messages = messages.filter((m) => isErrorLevel(m.level));
-  }
-  if (pattern) {
-    messages = messages.filter((m) => matchesPattern(pattern, m.text || ''));
-  }
-
-  let exceptions = includeExceptions ? result.exceptions : [];
-  if (includeExceptions && pattern) {
-    exceptions = exceptions.filter((e) => matchesPattern(pattern, e.text || ''));
-  }
-
-  return {
-    ...result,
-    messages,
-    exceptions,
-    messageCount: messages.length,
-    exceptionCount: exceptions.length,
-  };
-}
-
 function isDebuggerConflictError(error: unknown): boolean {
   const msg = (error instanceof Error ? error.message : String(error)).toLowerCase();
   return msg.includes('debugger is already attached') || msg.includes('another client');
@@ -156,16 +114,23 @@ class ConsoleTool extends BaseBrowserToolExecutor {
       clearAfterRead = false,
       pattern,
       onlyErrors = false,
+      levels,
+      since,
       limit,
     } = args;
 
     let targetTab: chrome.tabs.Tab;
     let targetTabId: number | undefined;
 
-    // 解析正则表达式
-    let compiledPattern: RegExp | undefined;
+    // 解析过滤参数（正则、级别、起始时间）
+    let filters: ConsoleFilterOptions;
     try {
-      compiledPattern = parseRegexPattern(pattern);
+      filters = {
+        pattern: parseRegexPattern(pattern),
+        onlyErrors,
+        levels: parseLevelFilter(levels),
+        since: parseSince(since),
+      };
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : String(e);
       return createErrorResponse(msg);
@@ -229,8 +194,7 @@ class ConsoleTool extends BaseBrowserToolExecutor {
 
         // 读取缓冲区
         const read = consoleBuffer.read(targetTabId, {
-          pattern: compiledPattern,
-          onlyErrors,
+          ...filters,
           limit: effectiveLimit,
           includeExceptions,
         });
@@ -282,20 +246,15 @@ class ConsoleTool extends BaseBrowserToolExecutor {
       }
 
       // Snapshot 模式（一次性捕获）
+      // 过滤器在截断之前应用，避免 maxMessages 被无关日志占满
       const result = await this.captureConsoleMessages(targetTabId, {
         includeExceptions,
         maxMessages: effectiveLimit,
-      });
-
-      // 应用过滤器
-      const filtered = applyResultFilters(result, {
-        pattern: compiledPattern,
-        onlyErrors,
-        includeExceptions,
+        filters,
       });
 
       return {
-        content: [{ type: 'text', text: JSON.stringify(filtered) }],
+        content: [{ type: 'text', text: JSON.stringify(result) }],
         isError: false,
       };
     } catch (error: unknown) {
@@ -383,9 +342,10 @@ class ConsoleTool extends BaseBrowserToolExecutor {
     options: {
       includeExceptions: boolean;
       maxMessages: number;
+      filters: ConsoleFilterOptions;
     },
   ): Promise<ConsoleResult> {
-    const { includeExceptions, maxMessages } = options;
+    const { includeExceptions, maxMessages, filters } = options;
     const startTime = Date.now();
     const messages: ConsoleMessage[] = [];
     const exceptions: ConsoleException[] = [];
@@ -425,7 +385,10 @@ class ConsoleTool extends BaseBrowserToolExecutor {
           includeExceptions &&
           params?.exceptionDetails
         ) {
-          collectedExceptions.push(params.exceptionDetails);
+          collectedExceptions.push({
+            details: params.exceptionDetails,
+            timestamp: typeof params.timestamp === 'number' ? params.timestamp : Date.now(),
+          });
         }
       };
 
@@ -518,6 +481,12 @@ class ConsoleTool extends BaseBrowserToolExecutor {
         };
 
         for (const entry of collectedMessages) {
+          const level = entry.level || 'log';
+          const text = entry.text || '';
+          if (!messageMatchesFilters({ timestamp: entry.timestamp, level, text }, filters)) {
+            continue;
+          }
+
           if (messages.length >= maxMessages) {
             limitReached = true;
             break;
@@ -525,8 +494,8 @@ class ConsoleTool extends BaseBrowserToolExecutor {
 
           const message: ConsoleMessage = {
             timestamp: entry.timestamp,
-            level: entry.level || 'log',
-            text: entry.text || '',
+            level,
+            text,
             source: entry.source,
             url: entry.url,
             lineNumber: entry.lineNumber,
@@ -550,9 +519,9 @@ class ConsoleTool extends BaseBrowserToolExecutor {
         }
 
         // Process collected exceptions
-        for (const exceptionDetails of collectedExceptions) {
+        for (const { details: exceptionDetails, timestamp } of collectedExceptions) {
           const exception: ConsoleException = {
-            timestamp: Date.now(),
+            timestamp,
             text:
               exceptionDetails.text ||
               exceptionDetails.exception?.description ||
@@ -565,6 +534,8 @@ class ConsoleTool extends BaseBrowserToolExecutor {
           if (exceptionDetails.stackTrace) {
             exception.stackTrace = exceptionDetails.stackTrace;
           }
+
+          if (!exceptionMatchesFilters(exception, filters)) continue;
 
           exceptions.push(exception);
         }

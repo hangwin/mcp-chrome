@@ -1131,6 +1131,17 @@ export const TOOL_SCHEMAS: Tool[] = [
           description:
             'Only return error-level console messages (and exceptions when includeExceptions=true). Default: false.',
         },
+        levels: {
+          type: 'array',
+          items: { type: 'string' },
+          description:
+            'Only return console messages with these levels, e.g. ["error", "warning"]. Common levels: log, debug, info, warning (alias: warn), error, assert, verbose. Does not affect exceptions (use includeExceptions).',
+        },
+        since: {
+          type: 'number',
+          description:
+            'Only return messages and exceptions logged at or after this time (milliseconds since Unix epoch). Pass the captureEndTime from a previous call to get only new logs.',
+        },
         limit: {
           type: 'number',
           description:
