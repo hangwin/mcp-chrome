@@ -336,6 +336,34 @@ Extract HTML or text content from web pages.
 
 Replaced by `chrome_read_page` as the primary discovery tool. The `read_page` implementation will automatically fallback to the interactive-elements logic when the accessibility tree is unavailable or too sparse. This tool is no longer listed via ListTools and is kept only for backward compatibility.
 
+### `chrome_console`
+
+Capture console output (and uncaught exceptions) from a browser tab.
+
+**Parameters**:
+
+- `tabId` (number, optional): Target tab (default: active tab)
+- `url` (string, optional): Navigate to this URL and capture its console
+- `mode` (string, optional): `snapshot` (default; waits ~2s) or `buffer` (persistent per-tab buffer, read instantly)
+- `includeExceptions` (boolean, optional): Include uncaught exceptions (default: true)
+- `levels` (array of strings, optional): Only return messages with these levels, e.g. `["error", "warning"]`. `warn` is accepted as an alias of `warning`. Exceptions are not level-filtered; use `includeExceptions`.
+- `onlyErrors` (boolean, optional): Only return `error`/`assert` messages
+- `pattern` (string, optional): Regex filter on the message/exception text; supports `/pattern/flags`
+- `since` (number, optional): Only return messages and exceptions logged at or after this time (ms since Unix epoch), e.g. the `captureEndTime` of a previous call
+- `limit` / `maxMessages` (number, optional): Maximum number of messages to return (default: 100). Filters are applied before the limit.
+- `clear` / `clearAfterRead` (boolean, optional): Buffer mode only; clear the buffer before / after reading
+
+**Example** (only new errors and warnings since the last read):
+
+```json
+{
+  "mode": "buffer",
+  "levels": ["error", "warning"],
+  "since": 1736400000000,
+  "limit": 20
+}
+```
+
 ## 🎯 Interaction
 
 ### `chrome_computer`
